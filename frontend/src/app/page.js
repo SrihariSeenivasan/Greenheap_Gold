@@ -1,6 +1,6 @@
-import Carousel from "@/components/custom/Carousel";
-import CustomButton from "@/components/custom/CustomButton";
-import CustomImage from "@/components/custom/Image";
+import Carousel from "../components/custom/Carousel";
+import CustomButton from "../components/custom/CustomButton";
+import CustomImage from "../components/custom/Image";
 import style from "./style.module.css";
 
 export async function generateMetadata({ params, searchParams }, parent) {
