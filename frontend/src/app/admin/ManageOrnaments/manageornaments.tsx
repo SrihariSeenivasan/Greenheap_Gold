@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { products as initialProducts } from "../../../../constants";
-import {
-    PriceBreakupRequiredPopup,
-    ProductAddedPopup,
-    ProductDeletedPopup,
-    SignUpSignInPopup,
-} from "../../components/custom/CustomPopup";
+
 
 const emptyProduct = {
   img: "",
@@ -578,10 +573,7 @@ const ManageOrnaments = () => {
         ))}
       </div>
       {/* Popups */}
-      <SignUpSignInPopup open={showSignInPopup} onClose={() => setShowSignInPopup(false)} />
-      <ProductDeletedPopup open={showProductDeleted} onClose={() => setShowProductDeleted(false)} />
-      <PriceBreakupRequiredPopup open={showPriceBreakupRequired} onClose={() => setShowPriceBreakupRequired(false)} />
-      <ProductAddedPopup open={showProductAdded} onClose={() => setShowProductAdded(false)} />
+     
     </div>
   );
 };
