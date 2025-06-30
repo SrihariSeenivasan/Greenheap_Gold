@@ -20,6 +20,7 @@ import SPIPPlan from "./src/app/admin/DigitalGoldSPIPlan/sipplan";
 import PlantScheme from "./src/app/admin/GoldPlantScheme/plantscheme";
 import Notification from "./src/app/admin/Notification/notification";
 import MyBankAccounts from "./src/app/admin/MyBankAccounts/mybankaccounts";
+import ManageOrnaments from "./src/app/admin/ManageOrnaments/manageornaments";
 // ...import other pages...
 
 const AppRoutes: React.FC = () => {
@@ -40,6 +41,9 @@ const AppRoutes: React.FC = () => {
         <Route path="/plantscheme" element={ <PlantScheme/>}/>
         <Route path="/notification" element={ <Notification/>}/>
         <Route path="/mybankaccounts" element={ <MyBankAccounts/>}/>
+        <Route path="/manageornaments" element={ <ManageOrnaments/>}/>
+        
+        {/* Add other admin routes here */}
         
         
 

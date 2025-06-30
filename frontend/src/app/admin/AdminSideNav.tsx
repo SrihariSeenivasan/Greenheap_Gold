@@ -1,6 +1,7 @@
 const menuItems = [
   { name: "My Dashboard", link: "/admin" },
   { name: "My Profile", link: "/adminprofile" },
+  { name: "Manage Ornaments", link: "/manageornaments" },
   { name: "Commission", link: "/commission" },
   { name: "Payout Request", link: "/payoutrequest" },
   { name: "KYC", link: "/kyc" },

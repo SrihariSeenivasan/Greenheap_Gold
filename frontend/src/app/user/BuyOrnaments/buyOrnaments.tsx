@@ -1,43 +1,6 @@
 import CustomImage from "../../components/custom/Image";
+import {products} from "../../../../constants";
 
-const products = [
-  {
-    img: "/assets/gold-coin-1g.png",
-    title: "Gh 1 Gram Gold Coin 24k (99.9%)",
-    price: "₹ 50000.32",
-    details: "#",
-  },
-  {
-    img: "/assets/silver-necklace-22g.png",
-    title: "22 gram girls silver necklace (99.99%)",
-    price: "₹ 500.36",
-    details: "#",
-  },
-  {
-    img: "/assets/gold-necklace-22g.png",
-    title: "22 gram girls necklace (99.99%)",
-    price: "₹ 45161.58",
-    details: "#",
-  },
-  {
-    img: "/assets/silver-coin-2g.png",
-    title: "Gh 1 Gram Silver Coin 24k (99.9%)",
-    price: "₹ 6081.36",
-    details: "#",
-  },
-  {
-    img: "/assets/silver-necklace-38g.png",
-    title: "38 Gram Girls Necklace (99.99%)",
-    price: "₹ 45002.00",
-    details: "#",
-  },
-  {
-    img: "/assets/gold-coin-1g.png",
-    title: "Gh 1 Gram Coin 24k (99.9%)",
-    price: "₹ 654321.00",
-    details: "#",
-  },
-];
 
 const BuyOrnamentsPage = () => {
   return (
