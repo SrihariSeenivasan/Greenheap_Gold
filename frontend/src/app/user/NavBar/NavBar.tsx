@@ -8,15 +8,15 @@ export const MENU = [
 	},
 	{
 		name: "About Us",
-		link: "/about-us",
+		link: "/aboutus",
 	},
 	{
 		name: "Buy Ornaments",
-		link: "/buy-ornaments",
+		link: "/buyornaments",
 	},
 	{
 		name: "Contact Us",
-		link: "/contact-us",
+		link: "/contactus",
 	},
 ];
 
