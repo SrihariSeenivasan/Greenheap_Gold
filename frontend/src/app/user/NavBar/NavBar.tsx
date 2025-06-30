@@ -1,8 +1,5 @@
 import CustomButton from "../../components/custom/CustomButton";
 import CustomImage from "../../components/custom/Image";
-import styles from "./styles.module.css";
-
-// Remove next/link, use <a> for navigation in React Router projects
 
 export const MENU = [
 	{
@@ -26,120 +23,164 @@ export const MENU = [
 const NavBar = () => {
 	return (
 		<div>
-			<div className={`${styles.top_nav}`}>
-				<div className="container">
-					<div className="d-flex flex-wrap align-items-center justify-content-sm-between justify-content-between ">
-						<div className="text-white d-sm-block d-none d-sm-flex align-items-center justify-content-md-start  justify-content-sm-center  gap-sm-1 gap-md-3">
-							<div className="d-flex align-items-center justify-content-start gap-2">
-								<i
-									className="fa fa-phone-square pe-2 fs-4"
-									aria-hidden="true"
-								></i>
+			{/* Top nav */}
+			<div className="bg-[#1a202c] py-2">
+				<div className="container mx-auto">
+					<div className="flex flex-wrap items-center justify-between">
+						<div className="text-white hidden sm:flex items-center gap-6">
+							<div className="flex items-center gap-2">
+								<span className="material-icons text-lg">phone</span>
 								<a
-									className="text-white m-0 fw-normal"
-									href="tel:++91 81900 59995"
-									data-rel="external"
+									className="text-white font-normal"
+									href="tel:+918190059995"
 									rel="noreferrer"
 								>
-									<h6 className="text-wrap lh-base m-0">
+									<span className="text-wrap leading-tight m-0 text-base">
 										+91 81900 59995
-									</h6>
+									</span>
 								</a>
 							</div>
-							<div className="d-flex align-items-center justify-content-start gap-2">
-								<i className="fa fa-envelope-o pe-2 fs-4" aria-hidden="true"></i>
+							<div className="flex items-center gap-2">
+								<span className="material-icons text-lg">email</span>
 								<a
-									className="text-white fw-normal"
+									className="text-white font-normal"
 									href="mailto:spprtgreenheapdigigold@gmail.com"
-									data-rel="external"
 									rel="noreferrer"
 								>
-									<h6 className="text-wrap lh-base m-0">
+									<span className="text-wrap leading-tight m-0 text-base">
 										spprtgreenheapdigigold@gmail.com
-									</h6>
+									</span>
 								</a>
 							</div>
 						</div>
-						<div className="d-flex align-items-center justify-content-sm-start gap-md-3 gap-sm-2 gap-2 ">
-							<a href="#" className={`pe-2`} target="_blank" rel="noopener noreferrer">
-								<i className={`fa fa-2x fa-facebook ${styles.share_button}`}></i>
+						<div className="flex items-center gap-3">
+							<a href="#" className="text-white hover:text-blue-500 transition">
+								<span className="material-icons text-2xl">facebook</span>
 							</a>
-							<a href="#" className={`px-2`} target="_blank" rel="noopener noreferrer">
-								<i className={`fa fa-2x fa-instagram ${styles.share_button}`}></i>
+							<a href="#" className="text-white hover:text-pink-500 transition">
+								<span className="material-icons text-2xl">instagram</span>
 							</a>
-							<a href="#" className={`px-2`} target="_blank" rel="noopener noreferrer">
-								<i className={`fa fa-2x fa-twitter ${styles.share_button}`}></i>
+							<a href="#" className="text-white hover:text-blue-400 transition">
+								<span className="material-icons text-2xl">twitter</span>
 							</a>
-							<a href="#" className={`px-2`} target="_blank" rel="noopener noreferrer">
-								<i className={`fa fa-2x fa-youtube ${styles.share_button}`}></i>
+							<a href="#" className="text-white hover:text-red-600 transition">
+								<span className="material-icons text-2xl">youtube</span>
 							</a>
-							<a href="#" className={`px-2`} target="_blank" rel="noopener noreferrer">
-								<i className={`fa fa-2x fa-linkedin ${styles.share_button}`}></i>
+							<a href="#" className="text-white hover:text-blue-700 transition">
+								<span className="material-icons text-2xl">linkedin</span>
 							</a>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<nav className="navbar bg-white navbar-expand-sm sticky-top">
-				<div className="container d-flex align-items-center">
-					<a href="/" className="navbar-brand" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+			{/* Main nav */}
+			<nav className="bg-white sticky top-0 shadow">
+				<div className="container mx-auto flex items-center justify-between py-2">
+					<a href="/" className="flex items-center">
 						<CustomImage
 							src={"/logo.png"}
-							wrapperClss={styles.logo_img_container}
+							wrapperClss="h-auto w-[8vw] min-w-[100px]"
 							height="auto"
 							width="8vw"
 						/>
 					</a>
-					<button
-						className="navbar-toggler"
-						type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#navBarMenu"
-						aria-controls="navBarMenu"
-						aria-expanded="false"
-						aria-label="Toggle navigation"
-					>
-						<span className="navbar-toggler-icon"></span>
-					</button>
-
+					{/* Hamburger for mobile */}
+					<div className="sm:hidden">
+						<button
+							className="text-gray-700 focus:outline-none"
+							type="button"
+							aria-label="Toggle navigation"
+							onClick={() => {
+								const menu = document.getElementById("navBarMenu");
+								if (menu) menu.classList.toggle("hidden");
+							}}
+						>
+							<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+							</svg>
+						</button>
+					</div>
 					<div
-						className="collapse navbar-collapse justify-content-between"
+						className="hidden sm:flex flex-1 items-center justify-between"
 						id="navBarMenu"
 					>
-						<ul className="navbar-nav  mx-auto my-2 my-lg-0 navbar-nav-scroll">
-							{MENU.map((menuItem, menuIdx) => (
-								<li className="nav-item px-1" key={`menu-${menuIdx}`}>
-									<a
-										className="nav-link nav-dropdown-item"
-										href={menuItem.link}
-									>
-										{menuItem.name}
-									</a>
+						<ul className="flex flex-col sm:flex-row mx-auto my-2 sm:my-0 gap-2 sm:gap-4">
+							{MENU && MENU.length > 0 ? (
+								MENU.map((menuItem, menuIdx) => (
+									<li className="px-1" key={`menu-${menuIdx}`}>
+										<a
+											className="text-gray-800 hover:text-yellow-600 font-medium px-3 py-2 rounded transition"
+											href={menuItem.link}
+										>
+											{menuItem.name}
+										</a>
+									</li>
+								))
+							) : (
+								<li className="px-1">
+									<span className="text-gray-500">No Menu</span>
 								</li>
-							))}
+							)}
 						</ul>
-						<ul className="navbar-nav mb-2 mb-lg-0 justify-content-end align-items-end gap-4">
-							<li className="nav-item px-1 cursor-pointer">
+						<ul className="flex items-center gap-4">
+							<li className="px-1 cursor-pointer">
 								<CustomButton
 									title={`Become Partner`}
-									className="px-3 py-1"
+									className="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded transition"
 								/>
 							</li>
-							<li className="nav-item px-1 cursor-pointer">
+							<li className="px-1 cursor-pointer">
 								<CustomButton
 									title={`Login /  Sign Up`}
-									className="px-2 py-1"
+									className="px-2 py-1 bg-gray-800 hover:bg-gray-900 text-white rounded transition flex items-center"
 									icon={
-										<i
-											className="fa fa-sign-in me-2"
-											aria-hidden="true"
-										></i>
+										<svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
+										</svg>
 									}
 								/>
 							</li>
 						</ul>
 					</div>
+				</div>
+				{/* Mobile menu */}
+				<div className="sm:hidden hidden" id="navBarMenu">
+					<ul className="flex flex-col gap-2 p-4 bg-white shadow">
+						{MENU && MENU.length > 0 ? (
+							MENU.map((menuItem, menuIdx) => (
+								<li className="px-1" key={`menu-mobile-${menuIdx}`}>
+									<a
+										className="text-gray-800 hover:text-yellow-600 font-medium px-3 py-2 rounded transition block"
+										href={menuItem.link}
+									>
+										{menuItem.name}
+									</a>
+								</li>
+							))
+						) : (
+							<li className="px-1">
+								<span className="text-gray-500">No Menu</span>
+							</li>
+						)}
+						<li className="px-1 cursor-pointer">
+							<CustomButton
+								title={`Become Partner`}
+								className="w-full px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded transition"
+							/>
+						</li>
+						<li className="px-1 cursor-pointer">
+							<CustomButton
+								title={`Login /  Sign Up`}
+								className="w-full px-2 py-1 bg-gray-800 hover:bg-gray-900 text-white rounded transition flex items-center"
+								icon={
+									<svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
+									</svg>
+								}
+							/>
+						</li>
+					</ul>
 				</div>
 			</nav>
 		</div>
