@@ -1,0 +1,24 @@
+.common_container_bg {
+  background: url("/container-bg.png") no-repeat right top #121212;
+  background-size: cover;
+  padding: 4.56rem;
+  position: relative;
+  height: 50vh;
+}
+
+.common_img_container {
+  width: auto;
+  margin-bottom: 0;
+  margin-right: 0;
+  position: absolute !important;
+  z-index: 1;
+  right: 0;
+  top: 0;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .common_img_container {
+    display: none;
+  }
+}

@@ -1,0 +1,39 @@
+.bot_outline_btn {
+  padding: 0.6rem 3rem;
+  border: none;
+  outline: none;
+  position: relative;
+  z-index: 1;
+  border-radius: 0.2rem;
+  background: transparent;
+  cursor: pointer;
+}
+.bot_outline_btn::before {
+  content: "";
+  position: absolute;
+  left: 0.1rem;
+  right: 0.1rem;
+  top: 0.1rem;
+  bottom: 0.1rem;
+  border-radius: 0.2rem;
+  background-color: white;
+  z-index: -1;
+  transition: 200ms;
+}
+.bot_outline_btn::after {
+  content: attr(data);
+  background: transparent;
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: 200ms;
+}
+.bot_outline_btn:hover::before {
+  opacity: 10%;
+  /* top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px; */
+}
+.bot_outline_btn:hover::after {
+  color: white;
+}

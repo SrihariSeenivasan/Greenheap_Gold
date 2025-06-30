@@ -1,0 +1,54 @@
+.carousel_inner {
+  height: 100%;
+}
+
+.banner_bg {
+}
+
+.banner_title {
+  text-align: center;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 1.745rem;
+  line-height: 1.1;
+  width: 100%;
+}
+
+.banner_sub_title {
+  text-align: center;
+  font-family: "DM Sans";
+  font-style: normal;
+  line-height: 1.1;
+  font-size: 1.5rem !important;
+  width: 100%;
+}
+
+.meet_promo_title {
+  font-size: 1.5rem;
+}
+
+.banner_btn {
+  width: 100%;
+}
+
+/* .title_bar_container {
+  height: 40vh;
+} */
+
+@media (max-width: 768px) {
+  .banner_title {
+    font-size: 1.5rem !important;
+    width: 100%;
+  }
+  .banner_sub_title {
+    font-size: 1rem !important;
+    width: 100%;
+  }
+  .banner_btn {
+    width: 100%;
+  }
+  /* .title_bar_container {
+    height: 100vh !important;
+  } */
+}
