@@ -2,7 +2,7 @@ import React from "react";
 import AdminSideNav from "./AdminSideNav";
 import { Outlet } from "react-router-dom";
 
-const SIDEBAR_WIDTH = 256; // 64 * 4 (w-64 in px)
+const SIDEBAR_WIDTH = 300; // 64 * 4 (w-64 in px)
 
 const AdminLayout: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const AdminLayout: React.FC = () => {
       </aside>
       {/* Main Content */}
       <main
-        className="flex-1 p-4"
+        className="flex-1 p-2"
         style={{ marginLeft: SIDEBAR_WIDTH }}
       >
         <div className="max-w-7xl mx-auto">

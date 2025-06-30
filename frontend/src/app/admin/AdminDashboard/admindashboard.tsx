@@ -1,4 +1,3 @@
-
 const stats = [
   { label: "Total Users", value: 1240, color: "bg-yellow-100", icon: "👥" },
   { label: "Gold Sold (g)", value: 3200, color: "bg-yellow-200", icon: "🥇" },
@@ -6,13 +5,50 @@ const stats = [
   { label: "Partners", value: 42, color: "bg-yellow-100", icon: "🤝" },
 ];
 
-const activities = [
-  { time: "10:30 AM", desc: "User John Doe purchased 10g gold." },
-  { time: "09:15 AM", desc: "Partner request approved for S. Kumar." },
-  { time: "Yesterday", desc: "Commission payout processed." },
+const activityData = [
+  { time: "10:30 AM", desc: "User John Doe purchased 10g gold.", type: "user" },
+  { time: "09:15 AM", desc: "Partner request approved for S. Kumar.", type: "partner" },
+  { time: "Yesterday", desc: "Commission payout processed.", type: "partner" },
+  { time: "Yesterday", desc: "User Priya Sharma updated profile.", type: "user" },
+  { time: "2 days ago", desc: "Gold price updated.", type: "all" },
+  { time: "2 days ago", desc: "Partner payout released.", type: "partner" },
+  { time: "3 days ago", desc: "User feedback received.", type: "user" },
+  { time: "3 days ago", desc: "New offer for partners.", type: "partner" },
+  { time: "4 days ago", desc: "System maintenance scheduled.", type: "all" },
+  { time: "4 days ago", desc: "User KYC approved.", type: "user" },
+  { time: "5 days ago", desc: "Partner commission updated.", type: "partner" },
+  { time: "5 days ago", desc: "User profile updated.", type: "user" },
+  // ...add more if needed
 ];
 
+const FILTERS = [
+  { label: "All", value: "all" },
+  { label: "From User", value: "user" },
+  { label: "From Partner", value: "partner" },
+  { label: "Time", value: "time" },
+];
+
+import { useState } from "react";
+
 const AdminDashboard = () => {
+  const [activityPage, setActivityPage] = useState(1);
+  const [activityFilter, setActivityFilter] = useState("all");
+  const pageSize = 5;
+
+  // Filtering logic
+  let filteredActivities = activityData;
+  if (activityFilter === "user") {
+    filteredActivities = activityData.filter(a => a.type === "user");
+  } else if (activityFilter === "partner") {
+    filteredActivities = activityData.filter(a => a.type === "partner");
+  } else if (activityFilter === "time") {
+    filteredActivities = [...activityData].sort((a, b) => a.time.localeCompare(b.time));
+  }
+  // "all" shows all, default order
+
+  const totalPages = Math.ceil(filteredActivities.length / pageSize);
+  const pagedActivities = filteredActivities.slice((activityPage - 1) * pageSize, activityPage * pageSize);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 p-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-8">Admin Dashboard</h1>
@@ -29,15 +65,55 @@ const AdminDashboard = () => {
         ))}
       </div>
       <div className="bg-white rounded-xl shadow p-6 max-w-2xl mx-auto">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Recent Activities</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-gray-800">Recent Activities</h2>
+          <div className="flex gap-2">
+            {FILTERS.map(f => (
+              <button
+                key={f.value}
+                className={`px-3 py-1 rounded text-xs font-semibold transition ${
+                  activityFilter === f.value
+                    ? "bg-yellow-500 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-yellow-100"
+                }`}
+                onClick={() => {
+                  setActivityFilter(f.value);
+                  setActivityPage(1);
+                }}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
         <ul className="space-y-3">
-          {activities.map((activity, idx) => (
+          {pagedActivities.map((activity, idx) => (
             <li key={idx} className="flex items-start">
               <span className="text-yellow-500 font-bold mr-3">{activity.time}</span>
               <span className="text-gray-700">{activity.desc}</span>
             </li>
           ))}
         </ul>
+        {/* Pagination for activities */}
+        <div className="flex justify-center items-center gap-2 mt-6">
+          <button
+            className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs"
+            disabled={activityPage === 1}
+            onClick={() => setActivityPage(activityPage - 1)}
+          >
+            Prev
+          </button>
+          <span className="text-xs text-gray-700">
+            Page {activityPage} of {totalPages}
+          </span>
+          <button
+            className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs"
+            disabled={activityPage === totalPages}
+            onClick={() => setActivityPage(activityPage + 1)}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
