@@ -2,7 +2,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./src/app/user/NavBar/NavBar";
 import AdminLayout from "./src/app/admin/AdminLayout";
-import AdminSideNav from "./src/app/admin/AdminSideNav";
 import Footer from "./src/app/user/Footer/Footer";
 import UserHome from "./src/app/user/UserHome";
 import UserLayout from "./src/app/user/UserLayout";
@@ -14,6 +13,13 @@ import PrivacyPlicyPage from "./src/app/user/PrivacyPolicy/privacy";
 import AdminDashboard from "./src/app/admin/AdminDashboard/admindashboard";
 import AdminProfile from "./src/app/admin/AdminProfile/adminprofile";
 import Commission from "./src/app/admin/Commission/commission"; 
+import KYC from "./src/app/admin/KYC/kyc";
+import Beneficiaries from "./src/app/admin/Beneficiaries/beneficiaries";
+import SavingPlan from "./src/app/admin/ChitJewelsSavingPlan/savingplan";
+import SPIPPlan from "./src/app/admin/DigitalGoldSPIPlan/sipplan";
+import PlantScheme from "./src/app/admin/GoldPlantScheme/plantscheme";
+import Notification from "./src/app/admin/Notification/notification";
+import MyBankAccounts from "./src/app/admin/MyBankAccounts/mybankaccounts";
 // ...import other pages...
 
 const AppRoutes: React.FC = () => {
@@ -22,19 +28,19 @@ const AppRoutes: React.FC = () => {
       <Routes>
         {/* Admin routes */}
         <Route element={<AdminLayout/>}>
-        <Route path="/admin" element={ <AdminSideNav/>}/>
-        <Route path="/admindashboard" element={ <AdminDashboard/>}/>
+        
+        <Route path="/admin" element={ <AdminDashboard/>}/>
         <Route path="/adminprofile" element={ <AdminProfile/>}/>
         <Route path="/commission" element={ <Commission/>}/>
         <Route path="/payoutrequest" element={ <Commission/>}/>
-        <Route path="/kyc" element={ <Commission/>}/>
-        <Route path="/beneficiaries" element={ <Commission/>}/>
-        <Route path="/savingplan" element={ <Commission/>}/>
-        <Route path="/spiplan" element={ <Commission/>}/>
-        <Route path="/plantscheme" element={ <Commission/>}/>
-        <Route path="/notification" element={ <Commission/>}/>
-        <Route path="/mybankaccounts" element={ <Commission/>}/>
-        <Route path="/logout" element={ <Commission/>}/>
+        <Route path="/kyc" element={ <KYC/>}/>
+        <Route path="/beneficiaries" element={ <Beneficiaries/>}/>
+        <Route path="/savingplan" element={ <SavingPlan/>}/>
+        <Route path="/spiplan" element={ <SPIPPlan/>}/>
+        <Route path="/plantscheme" element={ <PlantScheme/>}/>
+        <Route path="/notification" element={ <Notification/>}/>
+        <Route path="/mybankaccounts" element={ <MyBankAccounts/>}/>
+        
         
 
         </Route>

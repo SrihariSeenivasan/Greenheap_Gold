@@ -1,4 +1,3 @@
-
 const commissions = [
   { id: 1, partner: "S. Kumar", amount: "₹5,000", date: "2024-06-01", status: "Paid" },
   { id: 2, partner: "A. Singh", amount: "₹3,200", date: "2024-05-28", status: "Pending" },
@@ -8,7 +7,7 @@ const commissions = [
 const Commission = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center p-6">
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-3xl">
+      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-5xl">
         <h1 className="text-2xl font-bold text-gray-800 mb-6">Commission Summary</h1>
         <table className="min-w-full bg-white rounded-lg overflow-hidden">
           <thead>
@@ -17,6 +16,7 @@ const Commission = () => {
               <th className="px-4 py-2 text-left text-yellow-700">Amount</th>
               <th className="px-4 py-2 text-left text-yellow-700">Date</th>
               <th className="px-4 py-2 text-left text-yellow-700">Status</th>
+              <th className="px-4 py-2 text-left text-yellow-700">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -35,6 +35,11 @@ const Commission = () => {
                   >
                     {c.status}
                   </span>
+                </td>
+                <td className="px-4 py-3 space-x-2">
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">View</button>
+                  <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-xs">Edit</button>
+                  <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs">Delete</button>
                 </td>
               </tr>
             ))}

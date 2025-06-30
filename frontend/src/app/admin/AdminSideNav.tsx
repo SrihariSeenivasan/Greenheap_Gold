@@ -1,7 +1,6 @@
 const menuItems = [
-  { name: "My Dashboard", link: "/admindashboard" },
+  { name: "My Dashboard", link: "/admin" },
   { name: "My Profile", link: "/adminprofile" },
-  { name: "My Profile (Agent)", link: "/adminprofile-agent" },
   { name: "Commission", link: "/commission" },
   { name: "Payout Request", link: "/payoutrequest" },
   { name: "KYC", link: "/kyc" },
@@ -11,7 +10,7 @@ const menuItems = [
   { name: "Gold Plant Scheme", link: "/plantscheme" },
   { name: "Notification", link: "/notification" },
   { name: "My Bank Accounts", link: "/mybankaccounts" },
-  { name: "Logout", link: "/logout" },
+  { name: "Logout", link: "/" },
 ];
 
 export default function AdminSideNav() {
