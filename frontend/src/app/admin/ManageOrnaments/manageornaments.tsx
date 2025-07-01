@@ -203,16 +203,16 @@ const ManageOrnaments = () => {
         setEditingBreakupIdx(null);
     }
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 p-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Manage Ornaments</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white p-8">
+      <h1 className="text-3xl font-bold text-[#7a1335] mb-8">Manage Ornaments</h1>
       {/* Product Form Card */}
       <div className="bg-white rounded-2xl shadow-2xl p-8 mb-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* First Card: Image, Title, Price */}
           <div>
             <div className="mb-4">
-              <label className="block font-semibold text-gray-700 mb-2">Main Image *</label>
-              <div className="flex flex-col items-center gap-4 p-4 border-2 border-dashed border-yellow-300 rounded-lg bg-yellow-50">
+              <label className="block font-semibold text-[#7a1335] mb-2">Main Image *</label>
+              <div className="flex flex-col items-center gap-4 p-4 border-2 border-dashed border-[#7a1335] rounded-lg bg-[#fbeaf0]">
                 {form.img && <img src={form.img} alt="Main" className="w-32 h-32 object-contain rounded-lg shadow" />}
                 {/* Custom upload button below the image */}
                 <label className="w-full flex flex-col items-center">
@@ -226,7 +226,7 @@ const ManageOrnaments = () => {
                   />
                   <button
                     type="button"
-                    className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-6 rounded-lg shadow transition mt-2 flex items-center gap-2"
+                    className="bg-[#7a1335] hover:bg-[#a31d4b] text-white font-bold py-2 px-6 rounded-lg shadow transition mt-2 flex items-center gap-2"
                     onClick={e => {
                       const input = (e.currentTarget.parentElement?.querySelector('input[type="file"]') as HTMLInputElement | null);
                       input?.click();
@@ -321,10 +321,10 @@ const ManageOrnaments = () => {
           </div>
           {/* Third Card: img1, img2, img3, img4 */}
           <div>
-            <label className="block font-semibold text-gray-700 mb-2">Product Gallery Images</label>
+            <label className="block font-semibold text-[#7a1335] mb-2">Product Gallery Images</label>
             <div className="grid grid-cols-2 gap-4">
               {["img1", "img2", "img3", "img4"].map((imgKey, i) => (
-                <div key={imgKey} className="flex flex-col items-center gap-2 p-3 border rounded-lg bg-yellow-50">
+                <div key={imgKey} className="flex flex-col items-center gap-2 p-3 border rounded-lg bg-[#fbeaf0]">
                   {/* Show image preview above */}
                   {form[imgKey] && (
                     <img src={form[imgKey]} alt={imgKey} className="w-20 h-20 object-contain rounded border mb-2" />
@@ -341,7 +341,7 @@ const ManageOrnaments = () => {
                     />
                     <button
                       type="button"
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-1 px-4 rounded transition mt-2"
+                      className="bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-1 px-4 rounded transition mt-2"
                       onClick={e => {
                         // Find the input inside the label and trigger click
                         const input = (e.currentTarget.parentElement?.querySelector('input[type="file"]') as HTMLInputElement | null);
@@ -361,7 +361,7 @@ const ManageOrnaments = () => {
         {!showPriceBreakup ? (
           <div className="flex gap-3 mt-6">
             <button
-              className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded transition"
+              className="bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 px-6 rounded transition"
               onClick={handleProductFormSave}
             >
               {editingIdx !== null ? "Next" : "Add Product"}
@@ -377,17 +377,17 @@ const ManageOrnaments = () => {
           <>
             {/* Price Breakup Editable Card (now inside Product Form Card) */}
             <div className="bg-white rounded-2xl shadow-2xl p-8 mt-10">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">Price Breakup (Editable)</h2>
+              <h2 className="text-xl font-bold text-[#7a1335] mb-4">Price Breakup (Editable)</h2>
               <div className="overflow-x-auto mb-6">
                 <table className="min-w-full bg-white rounded-lg overflow-hidden">
                   <thead>
                     <tr>
-                      <th className="px-4 py-2 text-yellow-700">Component</th>
-                      <th className="px-4 py-2 text-yellow-700">Gold Rate (18KT)</th>
-                      <th className="px-4 py-2 text-yellow-700">Weight (g)</th>
-                      <th className="px-4 py-2 text-yellow-700">Discount</th>
-                      <th className="px-4 py-2 text-yellow-700">Final Value</th>
-                      <th className="px-4 py-2 text-yellow-700">Actions</th>
+                      <th className="px-4 py-2 text-[#7a1335]">Component</th>
+                      <th className="px-4 py-2 text-[#7a1335]">Gold Rate (18KT)</th>
+                      <th className="px-4 py-2 text-[#7a1335]">Weight (g)</th>
+                      <th className="px-4 py-2 text-[#7a1335]">Discount</th>
+                      <th className="px-4 py-2 text-[#7a1335]">Final Value</th>
+                      <th className="px-4 py-2 text-[#7a1335]">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -469,7 +469,7 @@ const ManageOrnaments = () => {
                 {editingBreakupIdx !== null ? (
                   <>
                     <button
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded transition"
+                      className="bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 px-6 rounded transition"
                       onClick={handleBreakupSave}
                     >
                       Save
@@ -483,7 +483,7 @@ const ManageOrnaments = () => {
                   </>
                 ) : (
                   <button
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded transition"
+                    className="bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 px-6 rounded transition"
                     onClick={handleBreakupSave}
                   >
                     Add Row
@@ -511,27 +511,27 @@ const ManageOrnaments = () => {
         {products.map((product, idx) => (
           <div key={idx} className="bg-white rounded-xl shadow-lg p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* First Card: Image, Title, Price */}
-            <div className="flex flex-col items-center border-r md:border-r-2 border-yellow-100 pr-0 md:pr-6">
+            <div className="flex flex-col items-center border-r md:border-r-2 border-[#fbeaf0] pr-0 md:pr-6">
               <img src={product.img} alt={product.title} className="w-32 h-32 object-contain mb-4 rounded-lg shadow" />
-              <h2 className="text-xl font-bold text-gray-800 mb-2">{product.title}</h2>
-              <div className="text-yellow-600 font-semibold text-lg">{product.price}</div>
+              <h2 className="text-xl font-bold text-[#7a1335] mb-2">{product.title}</h2>
+              <div className="text-[#7a1335] font-semibold text-lg">{product.price}</div>
             </div>
             {/* Second Card: Material, Purity, Quality, Description */}
-            <div className="flex flex-col justify-center border-r md:border-r-2 border-yellow-100 pr-0 md:pr-6">
+            <div className="flex flex-col justify-center border-r md:border-r-2 border-[#fbeaf0] pr-0 md:pr-6">
               <div className="mb-2">
-                <span className="font-semibold text-gray-700">Material:</span> {product.material}
+                <span className="font-semibold text-[#7a1335]">Material:</span> {product.material}
               </div>
               <div className="mb-2">
-                <span className="font-semibold text-gray-700">Gold Purity:</span> {product.goldpurity}
+                <span className="font-semibold text-[#7a1335]">Gold Purity:</span> {product.goldpurity}
               </div>
               <div className="mb-2">
-                <span className="font-semibold text-gray-700">Quality:</span> {product.quality}
+                <span className="font-semibold text-[#7a1335]">Quality:</span> {product.quality}
               </div>
               <div className="mb-2">
-                <span className="font-semibold text-gray-700">Details:</span> {product.details}
+                <span className="font-semibold text-[#7a1335]">Details:</span> {product.details}
               </div>
               <div className="mt-2">
-                <div className="font-semibold text-gray-700">{product.description.title}</div>
+                <div className="font-semibold text-[#7a1335]">{product.description.title}</div>
                 <ul className="list-disc list-inside text-gray-600 mt-1">
                   {product.description.points.map((point: string, i: number) => (
                     <li key={i}>{point}</li>

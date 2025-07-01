@@ -19,6 +19,7 @@ const SIPPlan = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [newPlan, setNewPlan] = useState(emptyPlan);
   const [showError, setShowError] = useState(false);
+  const [editIdx, setEditIdx] = useState<number | null>(null);
 
   const handleAddChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -32,12 +33,25 @@ const SIPPlan = () => {
       setShowError(true);
       return;
     }
-    setSPIPlans((prev) => [
-      ...prev,
-      { ...newPlan, id: prev.length ? prev[prev.length - 1].id + 1 : 1 },
-    ]);
+    if (editIdx !== null) {
+      setSPIPlans((prev) =>
+        prev.map((plan, idx) => (idx === editIdx ? { ...newPlan, id: plan.id } : plan))
+      );
+      setEditIdx(null);
+    } else {
+      setSPIPlans((prev) => [
+        ...prev,
+        { ...newPlan, id: prev.length ? prev[prev.length - 1].id + 1 : 1 },
+      ]);
+    }
     setShowAdd(false);
     setNewPlan(emptyPlan);
+  };
+
+  const handleEdit = (idx: number) => {
+    setEditIdx(idx);
+    setNewPlan(spiPlans[idx]);
+    setShowAdd(true);
   };
 
   const handleStatusToggle = (id: number) => {
@@ -54,22 +68,22 @@ const SIPPlan = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center p-6">
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-3xl">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Digital Gold SPI Plans</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center p-6">
+      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-4xl">
+        <h1 className="text-2xl font-bold text-[#7a1335] mb-6">Digital Gold SPI Plans</h1>
         <table className="min-w-full bg-white rounded-lg overflow-hidden">
           <thead>
             <tr>
-              <th className="px-4 py-2 text-yellow-700">Plan Name</th>
-              <th className="px-4 py-2 text-yellow-700">Tenure</th>
-              <th className="px-4 py-2 text-yellow-700">Monthly Amount</th>
-              <th className="px-4 py-2 text-yellow-700">Description</th>
-              <th className="px-4 py-2 text-yellow-700">Status</th>
-              <th className="px-4 py-2 text-yellow-700">Actions</th>
+              <th className="px-4 py-2 text-[#7a1335]">Plan Name</th>
+              <th className="px-4 py-2 text-[#7a1335]">Tenure</th>
+              <th className="px-4 py-2 text-[#7a1335]">Monthly Amount</th>
+              <th className="px-4 py-2 text-[#7a1335]">Description</th>
+              <th className="px-4 py-2 text-[#7a1335]">Status</th>
+              <th className="px-4 py-2 text-[#7a1335]">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {spiPlans.map((plan) => (
+            {spiPlans.map((plan, idx) => (
               <tr key={plan.id} className="border-b last:border-b-0">
                 <td className="px-4 py-3">{plan.name}</td>
                 <td className="px-4 py-3">{plan.tenure}</td>
@@ -82,7 +96,8 @@ const SIPPlan = () => {
                     {plan.status}
                   </span>
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-4 py-3 space-x-2">
+                  <div className="flex flex-row gap-3 mt-6">
                   <button
                     className={`px-3 py-1 rounded text-xs font-semibold transition ${
                       plan.status === "Active"
@@ -93,21 +108,28 @@ const SIPPlan = () => {
                   >
                     {plan.status === "Active" ? "Close" : "Activate"}
                   </button>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs"
+                    onClick={() => handleEdit(idx)}
+                  >
+                    Edit
+                  </button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         <button
-          className="mt-6 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded transition"
-          onClick={() => setShowAdd(true)}
+          className="mt-6 bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 px-6 rounded transition"
+          onClick={() => { setShowAdd(true); setEditIdx(null); }}
         >
           Add New SPI Plan
         </button>
         {showAdd && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
             <div className="bg-white rounded-lg shadow-xl p-6 min-w-[320px] max-w-[90vw]">
-              <h2 className="text-lg font-bold mb-4 text-yellow-700">Add New SPI Plan</h2>
+              <h2 className="text-lg font-bold mb-4 text-[#7a1335]">{editIdx !== null ? "Edit SPI Plan" : "Add New SPI Plan"}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Left column: Plan Name, Tenure */}
                 <div className="flex flex-col gap-2">
@@ -163,16 +185,17 @@ const SIPPlan = () => {
               </div>
               <div className="flex gap-2 justify-end mt-4">
                 <button
-                  className="px-4 py-1 rounded bg-yellow-500 hover:bg-yellow-600 text-white"
+                  className="px-4 py-1 rounded bg-[#7a1335] hover:bg-[#a31d4b] text-white"
                   onClick={handleAddPlan}
                 >
-                  Add
+                  {editIdx !== null ? "Save" : "Add"}
                 </button>
                 <button
                   className="px-4 py-1 rounded bg-gray-300 hover:bg-gray-400 text-gray-800"
                   onClick={() => {
                     setShowAdd(false);
                     setNewPlan(emptyPlan);
+                    setEditIdx(null);
                   }}
                 >
                   Cancel
@@ -188,7 +211,7 @@ const SIPPlan = () => {
            
               <div className="mb-4 text-gray-700 text-center">Please fill all fields.</div>
               <button
-                className="px-6 py-2 rounded bg-yellow-500 hover:bg-yellow-600 text-white font-semibold shadow transition"
+                className="px-6 py-2 rounded bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold shadow transition"
                 onClick={() => setShowError(false)}
               >
                 OK

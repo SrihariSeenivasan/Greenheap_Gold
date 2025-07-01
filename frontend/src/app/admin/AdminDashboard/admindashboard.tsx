@@ -1,8 +1,8 @@
 const stats = [
-  { label: "Total Users", value: 1240, color: "bg-yellow-100", icon: "👥" },
-  { label: "Gold Sold (g)", value: 3200, color: "bg-yellow-200", icon: "🥇" },
-  { label: "Commission Earned", value: "₹1,20,000", color: "bg-yellow-300", icon: "💰" },
-  { label: "Partners", value: 42, color: "bg-yellow-100", icon: "🤝" },
+  { label: "Total Users", value: 1240, color: "bg-[#fbeaf0]", icon: "👥" },
+  { label: "Gold Sold (g)", value: 3200, color: "bg-[#fbeaf0]", icon: "🥇" },
+  { label: "Commission Earned", value: "₹1,20,000", color: "bg-[#fbeaf0]", icon: "💰" },
+  { label: "Partners", value: 42, color: "bg-[#fbeaf0]", icon: "🤝" },
 ];
 
 const activityData = [
@@ -50,8 +50,8 @@ const AdminDashboard = () => {
   const pagedActivities = filteredActivities.slice((activityPage - 1) * pageSize, activityPage * pageSize);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 p-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Admin Dashboard</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white p-8">
+      <h1 className="text-3xl font-bold text-[#7a1335] mb-8">Admin Dashboard</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {stats.map((stat, idx) => (
           <div
@@ -59,22 +59,22 @@ const AdminDashboard = () => {
             className={`rounded-xl shadow p-6 flex flex-col items-center ${stat.color}`}
           >
             <div className="text-4xl mb-2">{stat.icon}</div>
-            <div className="text-2xl font-bold text-gray-800">{stat.value}</div>
-            <div className="text-gray-600">{stat.label}</div>
+            <div className="text-2xl font-bold text-[#7a1335]">{stat.value}</div>
+            <div className="text-[#7a1335]">{stat.label}</div>
           </div>
         ))}
       </div>
       <div className="bg-white rounded-xl shadow p-6 max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">Recent Activities</h2>
+          <h2 className="text-xl font-semibold text-[#7a1335]">Recent Activities</h2>
           <div className="flex gap-2">
             {FILTERS.map(f => (
               <button
                 key={f.value}
                 className={`px-3 py-1 rounded text-xs font-semibold transition ${
                   activityFilter === f.value
-                    ? "bg-yellow-500 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-yellow-100"
+                    ? "bg-[#7a1335] text-white"
+                    : "bg-[#fbeaf0] text-[#7a1335] hover:bg-[#fbeaf0]"
                 }`}
                 onClick={() => {
                   setActivityFilter(f.value);
@@ -89,7 +89,7 @@ const AdminDashboard = () => {
         <ul className="space-y-3">
           {pagedActivities.map((activity, idx) => (
             <li key={idx} className="flex items-start">
-              <span className="text-yellow-500 font-bold mr-3">{activity.time}</span>
+              <span className="text-[#7a1335] font-bold mr-3">{activity.time}</span>
               <span className="text-gray-700">{activity.desc}</span>
             </li>
           ))}

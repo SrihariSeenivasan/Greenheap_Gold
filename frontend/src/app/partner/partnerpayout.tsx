@@ -38,13 +38,13 @@ const PartnerPayout = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 p-2 sm:p-6">
-			<h1 className="text-2xl font-bold text-yellow-700 mb-6">Payouts</h1>
+		<div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-[#f7dbe3] p-2 sm:p-6">
+			<h1 className="text-2xl font-bold text-[#7a1335] mb-6">Payouts</h1>
 			<div className="bg-white rounded-xl shadow p-4 sm:p-6 mb-8">
 				<div className="mb-4">
 					<div className="text-lg font-semibold text-gray-700">
 						Total Earnings:{" "}
-						<span className="text-yellow-700">₹15,000</span>
+						<span className="text-[#7a1335]">₹15,000</span>
 					</div>
 					<div className="text-sm text-gray-500">
 						Withdrawal Balance:{" "}
@@ -98,7 +98,7 @@ const PartnerPayout = () => {
 					</select>
 					<button
 						type="submit"
-						className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded transition"
+						className="bg-[#7a1335] hover:bg-[#5a0e28] text-white font-semibold px-6 py-2 rounded transition"
 					>
 						Request Payout
 					</button>
@@ -112,10 +112,10 @@ const PartnerPayout = () => {
 					<table className="min-w-full bg-white rounded-lg overflow-hidden text-xs sm:text-sm">
 						<thead>
 							<tr>
-								<th className="px-4 py-2 text-yellow-700">Date</th>
-								<th className="px-4 py-2 text-yellow-700">Amount</th>
-								<th className="px-4 py-2 text-yellow-700">Method</th>
-								<th className="px-4 py-2 text-yellow-700">Status</th>
+								<th className="px-4 py-2 text-[#7a1335]">Date</th>
+								<th className="px-4 py-2 text-[#7a1335]">Amount</th>
+								<th className="px-4 py-2 text-[#7a1335]">Method</th>
+								<th className="px-4 py-2 text-[#7a1335]">Status</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -129,7 +129,7 @@ const PartnerPayout = () => {
 											className={`px-3 py-1 rounded-full text-xs font-semibold ${
 												p.status === "Paid"
 													? "bg-green-100 text-green-700"
-													: "bg-yellow-100 text-yellow-700"
+													: "bg-[#fbeaf0] text-[#7a1335]"
 											}`}
 										>
 											{p.status}

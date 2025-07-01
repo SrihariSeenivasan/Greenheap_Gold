@@ -9,15 +9,15 @@ const captions = [
 ];
 
 const PartnerMarketing = () => (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 p-2 sm:p-6">
-    <h1 className="text-2xl font-bold text-yellow-700 mb-6">Marketing Tools</h1>
+  <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-[#f7dbe3] p-2 sm:p-6">
+    <h1 className="text-2xl font-bold text-[#7a1335] mb-6">Marketing Tools</h1>
     <div className="mb-6">
       <h2 className="text-lg font-semibold mb-2">Banners</h2>
       <div className="flex flex-wrap gap-4">
         {banners.map((b, i) => (
           <div key={i} className="flex flex-col items-center">
             <img src={b.url} alt={b.label} className="w-40 h-24 object-cover rounded shadow" />
-            <a href={b.url} download className="text-xs text-yellow-600 mt-2 hover:underline">Download</a>
+            <a href={b.url} download className="text-xs text-[#7a1335] mt-2 hover:underline">Download</a>
           </div>
         ))}
       </div>
@@ -32,7 +32,7 @@ const PartnerMarketing = () => (
     </div>
     <div>
       <h2 className="text-lg font-semibold mb-2">PDF Flyers</h2>
-      <a href="/flyers/gold-flyer.pdf" download className="text-yellow-600 hover:underline">Download Gold Flyer</a>
+      <a href="/flyers/gold-flyer.pdf" download className="text-[#7a1335] hover:underline">Download Gold Flyer</a>
     </div>
   </div>
 );

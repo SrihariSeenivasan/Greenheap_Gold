@@ -58,17 +58,17 @@ const Commission = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center p-6">
+		<div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center p-6">
 			<div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-5xl">
-				<h1 className="text-2xl font-bold text-gray-800 mb-6">Commission Summary</h1>
+				<h1 className="text-2xl font-bold text-[#7a1335] mb-6">Commission Summary</h1>
 				<table className="min-w-full bg-white rounded-lg overflow-hidden">
 					<thead>
 						<tr>
-							<th className="px-4 py-2 text-left text-yellow-700">Partner</th>
-							<th className="px-4 py-2 text-left text-yellow-700">Amount</th>
-							<th className="px-4 py-2 text-left text-yellow-700">Date</th>
-							<th className="px-4 py-2 text-left text-yellow-700">Status</th>
-							<th className="px-4 py-2 text-left text-yellow-700">Actions</th>
+							<th className="px-4 py-2 text-left text-[#7a1335]">Partner</th>
+							<th className="px-4 py-2 text-left text-[#7a1335]">Amount</th>
+							<th className="px-4 py-2 text-left text-[#7a1335]">Date</th>
+							<th className="px-4 py-2 text-left text-[#7a1335]">Status</th>
+							<th className="px-4 py-2 text-left text-[#7a1335]">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -82,7 +82,7 @@ const Commission = () => {
 										className={`px-3 py-1 rounded-full text-xs font-semibold ${
 											c.status === "Paid"
 												? "bg-green-100 text-green-700"
-												: "bg-yellow-100 text-yellow-700"
+												: "bg-[#fbeaf0] text-[#7a1335]"
 										}`}
 									>
 										{c.status}
@@ -96,7 +96,7 @@ const Commission = () => {
 										View
 									</button>
 									<button
-										className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-xs"
+										className="bg-[#7a1335] hover:bg-[#a31d4b] text-white px-3 py-1 rounded text-xs"
 										onClick={() => handleEdit(c)}
 									>
 										Edit
@@ -113,7 +113,7 @@ const Commission = () => {
 					</tbody>
 				</table>
 				<button
-					className="mt-6 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded transition"
+					className="mt-6 bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 px-6 rounded transition"
 					onClick={handleDownloadReport}
 				>
 					Download Report
@@ -144,7 +144,7 @@ const Commission = () => {
 				{editData && (
 					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
 						<div className="bg-white rounded-lg shadow-xl p-6 min-w-[300px] max-w-[90vw] flex flex-col items-center justify-center">
-							<h2 className="text-lg font-bold mb-4 text-center">Edit Commission</h2>
+							<h2 className="text-lg font-bold mb-4 text-center text-[#7a1335]">Edit Commission</h2>
 							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
 								{/* Left column: Partner, Amount */}
 								<div className="flex flex-col gap-2">
@@ -197,7 +197,7 @@ const Commission = () => {
 							</div>
 							<div className="flex gap-2 justify-center mt-4">
 								<button
-									className="px-4 py-1 rounded bg-yellow-500 hover:bg-yellow-600 text-white"
+									className="px-4 py-1 rounded bg-[#7a1335] hover:bg-[#a31d4b] text-white"
 									onClick={handleEditSave}
 								>
 									Save
@@ -242,4 +242,4 @@ const Commission = () => {
 };
 
 export default Commission;
-		
+

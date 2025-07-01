@@ -8,8 +8,8 @@ const kpis = [
 ];
 
 const PartnerDashboard = () => (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 p-2 sm:p-6">
-    <h1 className="text-2xl font-bold text-yellow-700 mb-6">Partner Dashboard</h1>
+  <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-[#f7dbe3] p-2 sm:p-6">
+    <h1 className="text-2xl font-bold text-[#7a1335] mb-6">Partner Dashboard</h1>
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6 mb-8">
       {kpis.map((kpi, i) => (
         <div key={i} className="bg-white rounded-xl shadow p-6 flex flex-col items-center">

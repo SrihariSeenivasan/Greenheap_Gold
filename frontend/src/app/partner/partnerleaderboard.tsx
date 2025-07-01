@@ -5,17 +5,17 @@ const leaderboard = [
 ];
 
 const PartnerLeaderboard = () => (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 p-2 sm:p-6">
-    <h1 className="text-2xl font-bold text-yellow-700 mb-6">Partner Leaderboard</h1>
+  <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-[#f7dbe3] p-2 sm:p-6">
+    <h1 className="text-2xl font-bold text-[#7a1335] mb-6">Partner Leaderboard</h1>
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white rounded-lg overflow-hidden text-xs sm:text-sm">
         <thead>
           <tr>
-            <th className="px-4 py-2 text-yellow-700">Rank</th>
-            <th className="px-4 py-2 text-yellow-700">Name</th>
-            <th className="px-4 py-2 text-yellow-700">Gold Sold</th>
-            <th className="px-4 py-2 text-yellow-700">SIPs Started</th>
-            <th className="px-4 py-2 text-yellow-700">Commission</th>
+            <th className="px-4 py-2 text-[#7a1335]">Rank</th>
+            <th className="px-4 py-2 text-[#7a1335]">Name</th>
+            <th className="px-4 py-2 text-[#7a1335]">Gold Sold</th>
+            <th className="px-4 py-2 text-[#7a1335]">SIPs Started</th>
+            <th className="px-4 py-2 text-[#7a1335]">Commission</th>
           </tr>
         </thead>
         <tbody>

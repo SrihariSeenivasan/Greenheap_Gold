@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaCheckCircle, FaHourglassHalf, FaIdCard, FaRegEye, FaTimesCircle, FaUserCheck, FaUserTimes } from "react-icons/fa";
 
 const kycRequests = [
 	{
@@ -35,7 +36,7 @@ const KYC = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center p-1 sm:p-6">
+		<div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center p-1 sm:p-6">
 			{/* Modal for viewing Aadhaar/PAN details */}
 			{modal && (
 				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -47,11 +48,11 @@ const KYC = () => {
 						>
 							&times;
 						</button>
-						<h2 className="text-base sm:text-xl font-bold mb-2 sm:mb-4 text-yellow-700 flex items-center gap-2">
-							<span className="material-icons text-yellow-500 text-base sm:text-xl">visibility</span>
+						<h2 className="text-base sm:text-xl font-bold mb-2 sm:mb-4 text-[#7a1335] flex items-center gap-2">
+							<FaRegEye className="text-[#7a1335]" />
 							{modal.label}
 						</h2>
-						<div className="w-full h-56 sm:h-[70vh] rounded-lg border bg-yellow-50 flex items-center justify-center">
+						<div className="w-full h-56 sm:h-[70vh] rounded-lg border bg-[#fbeaf0] flex items-center justify-center">
 							<iframe
 								src={modal.url}
 								title={modal.label}
@@ -63,8 +64,8 @@ const KYC = () => {
 			)}
 			<div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-2 sm:p-10 w-full max-w-xs sm:max-w-5xl">
 				<div className="flex flex-col sm:flex-row items-center justify-between mb-4 sm:mb-8 gap-2">
-					<h1 className="text-l sm:text-xl font-bold text-yellow-700 flex items-center gap-2">
-						<span className="material-icons text-xl l:text-l text-yellow-500">verified_user</span>
+					<h1 className="text-l sm:text-xl font-bold text-[#7a1335] flex items-center gap-2">
+						<FaIdCard className="text-xl l:text-l text-[#7a1335]" />
 						KYC Requests
 					</h1>
 					<span className="text-xs sm:text-sm text-gray-500">{requests.length} requests</span>
@@ -72,29 +73,29 @@ const KYC = () => {
 				<div className="overflow-x-auto rounded">
 					<table className="min-w-full bg-white rounded overflow-hidden shadow text-xs sm:text-sm">
 						<thead>
-							<tr className="bg-yellow-50">
-								<th className="px-2 py-2 sm:px-4 sm:py-3 text-yellow-700 font-semibold text-left">User</th>
-								<th className="px-2 py-2 sm:px-4 sm:py-3 text-yellow-700 font-semibold">Aadhaar</th>
-								<th className="px-2 py-2 sm:px-4 sm:py-3 text-yellow-700 font-semibold">PAN</th>
-								<th className="px-2 py-2 sm:px-4 sm:py-3 text-yellow-700 font-semibold">Status</th>
-								<th className="px-2 py-2 sm:px-4 sm:py-3 text-yellow-700 font-semibold">Submitted</th>
-								<th className="px-2 py-2 sm:px-4 sm:py-3 text-yellow-700 font-semibold">Actions</th>
+							<tr className="bg-[#fbeaf0]">
+								<th className="px-2 py-2 sm:px-4 sm:py-3 text-[#7a1335] font-semibold text-left">User</th>
+								<th className="px-2 py-2 sm:px-4 sm:py-3 text-[#7a1335] font-semibold">Aadhaar</th>
+								<th className="px-2 py-2 sm:px-4 sm:py-3 text-[#7a1335] font-semibold">PAN</th>
+								<th className="px-2 py-2 sm:px-4 sm:py-3 text-[#7a1335] font-semibold">Status</th>
+								<th className="px-2 py-2 sm:px-4 sm:py-3 text-[#7a1335] font-semibold">Submitted</th>
+								<th className="px-2 py-2 sm:px-4 sm:py-3 text-[#7a1335] font-semibold">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
 							{requests.map((req) => (
 								<tr
 									key={req.id}
-									className="border-b last:border-b-0 hover:bg-yellow-50 transition"
+									className="border-b last:border-b-0 hover:bg-[#fbeaf0] transition"
 								>
 									<td className="px-2 py-2 sm:px-4 sm:py-3 flex items-center gap-2">
 										<img
 											src={req.avatar}
 											alt={req.user}
-											className="w-7 h-7 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-yellow-400 shadow"
+											className="w-7 h-7 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-[#7a1335] shadow"
 										/>
 										<div>
-											<div className="font-semibold text-gray-800">{req.user}</div>
+											<div className="font-semibold text-[#7a1335]">{req.user}</div>
 											<div className="text-[10px] text-gray-400">ID: {req.id}</div>
 										</div>
 									</td>
@@ -103,7 +104,7 @@ const KYC = () => {
 											className="flex items-center gap-1 text-blue-600 hover:text-blue-800 font-semibold underline transition"
 											onClick={() => setModal({ url: req.aadharUrl, label: `${req.user} - Aadhaar` })}
 										>
-											<span className="material-icons text-xs sm:text-base">picture_as_pdf</span>
+											<FaRegEye className="text-xs sm:text-base" />
 											View
 										</button>
 									</td>
@@ -112,7 +113,7 @@ const KYC = () => {
 											className="flex items-center gap-1 text-blue-600 hover:text-blue-800 font-semibold underline transition"
 											onClick={() => setModal({ url: req.panUrl, label: `${req.user} - PAN Card` })}
 										>
-											<span className="material-icons text-xs sm:text-base">picture_as_pdf</span>
+											<FaRegEye className="text-xs sm:text-base" />
 											View
 										</button>
 									</td>
@@ -121,16 +122,16 @@ const KYC = () => {
 											${req.status === "Approved"
 												? "bg-green-100 text-green-700"
 												: req.status === "Pending"
-												? "bg-yellow-100 text-yellow-700"
+												? "bg-[#fbeaf0] text-[#7a1335]"
 												: "bg-red-100 text-red-700"
 											}`}>
-											<span className="material-icons text-xs sm:text-sm">
-												{req.status === "Approved"
-													? "check_circle"
-													: req.status === "Pending"
-													? "hourglass_empty"
-													: "cancel"}
-											</span>
+											{req.status === "Approved" ? (
+												<FaCheckCircle className="text-xs sm:text-sm" />
+											) : req.status === "Pending" ? (
+												<FaHourglassHalf className="text-xs sm:text-sm" />
+											) : (
+												<FaTimesCircle className="text-xs sm:text-sm" />
+											)}
 											{req.status}
 										</span>
 									</td>
@@ -140,12 +141,12 @@ const KYC = () => {
 											className={`flex items-center gap-1 px-2 py-1 rounded text-[10px] sm:text-xs font-semibold shadow transition
 												${req.status === "Approved"
 													? "bg-green-200 text-green-700 cursor-not-allowed"
-													: "bg-green-500 hover:bg-green-600 text-white"
+													: "bg-[#7a1335] hover:bg-[#a31d4b] text-white"
 												}`}
 											onClick={() => handleStatusChange(req.id, "Approved")}
 											disabled={req.status === "Approved"}
 										>
-											<span className="material-icons text-xs sm:text-sm">check</span>
+											<FaUserCheck className="text-xs sm:text-sm" />
 											Approve
 										</button>
 										<button
@@ -157,7 +158,7 @@ const KYC = () => {
 											onClick={() => handleStatusChange(req.id, "Rejected")}
 											disabled={req.status === "Rejected"}
 										>
-											<span className="material-icons text-xs sm:text-sm">close</span>
+											<FaUserTimes className="text-xs sm:text-sm" />
 											Reject
 										</button>
 									</td>

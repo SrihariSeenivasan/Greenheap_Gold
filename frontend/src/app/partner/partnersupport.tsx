@@ -5,8 +5,8 @@ const faqs = [
 ];
 
 const PartnerSupport = () => (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 p-2 sm:p-6">
-    <h1 className="text-2xl font-bold text-yellow-700 mb-6">Support & Help</h1>
+  <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-[#f7dbe3] p-2 sm:p-6">
+    <h1 className="text-2xl font-bold text-[#7a1335] mb-6">Support & Help</h1>
     <div className="bg-white rounded-xl shadow p-4 sm:p-6 mb-8">
       <h2 className="text-lg font-semibold mb-4">FAQs</h2>
       <ul className="space-y-4">
@@ -20,8 +20,12 @@ const PartnerSupport = () => (
     </div>
     <div className="bg-white rounded-xl shadow p-4 sm:p-6">
       <h2 className="text-lg font-semibold mb-4">Contact Support</h2>
-      <div className="mb-2 text-gray-700">Email: <a href="mailto:partner-support@greenheap.com" className="text-yellow-600 hover:underline">partner-support@greenheap.com</a></div>
-      <div className="mb-2 text-gray-700">Phone: <a href="tel:+919999999999" className="text-yellow-600 hover:underline">+91 99999 99999</a></div>
+      <div className="mb-2 text-gray-700">
+        Email: <a href="mailto:partner-support@greenheap.com" className="text-[#7a1335] hover:underline">partner-support@greenheap.com</a>
+      </div>
+      <div className="mb-2 text-gray-700">
+        Phone: <a href="tel:+919999999999" className="text-[#7a1335] hover:underline">+91 99999 99999</a>
+      </div>
       {/* <button className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded transition">
         Raise Support Ticket
       </button> */}

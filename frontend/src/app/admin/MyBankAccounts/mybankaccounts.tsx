@@ -19,6 +19,7 @@ const MyBankAccounts = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [newAccount, setNewAccount] = useState(emptyAccount);
   const [showError, setShowError] = useState(false);
+  const [editIdx, setEditIdx] = useState<number | null>(null);
 
   const handleAddChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -32,12 +33,25 @@ const MyBankAccounts = () => {
       setShowError(true);
       return;
     }
-    setAccounts((prev) => [
-      ...prev,
-      { ...newAccount, id: prev.length ? prev[prev.length - 1].id + 1 : 1 },
-    ]);
+    if (editIdx !== null) {
+      setAccounts((prev) =>
+        prev.map((acc, idx) => (idx === editIdx ? { ...newAccount, id: acc.id } : acc))
+      );
+      setEditIdx(null);
+    } else {
+      setAccounts((prev) => [
+        ...prev,
+        { ...newAccount, id: prev.length ? prev[prev.length - 1].id + 1 : 1 },
+      ]);
+    }
     setShowAdd(false);
     setNewAccount(emptyAccount);
+  };
+
+  const handleEdit = (idx: number) => {
+    setEditIdx(idx);
+    setNewAccount(accounts[idx]);
+    setShowAdd(true);
   };
 
   const handleStatusToggle = (id: number) => {
@@ -54,22 +68,23 @@ const MyBankAccounts = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center p-6">
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-4xl">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">My Bank Accounts</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center p-6">
+      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-5xl">
+        <h1 className="text-2xl font-bold text-[#7a1335] mb-6">My Bank Accounts</h1>
         <table className="min-w-full bg-white rounded-lg overflow-hidden">
           <thead>
             <tr>
-              <th className="px-4 py-2 text-yellow-700">Bank</th>
-              <th className="px-4 py-2 text-yellow-700">Account</th>
-              <th className="px-4 py-2 text-yellow-700">IFSC</th>
-              <th className="px-4 py-2 text-yellow-700">Status</th>
-              <th className="px-4 py-2 text-yellow-700">Description</th>
-              <th className="px-4 py-2 text-yellow-700">Actions</th>
+              <th className="px-4 py-2 text-[#7a1335]">Bank</th>
+              <th className="px-4 py-2 text-[#7a1335]">Account</th>
+              <th className="px-4 py-2 text-[#7a1335]">IFSC</th>
+              <th className="px-4 py-2 text-[#7a1335]">Status</th>
+              <th className="px-4 py-2 text-[#7a1335]">Description</th>
+              <th className="px-4 py-2 text-[#7a1335]">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {accounts.map((acc) => (
+            {accounts.map((acc, idx) => (
+              
               <tr key={acc.id} className="border-b last:border-b-0">
                 {/* Left: Bank, Account */}
                 <td className="px-4 py-3">{acc.bank}</td>
@@ -87,6 +102,7 @@ const MyBankAccounts = () => {
                 </td>
                 <td className="px-4 py-3 text-gray-600">{acc.description}</td>
                 <td className="px-4 py-3 space-x-2">
+                  <div className="flex flex-row gap-3 mt-6">
                   <button
                     className={`px-3 py-1 rounded text-xs font-semibold transition ${
                       acc.status === "Active"
@@ -97,22 +113,37 @@ const MyBankAccounts = () => {
                   >
                     {acc.status === "Active" ? "Deactivate" : "Activate"}
                   </button>
-                  {/* ...existing code for Edit/Remove if needed... */}
+                  <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs"
+                    onClick={() => handleEdit(idx)}
+                  >
+                    Edit
+                  </button>
+                  </div>
+                  {/* ...existing code for Remove if needed... */}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <button
-          className="mt-6 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded transition"
-          onClick={() => setShowAdd(true)}
-        >
-          Add Bank Account
-        </button>
+        <div className="flex flex-row gap-3 mt-6">
+          <button
+            className="bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 px-6 rounded transition"
+            onClick={() => setShowAdd(true)}
+          >
+            Add Bank Account
+          </button>
+          <button
+            className="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded transition"
+            onClick={() => window.history.back()}
+          >
+            Back
+          </button>
+        </div>
         {showAdd && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
             <div className="bg-white rounded-lg shadow-xl p-6 min-w-[320px] max-w-[90vw]">
-              <h2 className="text-lg font-bold mb-4 text-yellow-700">Add Bank Account</h2>
+              <h2 className="text-lg font-bold mb-4 text-[#7a1335]">{editIdx !== null ? "Edit Bank Account" : "Add Bank Account"}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Left: Bank, Account */}
                 <div className="flex flex-col gap-2">
@@ -167,16 +198,17 @@ const MyBankAccounts = () => {
               </div>
               <div className="flex gap-2 justify-end mt-4">
                 <button
-                  className="px-4 py-1 rounded bg-yellow-500 hover:bg-yellow-600 text-white"
+                  className="px-4 py-1 rounded bg-[#7a1335] hover:bg-[#a31d4b] text-white"
                   onClick={handleAddAccount}
                 >
-                  Add
+                  {editIdx !== null ? "Save" : "Add"}
                 </button>
                 <button
                   className="px-4 py-1 rounded bg-gray-300 hover:bg-gray-400 text-gray-800"
                   onClick={() => {
                     setShowAdd(false);
                     setNewAccount(emptyAccount);
+                    setEditIdx(null);
                   }}
                 >
                   Cancel
@@ -189,11 +221,11 @@ const MyBankAccounts = () => {
         {showError && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
             <div className="bg-white rounded-2xl shadow-2xl p-8 flex flex-col items-center animate-fade-in">
-              <span className="material-icons text-5xl text-yellow-500 mb-2 animate-bounce">warning_amber</span>
-              <h2 className="text-xl font-bold text-yellow-700 mb-2 text-center">Missing Fields</h2>
+              <span className="material-icons text-5xl text-[#7a1335] mb-2 animate-bounce">warning_amber</span>
+              <h2 className="text-xl font-bold text-[#7a1335] mb-2 text-center">Missing Fields</h2>
               <div className="mb-4 text-gray-700 text-center">Please fill all fields.</div>
               <button
-                className="px-6 py-2 rounded bg-yellow-500 hover:bg-yellow-600 text-white font-semibold shadow transition"
+                className="px-6 py-2 rounded bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold shadow transition"
                 onClick={() => setShowError(false)}
               >
                 OK

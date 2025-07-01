@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaBell, FaEnvelope, FaReply, FaUser, FaUsers } from "react-icons/fa";
 
 // Example notification data with type and user/partner info
 const allNotifications = [
@@ -33,9 +34,15 @@ const Notification = () => {
   const [filter, setFilter] = useState("all");
   const [sort, setSort] = useState("recent");
   const [page, setPage] = useState(1);
+  const [sendTo, setSendTo] = useState("all");
+  const [notifications, setNotifications] = useState(allNotifications);
+  const [replyingId, setReplyingId] = useState<number | null>(null);
+  const [replyMsg, setReplyMsg] = useState("");
+  const [replies, setReplies] = useState<{ [id: number]: string[] }>({});
+  const [replyEmail, setReplyEmail] = useState("");
 
   // Filter and sort notifications
-  let filtered = allNotifications.filter(n =>
+  let filtered = notifications.filter(n =>
     filter === "all" ? true : n.type === filter
   );
   filtered = filtered.sort((a, b) => {
@@ -49,20 +56,30 @@ const Notification = () => {
   const totalPages = Math.ceil(filtered.length / pageSize);
   const paged = filtered.slice((page - 1) * pageSize, page * pageSize);
 
+  // Helper for today's date in yyyy-mm-dd
+  const today = new Date().toISOString().slice(0, 10);
+
+  // Dummy email for demonstration (in real app, fetch user/partner email)
+  const getEmailForNotification = (n: any) => {
+    if (n.type === "user") return "user@email.com";
+    if (n.type === "partner") return "partner@email.com";
+    return "all@email.com";
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center p-6">
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Notifications</h1>
+        <h1 className="text-2xl font-bold text-[#7a1335] mb-6">Notifications</h1>
         {/* Filters */}
         <div className="flex flex-wrap gap-2 mb-4 items-center">
-          <span className="font-semibold text-gray-700">Filter:</span>
+          <span className="font-semibold text-[#7a1335]">Filter:</span>
           {FILTERS.map(f => (
             <button
               key={f.value}
               className={`px-3 py-1 rounded transition text-xs font-semibold ${
                 filter === f.value
-                  ? "bg-yellow-500 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-yellow-100"
+                  ? "bg-[#7a1335] text-white"
+                  : "bg-[#fbeaf0] text-[#7a1335] hover:bg-[#fbeaf0]"
               }`}
               onClick={() => {
                 setFilter(f.value);
@@ -72,7 +89,7 @@ const Notification = () => {
               {f.label}
             </button>
           ))}
-          <span className="ml-4 font-semibold text-gray-700">Sort:</span>
+          <span className="ml-4 font-semibold text-[#7a1335]">Sort:</span>
           <select
             className="px-2 py-1 border rounded text-xs"
             value={sort}
@@ -88,23 +105,41 @@ const Notification = () => {
         </div>
         {/* Notification send form */}
         <form
-          className="flex gap-2 mb-6"
+          className="flex flex-col sm:flex-row gap-2 mb-6"
           onSubmit={e => {
             e.preventDefault();
-            // handle send notification
+            if (!msg.trim()) return;
+            setNotifications(prev => [
+              {
+                id: prev.length ? prev[0].id + 1 : 1,
+                message: msg,
+                date: today,
+                type: sendTo,
+              },
+              ...prev,
+            ]);
             setMsg("");
           }}
         >
           <input
             type="text"
-            className="flex-1 px-3 py-2 border rounded bg-gray-100 text-gray-700"
+            className="flex-1 px-3 py-2 border rounded bg-[#fbeaf0] text-[#7a1335]"
             placeholder="Type notification message..."
             value={msg}
             onChange={e => setMsg(e.target.value)}
           />
+          <select
+            className="px-2 py-2 border rounded text-xs"
+            value={sendTo}
+            onChange={e => setSendTo(e.target.value)}
+          >
+            <option value="all">All</option>
+            <option value="partner">Partner</option>
+            <option value="user">User</option>
+          </select>
           <button
             type="submit"
-            className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 rounded transition"
+            className="bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold px-6 rounded transition"
           >
             Send
           </button>
@@ -112,20 +147,95 @@ const Notification = () => {
         {/* Notification list */}
         <ul className="divide-y">
           {paged.map(n => (
-            <li key={n.id} className="py-3 flex justify-between items-center">
-              <span className="text-gray-700 flex items-center gap-2">
-                {n.type === "partner" && (
-                  <span className="material-icons text-yellow-600 text-base" title="Partner">groups</span>
+            <li key={n.id} className="py-3 flex flex-col gap-2">
+              <div className="flex justify-between items-center">
+                <span className="text-[#7a1335] flex items-center gap-2">
+                  {n.type === "partner" && (
+                    <FaUsers className="text-[#7a1335] text-base" title="Partner" />
+                  )}
+                  {n.type === "user" && (
+                    <FaUser className="text-blue-600 text-base" title="User" />
+                  )}
+                  {n.type === "all" && (
+                    <FaBell className="text-green-600 text-base" title="All" />
+                  )}
+                  {n.message}
+                </span>
+                <span className="text-xs text-gray-400">{n.date}</span>
+              </div>
+              {/* Replies */}
+              {replies[n.id] && replies[n.id].length > 0 && (
+                <div className="ml-6 mt-1 flex flex-col gap-1">
+                  {replies[n.id].map((reply, idx) => (
+                    <div key={idx} className="bg-[#fbeaf0] border-l-4 border-[#7a1335] px-3 py-1 rounded text-sm text-[#7a1335]">
+                      <span className="font-semibold text-[#7a1335] mr-2"><FaReply className="inline mr-1" />Reply:</span>
+                      {reply}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {/* Reply button and input */}
+              <div className="flex items-center gap-2 ml-6 mt-1">
+                {replyingId === n.id ? (
+                  <>
+                    <input
+                      type="text"
+                      className="flex-1 px-2 py-1 border rounded text-xs"
+                      placeholder="Type your reply..."
+                      value={replyMsg}
+                      onChange={e => setReplyMsg(e.target.value)}
+                      autoFocus
+                    />
+                    <button
+                      className="bg-[#7a1335] hover:bg-[#a31d4b] text-white text-xs px-3 py-1 rounded transition"
+                      onClick={() => {
+                        if (replyMsg.trim()) {
+                          setReplies(prev => ({
+                            ...prev,
+                            [n.id]: [...(prev[n.id] || []), replyMsg],
+                          }));
+                          setReplyMsg("");
+                          setReplyingId(null);
+                        }
+                      }}
+                    >
+                      Send
+                    </button>
+                    <a
+                      href={`mailto:${getEmailForNotification(n)}?subject=Reply to Notification&body=${encodeURIComponent(replyMsg)}`}
+                      className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded transition flex items-center gap-1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Reply via Email"
+                      onClick={() => {
+                        setReplyingId(null);
+                        setReplyMsg("");
+                      }}
+                    >
+                      <FaEnvelope /> Email
+                    </a>
+                    <button
+                      className="bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs px-2 py-1 rounded transition"
+                      onClick={() => {
+                        setReplyingId(null);
+                        setReplyMsg("");
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    className="flex items-center gap-1 text-[#7a1335] hover:text-[#a31d4b] text-xs font-semibold"
+                    onClick={() => {
+                      setReplyingId(n.id);
+                      setReplyMsg("");
+                    }}
+                  >
+                    <FaReply className="inline" /> Reply
+                  </button>
                 )}
-                {n.type === "user" && (
-                  <span className="material-icons text-blue-600 text-base" title="User">person</span>
-                )}
-                {n.type === "all" && (
-                  <span className="material-icons text-green-600 text-base" title="All">notifications</span>
-                )}
-                {n.message}
-              </span>
-              <span className="text-xs text-gray-400">{n.date}</span>
+              </div>
             </li>
           ))}
           {paged.length === 0 && (

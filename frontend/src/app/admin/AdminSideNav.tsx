@@ -43,18 +43,18 @@ const AdminSideNav = ({ isOpen, onToggle }: { isOpen?: boolean; onToggle?: () =>
     <nav
       className={`
         fixed top-0 left-0 h-screen z-40 bg-white shadow-lg
-        transition-all duration-300
         w-16 sm:w-56
-        ${isOpen === false ? "-translate-x-full" : "translate-x-0"}
-        sm:translate-x-0
         flex flex-col
         overflow-y-auto
+        transition-transform transition-opacity duration-500 ease-in-out
+        ${isOpen === false ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100"}
+        sm:translate-x-0 sm:opacity-100
       `}
       style={{ minWidth: "4rem" }}
     >
       <div className="flex items-center gap-2 px-4 py-6 mb-4">
-        <FaTachometerAlt className="text-yellow-600 text-2xl" />
-        <span className="text-lg font-bold text-yellow-700 tracking-wide hidden sm:inline">Admin Panel</span>
+        <FaTachometerAlt className="text-[#7a1335] text-2xl" />
+        <span className="text-lg font-bold text-[#7a1335] tracking-wide hidden sm:inline">Admin Panel</span>
       </div>
       <ul className="flex-1 space-y-1">
         {menuItems.map((item) => (
@@ -65,8 +65,8 @@ const AdminSideNav = ({ isOpen, onToggle }: { isOpen?: boolean; onToggle?: () =>
               className={`
                 flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200
                 ${active === item.link
-                  ? "bg-yellow-400/90 text-white font-bold shadow scale-105"
-                  : "text-yellow-900 hover:bg-yellow-100 hover:text-yellow-700"
+                  ? "bg-[#7a1335] text-white font-bold shadow scale-105"
+                  : "text-[#7a1335] hover:bg-[#fbeaf0] hover:text-[#7a1335]"
                 }
                 group text-xs sm:text-sm
               `}
@@ -84,7 +84,7 @@ const AdminSideNav = ({ isOpen, onToggle }: { isOpen?: boolean; onToggle?: () =>
           onClick={() => handleClick(logoutItem.link)}
           className={`
             flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200
-            justify- sm:justify-start
+            justify-center sm:justify-start
             ${active === logoutItem.link
               ? "bg-red-600 text-white font-bold shadow scale-105"
               : "text-red-600 hover:bg-red-100 hover:text-red-700"
@@ -96,7 +96,7 @@ const AdminSideNav = ({ isOpen, onToggle }: { isOpen?: boolean; onToggle?: () =>
           <span className="truncate hidden sm:inline">{logoutItem.name}</span>
         </a>
       </div>
-      <div className="mb-4 text-[10px] text-yellow-700 text-center opacity-60 hidden sm:block">
+      <div className="mb-4 text-[10px] text-[#7a1335] text-center opacity-60 hidden sm:block">
         &copy; {new Date().getFullYear()} Admin Panel
       </div>
     </nav>

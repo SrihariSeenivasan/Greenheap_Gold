@@ -75,17 +75,17 @@ const AdminProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center">
       <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full">
         <div className="flex flex-col items-center">
           <div className="relative mb-4">
             <img
               src={avatarPreview}
               alt="Admin Avatar"
-              className="w-28 h-28 rounded-full border-4 border-yellow-400 shadow object-cover"
+              className="w-28 h-28 rounded-full border-4 border-[#7a1335] shadow object-cover"
             />
             {editing && (
-              <label className="absolute bottom-2 right-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full p-2 cursor-pointer shadow transition">
+              <label className="absolute bottom-2 right-2 bg-[#7a1335] hover:bg-[#a31d4b] text-white rounded-full p-2 cursor-pointer shadow transition">
                 <input
                   type="file"
                   accept="image/*"
@@ -103,7 +103,7 @@ const AdminProfile = () => {
                 name="name"
                 value={profile.name}
                 onChange={handleChange}
-                className="text-xl font-bold text-gray-800 mb-1 text-center border-b border-yellow-300 focus:outline-none focus:border-yellow-500 bg-yellow-50 px-2"
+                className="text-xl font-bold text-[#7a1335] mb-1 text-center border-b border-[#fbeaf0] focus:outline-none focus:border-[#7a1335] bg-[#fbeaf0] px-2"
                 placeholder="Name"
               />
               {errors.name && <div className="text-xs text-red-500 mb-1">{errors.name}</div>}
@@ -112,15 +112,15 @@ const AdminProfile = () => {
                 name="role"
                 value={profile.role}
                 onChange={handleChange}
-                className="text-yellow-600 font-semibold mb-4 text-center border-b border-yellow-200 focus:outline-none focus:border-yellow-400 bg-yellow-50 px-2"
+                className="text-[#7a1335] font-semibold mb-4 text-center border-b border-[#fbeaf0] focus:outline-none focus:border-[#7a1335] bg-[#fbeaf0] px-2"
                 placeholder="Role"
               />
               {errors.role && <div className="text-xs text-red-500 mb-1">{errors.role}</div>}
             </>
           ) : (
             <>
-              <h2 className="text-2xl font-bold text-gray-800 mb-1">{profile.name}</h2>
-              <p className="text-yellow-600 font-semibold mb-4">{profile.role}</p>
+              <h2 className="text-2xl font-bold text-[#7a1335] mb-1">{profile.name}</h2>
+              <p className="text-[#7a1335] font-semibold mb-4">{profile.role}</p>
             </>
           )}
           <div className="w-full">
@@ -133,7 +133,7 @@ const AdminProfile = () => {
                     name="email"
                     value={profile.email}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded bg-yellow-50 text-gray-700 focus:outline-none focus:border-yellow-400"
+                    className="w-full px-3 py-2 border rounded bg-[#fbeaf0] text-gray-700 focus:outline-none focus:border-[#7a1335]"
                     placeholder="Email"
                   />
                   {errors.email && <div className="text-xs text-red-500">{errors.email}</div>}
@@ -155,7 +155,7 @@ const AdminProfile = () => {
                     name="countryCode"
                     value={profile.countryCode}
                     onChange={handleChange}
-                    className="px-2 py-2 border rounded bg-yellow-50 text-gray-700 focus:outline-none focus:border-yellow-400"
+                    className="px-2 py-2 border rounded bg-[#fbeaf0] text-gray-700 focus:outline-none focus:border-[#7a1335]"
                   >
                     {countryCodes.map((c) => (
                       <option key={c.code} value={c.code}>
@@ -168,7 +168,7 @@ const AdminProfile = () => {
                     name="phone"
                     value={profile.phone}
                     onChange={handleChange}
-                    className="flex-1 px-3 py-2 border rounded bg-yellow-50 text-gray-700 focus:outline-none focus:border-yellow-400"
+                    className="flex-1 px-3 py-2 border rounded bg-[#fbeaf0] text-gray-700 focus:outline-none focus:border-[#7a1335]"
                     placeholder="Phone number"
                   />
                 </div>
@@ -190,7 +190,7 @@ const AdminProfile = () => {
                   name="role"
                   value={profile.role}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded bg-yellow-50 text-gray-700 focus:outline-none focus:border-yellow-400"
+                  className="w-full px-3 py-2 border rounded bg-[#fbeaf0] text-gray-700 focus:outline-none focus:border-[#7a1335]"
                   placeholder="Role"
                 />
               ) : (
@@ -205,7 +205,7 @@ const AdminProfile = () => {
             {editing ? (
               <div className="flex gap-3 mt-4">
                 <button
-                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 rounded transition"
+                  className="w-full bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 rounded transition"
                   onClick={handleSave}
                 >
                   Save
@@ -219,7 +219,7 @@ const AdminProfile = () => {
               </div>
             ) : (
               <button
-                className="mt-4 w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 rounded transition"
+                className="mt-4 w-full bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 rounded transition"
                 onClick={handleEdit}
               >
                 Edit Profile

@@ -12,9 +12,9 @@ const PartnerReferral = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center p-2 sm:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-[#f7dbe3] flex items-center justify-center p-2 sm:p-6">
       <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 w-full max-w-xs sm:max-w-lg">
-        <h1 className="text-2xl font-bold text-yellow-700 mb-4">Your Referral Link</h1>
+        <h1 className="text-2xl font-bold text-[#7a1335] mb-4">Your Referral Link</h1>
         <div className="flex items-center gap-2 mb-4">
           <input
             type="text"
@@ -23,7 +23,7 @@ const PartnerReferral = () => {
             className="flex-1 px-3 py-2 border rounded"
           />
           <button
-            className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded transition"
+            className="bg-[#7a1335] hover:bg-[#5a0e28] text-white px-4 py-2 rounded transition"
             onClick={handleCopy}
           >
             {copied ? "Copied!" : "Copy"}

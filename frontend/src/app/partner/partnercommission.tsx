@@ -4,18 +4,18 @@ const commissions = [
 ];
 
 const PartnerCommission = () => (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 p-2 sm:p-6">
-    <h1 className="text-2xl font-bold text-yellow-700 mb-6">Commission & Earnings</h1>
+  <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-[#f7dbe3] p-2 sm:p-6">
+    <h1 className="text-2xl font-bold text-[#7a1335] mb-6">Commission & Earnings</h1>
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white rounded-lg overflow-hidden text-xs sm:text-sm">
         <thead>
           <tr>
-            <th className="px-4 py-2 text-yellow-700">Date</th>
-            <th className="px-4 py-2 text-yellow-700">User</th>
-            <th className="px-4 py-2 text-yellow-700">Type</th>
-            <th className="px-4 py-2 text-yellow-700">Qty/Amount</th>
-            <th className="px-4 py-2 text-yellow-700">Commission</th>
-            <th className="px-4 py-2 text-yellow-700">Status</th>
+            <th className="px-4 py-2 text-[#7a1335]">Date</th>
+            <th className="px-4 py-2 text-[#7a1335]">User</th>
+            <th className="px-4 py-2 text-[#7a1335]">Type</th>
+            <th className="px-4 py-2 text-[#7a1335]">Qty/Amount</th>
+            <th className="px-4 py-2 text-[#7a1335]">Commission</th>
+            <th className="px-4 py-2 text-[#7a1335]">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -28,7 +28,7 @@ const PartnerCommission = () => (
               <td className="px-4 py-3">{c.commission}</td>
               <td className="px-4 py-3">
                 <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  c.status === "Approved" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
+                  c.status === "Approved" ? "bg-green-100 text-green-700" : "bg-[#fbeaf0] text-[#7a1335]"
                 }`}>
                   {c.status}
                 </span>
@@ -38,7 +38,7 @@ const PartnerCommission = () => (
         </tbody>
       </table>
     </div>
-    <button className="mt-6 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded transition">
+    <button className="mt-6 bg-[#7a1335] hover:bg-[#5a0e28] text-white font-semibold py-2 px-6 rounded transition">
       Download CSV
     </button>
   </div>

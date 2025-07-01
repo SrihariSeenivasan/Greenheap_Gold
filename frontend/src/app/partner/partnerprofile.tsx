@@ -53,11 +53,11 @@ const PartnerProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center p-2 sm:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-[#f7dbe3] flex items-center justify-center p-2 sm:p-6">
       <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Basic Details Card */}
         <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 flex flex-col gap-4">
-          <h2 className="text-xl font-bold text-yellow-700 mb-2">Basic Details & KYC</h2>
+          <h2 className="text-xl font-bold text-[#7a1335] mb-2">Basic Details & KYC</h2>
           <div>
             <label className="block text-sm font-semibold mb-1">Name</label>
             <input
@@ -105,7 +105,7 @@ const PartnerProfile = () => {
               />
             </div>
           </div>
-          <div>
+          {/* <div>
             <label className="block text-sm font-semibold mb-1">Aadhaar Card</label>
             <div className="flex flex-col gap-2">
               {aadhaarPreview && (
@@ -144,8 +144,8 @@ const PartnerProfile = () => {
                 />
               </label>
             </div>
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <label className="block text-sm font-semibold mb-1">PAN Card</label>
             <div className="flex flex-col gap-2">
               {panPreview && (
@@ -184,11 +184,11 @@ const PartnerProfile = () => {
                 />
               </label>
             </div>
-          </div>
+          </div> */}
         </div>
         {/* Bank Details Card */}
         <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 flex flex-col gap-4">
-          <h2 className="text-xl font-bold text-yellow-700 mb-2">Bank Details</h2>
+          <h2 className="text-xl font-bold text-[#7a1335] mb-2">Bank Details</h2>
           <div>
             <label className="block text-sm font-semibold mb-1">Bank Name</label>
             <input
@@ -237,7 +237,7 @@ const PartnerProfile = () => {
         {/* Save Button */}
         <div className="md:col-span-2 flex justify-end mt-4">
           <button
-            className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-8 rounded transition"
+            className="bg-[#7a1335] hover:bg-[#5a0e28] text-white font-semibold py-2 px-8 rounded transition"
             onClick={handleSave}
           >
             Save Changes
