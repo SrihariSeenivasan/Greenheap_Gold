@@ -186,9 +186,9 @@ const AboutUsPage = () => {
             <div
               className="bg-gradient-to-br from-[#fff8e7] to-[#f7eded] rounded-3xl shadow-[0_4px_24px_#f0e3d1] px-8 pt-9 pb-8 mb-0 border-[1.5px] border-[#f9e9c7] relative overflow-hidden min-h-[420px] flex flex-col justify-center items-center text-center w-full h-full"
             >
-              <h2 className="fw-bold mb-3 text-[2.6rem] leading-[1.18] text-[#7a1335] drop-shadow-[0_2px_8px_#f9e9c7] z-10 relative tracking-wide">
-                Get access to the <span className="text-[#991616] font-black">safest</span> way of procuring... <br />
-                <span className="text-[#991616] font-black text-[2.1rem] tracking-wide bg-gradient-to-r from-[#f9e9c7] to-[#fff8e7] rounded px-3 py-0.5 shadow-[0_2px_8px_#f0e3d1] inline-block">
+              <h2 className="fw-bold mb-3 text-[2.6rem] leading-[1.18] text-[#991313] drop-shadow-[0_2px_8px_#f9e9c7] z-10 relative tracking-wide">
+                Get access to the <span className="text-[#991313] font-black">safest</span> way of procuring... <br />
+                <span className="text-[#991313] font-black text-[2.1rem] tracking-wide bg-gradient-to-r from-[#f9e9c7] to-[#fff8e7] rounded px-3 py-0.5 shadow-[0_2px_8px_#f0e3d1] inline-block">
                   24K Gold / Silver
                 </span>
               </h2>
@@ -211,7 +211,7 @@ const AboutUsPage = () => {
                     >
                       <CustomImage src={f.icon} width={32} height={32} alt={f.title} />
                     </div>
-                    <div className="font-semibold mt-2 text-[#991616] text-lg">{f.title}</div>
+                    <div className="font-semibold mt-2 text-[#991313] text-lg">{f.title}</div>
                   </div>
                 ))}
               </div>
@@ -250,10 +250,10 @@ const AboutUsPage = () => {
       >
         <div className="container py-5">
           <div className="text-center mb-4">
-            <div className="text-[#991616] font-bold text-lg">
+            <div className="text-[#991313] font-bold text-lg">
               <span className="text-2xl align-middle">{"\u2728"}</span>
             </div>
-            <h3 className="fw-bold text-[2.2rem] tracking-wide text-[#7a1335] drop-shadow-[0_2px_8px_#f9e9c7]">Why Choose Us?</h3>
+            <h3 className="fw-bold text-[2.2rem] tracking-wide text-[#991313] drop-shadow-[0_2px_8px_#f9e9c7]">Why Choose Us?</h3>
           </div>
           <div className="row g-4 justify-content-center">
             {whyChoose.map((item, idx) => (
@@ -269,7 +269,7 @@ const AboutUsPage = () => {
                   <div className="flex items-center justify-center mb-3 w-[68px] h-[68px] rounded-[22px] bg-[#f9e9c7] mx-auto shadow-[0_2px_8px_#f0e3d1]">
                     <CustomImage src={item.icon} width={38} height={38} alt={item.title} />
                   </div>
-                  <div className="font-semibold text-center text-[#991616] text-xl">{item.title}</div>
+                  <div className="font-semibold text-center text-[#991313] text-xl">{item.title}</div>
                   <div className="mt-2 text-center text-base text-[#4a2e1e] leading-6">
                     {item.desc}
                   </div>
@@ -287,7 +287,7 @@ const AboutUsPage = () => {
         style={testiFade.style}
       >
         <div className="text-center mb-4">
-          <h3 className="fw-bold text-[2.2rem] tracking-wide text-[#7a1335] drop-shadow-[0_2px_8px_#f9e9c7]">What Our Customers Say</h3>
+          <h3 className="fw-bold text-[2.2rem] tracking-wide text-[#991313] drop-shadow-[0_2px_8px_#f9e9c7]">What Our Customers Say</h3>
         </div>
         <div className="row g-4">
           {testimonials.map((testimonial, idx) => (
@@ -305,7 +305,7 @@ const AboutUsPage = () => {
                     <CustomImage src={testimonial.img} width={54} height={54} alt={testimonial.name} />
                   </div>
                   <div>
-                    <div className="font-semibold text-[#991616] text-lg">{testimonial.name}</div>
+                    <div className="font-semibold text-[#991313] text-lg">{testimonial.name}</div>
                     <div className="text-muted text-base">{testimonial.location}</div>
                   </div>
                 </div>
@@ -323,7 +323,7 @@ const AboutUsPage = () => {
         className="rounded-2xl mb-8 shadow-[0_2px_16px_#f0e3d1]"
         ref={faqFade.ref}
         style={{
-          background: "#8a2342", // maroon background
+          background: "#991313", // maroon background
           ...faqFade.style,
         }}
       >
@@ -353,13 +353,13 @@ const AboutUsPage = () => {
                   aria-expanded={openFaq === idx}
                 >
                   <div
-                    className={`flex items-center justify-between px-8 py-6 font-semibold text-lg text-[#991616] transition-colors duration-200 cursor-pointer select-none
+                    className={`flex items-center justify-between px-8 py-6 font-semibold text-lg text-[#991313] transition-colors duration-200 cursor-pointer select-none
                       ${openFaq === idx ? "bg-[#f9e9c7] border-b-[2px] border-[#f0e3d1]" : "bg-white"}
                     `}
                   >
                     <span className="transition-colors duration-200">{faq.q}</span>
                     <span
-                      className={`text-2xl ml-3 inline-block transition-transform duration-300 ${openFaq === idx ? "rotate-180 text-[#7a1335]" : "rotate-0 text-[#991616]"}`}
+                      className={`text-2xl ml-3 inline-block transition-transform duration-300 ${openFaq === idx ? "rotate-180 text-[#991313]" : "rotate-0 text-[#991313]"}`}
                     >▼</span>
                   </div>
                   <div
@@ -390,7 +390,7 @@ const AboutUsPage = () => {
         style={partnersFade.style}
       >
         <div className="text-center mb-4">
-          <h3 className="fw-bold text-[2.2rem] tracking-wide text-[#7a1335] drop-shadow-[0_2px_8px_#f9e9c7]">Our Trusted Partners</h3>
+          <h3 className="fw-bold text-[2.2rem] tracking-wide text-[#991313] drop-shadow-[0_2px_8px_#f9e9c7]">Our Trusted Partners</h3>
         </div>
         <div className="row g-4 justify-content-center">
           {partners.map((partner, idx) => (
