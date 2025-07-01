@@ -21,6 +21,8 @@ import PlantScheme from "./src/app/admin/GoldPlantScheme/plantscheme";
 import Notification from "./src/app/admin/Notification/notification";
 import MyBankAccounts from "./src/app/admin/MyBankAccounts/mybankaccounts";
 import ManageOrnaments from "./src/app/admin/ManageOrnaments/manageornaments";
+import PartnerPopup from "./src/app/user/PartnerPopup";
+import SignupPopup from "./src/app/user/SignupPopup";
 // ...import other pages...
 
 const AppRoutes: React.FC = () => {
@@ -42,6 +44,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/notification" element={ <Notification/>}/>
         <Route path="/mybankaccounts" element={ <MyBankAccounts/>}/>
         <Route path="/manageornaments" element={ <ManageOrnaments/>}/>
+      
         
         {/* Add other admin routes here */}
         
@@ -58,8 +61,9 @@ const AppRoutes: React.FC = () => {
         <Route path="/buyornaments" element={ <BuyOrnamentsPage />}/>
         <Route path="/aboutus" element={ <AboutUsPage />}/>
         <Route path="/privacy" element={ <PrivacyPlicyPage />}/>
-        
-
+        <Route path="/partnerpopup" element={ <PartnerPopup open={true} onClose={() => {}} />}/>
+        <Route path="/signuppopup" element={ <SignupPopup open={true} onClose={() => {}} />}/>
+        {/* Add other user routes here */}
 
         </Route >
              
