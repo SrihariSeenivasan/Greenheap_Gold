@@ -26,6 +26,7 @@ import Profile from "./src/app/b2b/profile/Profile";
 import Notifications from "./src/app/b2b/notifications/Notifications";
 import Logout from "./src/app/b2b/logout/Logout";
 
+import PartnerNotification from "./src/app/partner/partnernotification";
 import PartnerLayout from "./src/app/partner/PartnerLayout";
 import PartnerCampaigns from "./src/app/partner/partnercampaigns";
 import PartnerCommission from "./src/app/partner/partnercommission";
@@ -101,6 +102,8 @@ const AppRoutes: React.FC = () => {
           <Route path="/pleaderboard" element={<PartnerLeaderboard />} />
           <Route path="/psupport" element={<PartnerSupport />} />
           <Route path="/pprofile" element={<PartnerProfile />} />
+          <Route path="/pnotification" element={<PartnerNotification />} />
+          
           
         </Route>
         

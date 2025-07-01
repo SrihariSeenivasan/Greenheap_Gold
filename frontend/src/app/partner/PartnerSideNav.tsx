@@ -20,6 +20,7 @@ const menuItems = [
   { name: "Leaderboard", link: "/pleaderboard", icon: <FaTrophy /> },
   { name: "Support", link: "/psupport", icon: <FaQuestionCircle /> },
   { name: "Profile & KYC", link: "/pprofile", icon: <FaUserCircle /> },
+  { name: "Notification", link: "/pnotification", icon: <FaUserCircle /> },
 ];
 
 const logoutItem = { name: "Back to User", link: "/", icon: <FaSignOutAlt /> };
