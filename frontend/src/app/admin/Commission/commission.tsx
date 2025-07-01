@@ -58,62 +58,64 @@ const Commission = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center p-6">
-			<div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-5xl">
-				<h1 className="text-2xl font-bold text-[#7a1335] mb-6">Commission Summary</h1>
-				<table className="min-w-full bg-white rounded-lg overflow-hidden">
-					<thead>
-						<tr>
-							<th className="px-4 py-2 text-left text-[#7a1335]">Partner</th>
-							<th className="px-4 py-2 text-left text-[#7a1335]">Amount</th>
-							<th className="px-4 py-2 text-left text-[#7a1335]">Date</th>
-							<th className="px-4 py-2 text-left text-[#7a1335]">Status</th>
-							<th className="px-4 py-2 text-left text-[#7a1335]">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						{commissions.map((c) => (
-							<tr key={c.id} className="border-b last:border-b-0">
-								<td className="px-4 py-3">{c.partner}</td>
-								<td className="px-4 py-3">{c.amount}</td>
-								<td className="px-4 py-3">{c.date}</td>
-								<td className="px-4 py-3">
-									<span
-										className={`px-3 py-1 rounded-full text-xs font-semibold ${
-											c.status === "Paid"
-												? "bg-green-100 text-green-700"
-												: "bg-[#fbeaf0] text-[#7a1335]"
-										}`}
-									>
-										{c.status}
-									</span>
-								</td>
-								<td className="px-4 py-3 space-x-2">
-									<button
-										className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs"
-										onClick={() => handleView(c)}
-									>
-										View
-									</button>
-									<button
-										className="bg-[#7a1335] hover:bg-[#a31d4b] text-white px-3 py-1 rounded text-xs"
-										onClick={() => handleEdit(c)}
-									>
-										Edit
-									</button>
-									<button
-										className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs"
-										onClick={() => handleDelete(c.id)}
-									>
-										Delete
-									</button>
-								</td>
+		<div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center p-2 sm:p-6">
+			<div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 w-full max-w-full sm:max-w-5xl">
+				<h1 className="text-xl sm:text-2xl font-bold text-[#7a1335] mb-4 sm:mb-6">Commission Summary</h1>
+				<div className="overflow-x-auto">
+					<table className="min-w-full bg-white rounded-lg overflow-hidden">
+						<thead>
+							<tr>
+								<th className="px-2 sm:px-4 py-2 text-left text-[#7a1335]">Partner</th>
+								<th className="px-2 sm:px-4 py-2 text-left text-[#7a1335]">Amount</th>
+								<th className="px-2 sm:px-4 py-2 text-left text-[#7a1335]">Date</th>
+								<th className="px-2 sm:px-4 py-2 text-left text-[#7a1335]">Status</th>
+								<th className="px-2 sm:px-4 py-2 text-left text-[#7a1335]">Actions</th>
 							</tr>
-						))}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							{commissions.map((c) => (
+								<tr key={c.id} className="border-b last:border-b-0">
+									<td className="px-4 py-3">{c.partner}</td>
+									<td className="px-4 py-3">{c.amount}</td>
+									<td className="px-4 py-3">{c.date}</td>
+									<td className="px-4 py-3">
+										<span
+											className={`px-3 py-1 rounded-full text-xs font-semibold ${
+												c.status === "Paid"
+													? "bg-green-100 text-green-700"
+													: "bg-[#fbeaf0] text-[#7a1335]"
+											}`}
+										>
+											{c.status}
+										</span>
+									</td>
+									<td className="px-4 py-3 space-x-2">
+										<button
+											className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs"
+											onClick={() => handleView(c)}
+										>
+											View
+										</button>
+										<button
+											className="bg-[#7a1335] hover:bg-[#a31d4b] text-white px-3 py-1 rounded text-xs"
+											onClick={() => handleEdit(c)}
+										>
+											Edit
+										</button>
+										<button
+											className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs"
+											onClick={() => handleDelete(c.id)}
+										>
+											Delete
+										</button>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
 				<button
-					className="mt-6 bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 px-6 rounded transition"
+					className="mt-4 sm:mt-6 bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 px-6 rounded transition w-full sm:w-auto"
 					onClick={handleDownloadReport}
 				>
 					Download Report
@@ -121,8 +123,8 @@ const Commission = () => {
 
 				{/* View Popup */}
 				{viewData && (
-					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-						<div className="bg-white rounded-lg shadow-xl p-6 min-w-[300px] max-w-[90vw] flex flex-col items-center justify-center">
+					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-2">
+						<div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 min-w-[90vw] sm:min-w-[300px] max-w-[98vw] sm:max-w-[90vw] flex flex-col items-center justify-center">
 							<h2 className="text-lg font-bold mb-4 text-center">Commission Details</h2>
 							<div className="mb-2"><b>Partner:</b> {viewData.partner}</div>
 							<div className="mb-2"><b>Amount:</b> {viewData.amount}</div>
@@ -142,8 +144,8 @@ const Commission = () => {
 
 				{/* Edit Popup */}
 				{editData && (
-					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-						<div className="bg-white rounded-lg shadow-xl p-6 min-w-[300px] max-w-[90vw] flex flex-col items-center justify-center">
+					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-2">
+						<div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 min-w-[90vw] sm:min-w-[300px] max-w-[98vw] sm:max-w-[90vw] flex flex-col items-center justify-center">
 							<h2 className="text-lg font-bold mb-4 text-center text-[#7a1335]">Edit Commission</h2>
 							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
 								{/* Left column: Partner, Amount */}
@@ -215,8 +217,8 @@ const Commission = () => {
 
 				{/* Delete Popup */}
 				{deleteId !== null && (
-					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-						<div className="bg-white rounded-lg shadow-xl p-6 min-w-[300px] max-w-[90vw] flex flex-col items-center justify-center">
+					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-2">
+						<div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 min-w-[90vw] sm:min-w-[300px] max-w-[98vw] sm:max-w-[90vw] flex flex-col items-center justify-center">
 							<h2 className="text-lg font-bold mb-4 text-center text-red-600">Delete Commission</h2>
 							<div className="mb-4 text-center">Are you sure you want to delete this commission entry?</div>
 							<div className="flex gap-2 justify-center">

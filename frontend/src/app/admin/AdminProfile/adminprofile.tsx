@@ -75,14 +75,14 @@ const AdminProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center">
-      <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full">
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center px-2 sm:px-0">
+      <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 max-w-full sm:max-w-md w-full">
         <div className="flex flex-col items-center">
           <div className="relative mb-4">
             <img
               src={avatarPreview}
               alt="Admin Avatar"
-              className="w-28 h-28 rounded-full border-4 border-[#7a1335] shadow object-cover"
+              className="w-20 h-20 sm:w-28 sm:h-28 rounded-full border-4 border-[#7a1335] shadow object-cover"
             />
             {editing && (
               <label className="absolute bottom-2 right-2 bg-[#7a1335] hover:bg-[#a31d4b] text-white rounded-full p-2 cursor-pointer shadow transition">

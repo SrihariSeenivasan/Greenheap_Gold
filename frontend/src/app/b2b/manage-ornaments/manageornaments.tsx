@@ -26,7 +26,7 @@ const emptyBreakup = {
   finalvalue: ""
 };
 
-const ManageOrnaments = () => {
+const B2BManageOrnaments = () => {
   const [products, setProducts] = useState<any[]>(initialProducts);
   const [editingIdx, setEditingIdx] = useState<number | null>(null);
   const [form, setForm] = useState<any>(emptyProduct);
@@ -578,5 +578,5 @@ const ManageOrnaments = () => {
   );
 };
 
-export default ManageOrnaments;
+export default B2BManageOrnaments;
 

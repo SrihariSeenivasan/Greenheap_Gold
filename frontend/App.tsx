@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AdminDashboard from "./src/app/admin/AdminDashboard/admindashboard";
 import AdminLayout from "./src/app/admin/AdminLayout";
 import AdminProfile from "./src/app/admin/AdminProfile/adminprofile";
-import Beneficiaries from "./src/app/admin/Beneficiaries/beneficiaries";
 import SavingPlan from "./src/app/admin/ChitJewelsSavingPlan/savingplan";
 import Commission from "./src/app/admin/Commission/commission";
 import SPIPPlan from "./src/app/admin/DigitalGoldSPIPlan/sipplan";
@@ -12,12 +11,26 @@ import KYC from "./src/app/admin/KYC/kyc";
 import ManageOrnaments from "./src/app/admin/ManageOrnaments/manageornaments";
 import MyBankAccounts from "./src/app/admin/MyBankAccounts/mybankaccounts";
 import Notification from "./src/app/admin/Notification/notification";
+import Login from "./src/app/b2b/login/Login";
+import Dashboard from "./src/app/b2b/dashboard/Dashboard";
+import B2BLayout from "./src/app/b2b/B2BLayout";
+import GoldPurchase from "./src/app/b2b/gold-purchase/GoldPurchase";
+import SipManagement from "./src/app/b2b/sip-management/SipManagement";
+import OrderHistory from "./src/app/b2b/order-history/OrderHistory";
+import B2BManageOrnaments from "./src/app/b2b/manage-ornaments/ManageOrnaments";
+import CommissionB2B from "./src/app/b2b/commission/Commission";
+import Wallet from "./src/app/b2b/wallet/Wallet";
+import MarketingResources from "./src/app/b2b/marketing-resources/MarketingResources";
+import Support from "./src/app/b2b/support/Support";  
+import Profile from "./src/app/b2b/profile/Profile";
+import Notifications from "./src/app/b2b/notifications/Notifications";
+import Logout from "./src/app/b2b/logout/Logout";
+
 import PartnerLayout from "./src/app/partner/PartnerLayout";
 import PartnerCampaigns from "./src/app/partner/partnercampaigns";
 import PartnerCommission from "./src/app/partner/partnercommission";
 import PartnerDashboard from "./src/app/partner/partnerdashboard";
 import PartnerLeaderboard from "./src/app/partner/partnerleaderboard";
-import PartnerLogin from "./src/app/partner/partnerlogin";
 import PartnerMarketing from "./src/app/partner/partnermarketing";
 import PartnerPayout from "./src/app/partner/partnerpayout";
 import PartnerProfile from "./src/app/partner/partnerprofile";
@@ -57,6 +70,26 @@ const AppRoutes: React.FC = () => {
         
 
         </Route>
+        {/* B2B routes */}
+       {/* <Route element={<B2BLayout/>}> */}
+      <Route path="/b2b/login" element={<Login />} />
+      <Route  element={<B2BLayout />}>
+        <Route path="bdashboard" element={<Dashboard />} />
+        <Route path="bgoldpurchase" element={<GoldPurchase />} />
+        <Route path="bsellornament" element={<B2BManageOrnaments />} />
+        <Route path="bsipmanagement" element={<SipManagement />} />
+        <Route path="bborder-history" element={<OrderHistory />} />
+        <Route path="bcommission" element={<Commission />} />
+        <Route path="bwallet" element={<Wallet />} />
+        <Route path="bmarketing-resources" element={<MarketingResources />} />
+        <Route path="bsupport" element={<Support />} />
+        <Route path="bprofile" element={<Profile />} />
+        <Route path="bnotifications" element={<Notifications />} />
+        <Route path="logout" element={<Logout />} />
+        </Route>
+      {/* </Route> */}
+      
+    
         {/* Partner routes */}
         <Route element={<PartnerLayout/>}>
           <Route path="/pdashboard" element={<PartnerDashboard />} />

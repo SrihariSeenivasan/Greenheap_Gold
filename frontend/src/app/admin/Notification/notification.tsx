@@ -67,9 +67,9 @@ const Notification = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center p-6">
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl">
-        <h1 className="text-2xl font-bold text-[#7a1335] mb-6">Notifications</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center p-2 sm:p-6">
+      <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 w-full max-w-full sm:max-w-2xl">
+        <h1 className="text-xl sm:text-2xl font-bold text-[#7a1335] mb-4 sm:mb-6">Notifications</h1>
         {/* Filters */}
         <div className="flex flex-wrap gap-2 mb-4 items-center">
           <span className="font-semibold text-[#7a1335]">Filter:</span>
@@ -89,7 +89,7 @@ const Notification = () => {
               {f.label}
             </button>
           ))}
-          <span className="ml-4 font-semibold text-[#7a1335]">Sort:</span>
+          <span className="ml-0 sm:ml-4 font-semibold text-[#7a1335]">Sort:</span>
           <select
             className="px-2 py-1 border rounded text-xs"
             value={sort}
@@ -243,7 +243,7 @@ const Notification = () => {
           )}
         </ul>
         {/* Pagination */}
-        <div className="flex justify-center items-center gap-2 mt-6">
+        <div className="flex flex-wrap justify-center items-center gap-2 mt-4 sm:mt-6">
           <button
             className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs"
             disabled={page === 1}

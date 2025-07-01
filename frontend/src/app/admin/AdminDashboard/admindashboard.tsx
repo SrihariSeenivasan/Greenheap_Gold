@@ -50,28 +50,28 @@ const AdminDashboard = () => {
   const pagedActivities = filteredActivities.slice((activityPage - 1) * pageSize, activityPage * pageSize);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white p-8">
-      <h1 className="text-3xl font-bold text-[#7a1335] mb-8">Admin Dashboard</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white p-2 sm:p-4 md:p-8">
+      <h1 className="text-2xl sm:text-3xl font-bold text-[#7a1335] mb-4 sm:mb-8">Admin Dashboard</h1>
+      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-10">
         {stats.map((stat, idx) => (
           <div
             key={idx}
-            className={`rounded-xl shadow p-6 flex flex-col items-center ${stat.color}`}
+            className={`rounded-xl shadow p-4 sm:p-6 flex flex-col items-center ${stat.color} w-full`}
           >
-            <div className="text-4xl mb-2">{stat.icon}</div>
-            <div className="text-2xl font-bold text-[#7a1335]">{stat.value}</div>
-            <div className="text-[#7a1335]">{stat.label}</div>
+            <div className="text-2xl sm:text-4xl mb-2">{stat.icon}</div>
+            <div className="text-lg sm:text-2xl font-bold text-[#7a1335]">{stat.value}</div>
+            <div className="text-[#7a1335] text-xs sm:text-base">{stat.label}</div>
           </div>
         ))}
       </div>
-      <div className="bg-white rounded-xl shadow p-6 max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-[#7a1335]">Recent Activities</h2>
-          <div className="flex gap-2">
+      <div className="bg-white rounded-xl shadow p-3 sm:p-6 max-w-full sm:max-w-2xl mx-auto">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
+          <h2 className="text-lg sm:text-xl font-semibold text-[#7a1335]">Recent Activities</h2>
+          <div className="flex gap-2 flex-wrap">
             {FILTERS.map(f => (
               <button
                 key={f.value}
-                className={`px-3 py-1 rounded text-xs font-semibold transition ${
+                className={`px-2 sm:px-3 py-1 rounded text-xs font-semibold transition ${
                   activityFilter === f.value
                     ? "bg-[#7a1335] text-white"
                     : "bg-[#fbeaf0] text-[#7a1335] hover:bg-[#fbeaf0]"
@@ -86,18 +86,18 @@ const AdminDashboard = () => {
             ))}
           </div>
         </div>
-        <ul className="space-y-3">
+        <ul className="space-y-2 sm:space-y-3">
           {pagedActivities.map((activity, idx) => (
-            <li key={idx} className="flex items-start">
-              <span className="text-[#7a1335] font-bold mr-3">{activity.time}</span>
+            <li key={idx} className="flex flex-col sm:flex-row items-start">
+              <span className="text-[#7a1335] font-bold mr-0 sm:mr-3">{activity.time}</span>
               <span className="text-gray-700">{activity.desc}</span>
             </li>
           ))}
         </ul>
         {/* Pagination for activities */}
-        <div className="flex justify-center items-center gap-2 mt-6">
+        <div className="flex flex-wrap justify-center items-center gap-2 mt-4 sm:mt-6">
           <button
-            className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs"
+            className="px-2 sm:px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs"
             disabled={activityPage === 1}
             onClick={() => setActivityPage(activityPage - 1)}
           >
@@ -107,7 +107,7 @@ const AdminDashboard = () => {
             Page {activityPage} of {totalPages}
           </span>
           <button
-            className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs"
+            className="px-2 sm:px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs"
             disabled={activityPage === totalPages}
             onClick={() => setActivityPage(activityPage + 1)}
           >

@@ -39,8 +39,8 @@ const KYC = () => {
 		<div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center p-1 sm:p-6">
 			{/* Modal for viewing Aadhaar/PAN details */}
 			{modal && (
-				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-					<div className="bg-white rounded-xl shadow-xl w-[95vw] max-w-md sm:max-w-2xl p-3 sm:p-6 relative animate-fade-in">
+				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-2">
+					<div className="bg-white rounded-xl shadow-xl w-[98vw] sm:w-[95vw] max-w-md sm:max-w-2xl p-3 sm:p-6 relative animate-fade-in">
 						<button
 							className="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-2xl transition"
 							onClick={() => setModal(null)}
@@ -62,7 +62,7 @@ const KYC = () => {
 					</div>
 				</div>
 			)}
-			<div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-2 sm:p-10 w-full max-w-xs sm:max-w-5xl">
+			<div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-2 sm:p-10 w-full max-w-full sm:max-w-5xl">
 				<div className="flex flex-col sm:flex-row items-center justify-between mb-4 sm:mb-8 gap-2">
 					<h1 className="text-l sm:text-xl font-bold text-[#7a1335] flex items-center gap-2">
 						<FaIdCard className="text-xl l:text-l text-[#7a1335]" />

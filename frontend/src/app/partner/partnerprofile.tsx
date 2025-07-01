@@ -105,7 +105,7 @@ const PartnerProfile = () => {
               />
             </div>
           </div>
-          {/* <div>
+          <div>
             <label className="block text-sm font-semibold mb-1">Aadhaar Card</label>
             <div className="flex flex-col gap-2">
               {aadhaarPreview && (
@@ -144,8 +144,8 @@ const PartnerProfile = () => {
                 />
               </label>
             </div>
-          </div> */}
-          {/* <div>
+          </div>
+          <div>
             <label className="block text-sm font-semibold mb-1">PAN Card</label>
             <div className="flex flex-col gap-2">
               {panPreview && (
@@ -184,7 +184,7 @@ const PartnerProfile = () => {
                 />
               </label>
             </div>
-          </div> */}
+          </div>
         </div>
         {/* Bank Details Card */}
         <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 flex flex-col gap-4">
