@@ -170,7 +170,7 @@ const NavBar = () => {
 					{/* Right actions */}
 					<div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
 						<a
-							href="#"
+							href="/PartnerPopup"
 							style={{
 								background: hovered === "Become a partner / Login" ? "#8a2342" : "#7a1335",
 								color: "#fff",
@@ -195,7 +195,7 @@ const NavBar = () => {
 							Become a partner / Login
 						</a>
 						<a
-							href="#"
+							href="SignupPopup"
 							style={{
 								color: "#8a2342", // always maroon
 								fontWeight: 700, // bold

@@ -65,6 +65,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/notification" element={ <Notification/>}/>
         <Route path="/mybankaccounts" element={ <MyBankAccounts/>}/>
         <Route path="/manageornaments" element={ <ManageOrnaments/>}/>
+      
         
         {/* Add other admin routes here */}
         
