@@ -72,9 +72,13 @@ const UserHome = () => {
   const convertRef = useScrollFadeIn("right", 700, 0);
   const faqRef = useScrollFadeIn("up", 700, 0);
 
+  // Add offset to push content below fixed navbar (top bar + nav = 44px + nav height)
+  // Adjust this value if your nav height changes
+  const NAVBAR_TOTAL_HEIGHT = 44 + 48; // 44px top bar + ~48px nav bar
+
   return (
-    <div>
-      <div style={{ position: "relative" }}>
+    <div style={{ paddingTop: 102 }}>
+      <div style={{ position: "relative", zIndex: 1 }}>
         <Carousel />
         <div className="d-flex   justify-content-center ">
           <div
@@ -90,8 +94,8 @@ const UserHome = () => {
             ref={schemeRef}
           >
             <div>
-              <div className="mb-3" style={{ borderBottom: "2px solid #b71c1c", paddingBottom: 8, display: "flex", alignItems: "center" }}>
-                <span style={{ color: "#b71c1c", fontWeight: 600, fontSize: 28, marginRight: 18 }}>
+              <div className="mb-3" style={{ borderBottom: "2px solid #991313", paddingBottom: 8, display: "flex", alignItems: "center" }}>
+                <span style={{ color: "#991313", fontWeight: 600, fontSize: 28, marginRight: 18 }}>
                   Digital gold / Silver
                 </span>
               </div>
@@ -99,8 +103,8 @@ const UserHome = () => {
                 {/* 22k Gold */}
                 <div className="col-12 col-md-6 mb-2" style={{ borderRight: "1px solid #e0e0e0" }}>
                   <div className="d-flex align-items-center mb-1">
-                    <span style={{ color: "#b71c1c", fontSize: 18, marginRight: 8 }}>
-                      <i className="fa fa-dot-circle-o" style={{ color: "#b71c1c", fontSize: 18 }}></i>
+                    <span style={{ color: "#991313", fontSize: 18, marginRight: 8 }}>
+                      <i className="fa fa-dot-circle-o" style={{ color: "#991313", fontSize: 18 }}></i>
                     </span>
                     <span style={{ fontWeight: 500, color: "#222", fontSize: 18 }}>
                       Live Buy Price (Gold)
@@ -130,8 +134,8 @@ const UserHome = () => {
                 {/* 24k Gold */}
                 <div className="col-12 col-md-6 mb-2">
                   <div className="d-flex align-items-center mb-1">
-                    <span style={{ color: "#b71c1c", fontSize: 18, marginRight: 8 }}>
-                      <i className="fa fa-dot-circle-o" style={{ color: "#b71c1c", fontSize: 18 }}></i>
+                    <span style={{ color: "#991313", fontSize: 18, marginRight: 8 }}>
+                      <i className="fa fa-dot-circle-o" style={{ color: "#991313", fontSize: 18 }}></i>
                     </span>
                     <span style={{ fontWeight: 500, color: "#222", fontSize: 18 }}>
                       Live Buy Price (Gold)
@@ -161,8 +165,8 @@ const UserHome = () => {
                 {/* Silver */}
                 <div className="col-12 col-md-6 mt-2">
                   <div className="d-flex align-items-center mb-1">
-                    <span style={{ color: "#b71c1c", fontSize: 18, marginRight: 8 }}>
-                      <i className="fa fa-dot-circle-o" style={{ color: "#b71c1c", fontSize: 18 }}></i>
+                    <span style={{ color: "#991313", fontSize: 18, marginRight: 8 }}>
+                      <i className="fa fa-dot-circle-o" style={{ color: "#991313", fontSize: 18 }}></i>
                     </span>
                     <span style={{ fontWeight: 500, color: "#222", fontSize: 18 }}>
                       Live Buy Price (Silver)
@@ -546,7 +550,7 @@ const UserHome = () => {
       <section
         ref={whyRef}
         style={{
-          background: "#8a2342", // changed from gradient to maroon
+          background: "#991313", // changed from gradient to new maroon
           padding: "60px 0 40px 0",
           margin: 0,
         }}
@@ -645,7 +649,7 @@ const UserHome = () => {
                 <div
                   style={{
                     fontWeight: 700,
-                    color: "#7a1335",
+                    color: "#991313",
                     fontSize: 20,
                     marginBottom: 10,
                   }}
@@ -693,7 +697,7 @@ const UserHome = () => {
                 <div
                   style={{
                     fontWeight: 700,
-                    color: "#7a1335",
+                    color: "#991313",
                     fontSize: 20,
                     marginBottom: 10,
                   }}
@@ -741,7 +745,7 @@ const UserHome = () => {
                 <div
                   style={{
                     fontWeight: 700,
-                    color: "#7a1335",
+                    color: "#991313",
                     fontSize: 20,
                     marginBottom: 10,
                   }}
@@ -917,7 +921,7 @@ const UserHome = () => {
       <section
         ref={faqRef}
         style={{
-          background: "#8a2342", // maroon background
+          background: "#991313", // maroon background
           padding: "60px 0 40px 0",
           margin: 0,
         }}
@@ -1223,7 +1227,7 @@ function FAQList() {
                 onClick={() => toggle(realIdx)}
               >
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ color: "#8a2342", fontWeight: 700, fontSize: 19 }}>
+                  <div style={{ color: "#991313", fontWeight: 700, fontSize: 19 }}>
                     {faq.question}
                   </div>
                   <span
