@@ -142,12 +142,48 @@ const ContactUsPage = () => {
     <div className="bg-gradient-to-br from-[#faf6f3] to-[#fff8e7] w-screen min-h-screen overflow-x-hidden">
       {/* Top Banner */}
       <div
-        className="min-h-[420px] flex items-center justify-center relative rounded-b-[32px] shadow-[0_8px_32px_rgba(0,0,0,0.08)] w-full"
         style={{
+          width: "100vw",
+          minHeight: 320,
+          height: "38vw",
+          maxHeight: 420,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           background: "url('/home/banner 2.png') center center/cover no-repeat",
+          margin: 0,
+          border: "none",
+          boxShadow: "none",
+          position: "relative",
+          left: "46%",
+          right: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 1,
         }}
       >
-        <h1 className="relative z-10 text-white font-black text-[3.2rem] md:text-[3.7rem] tracking-wider drop-shadow-[0_4px_24px_#7a1335cc] text-center">
+        <div
+          style={{
+            width: "100vw",
+            height: "100%",
+            background: "rgba(0,0,0,0.36)",
+            position: "absolute",
+            left: 0,
+            top: 0,
+            zIndex: 2,
+          }}
+        />
+        <h1
+          style={{
+            color: "#fff",
+            fontWeight: 700,
+            fontSize: "2.8rem",
+            zIndex: 3,
+            position: "relative",
+            textAlign: "center",
+            letterSpacing: 0.5,
+            width: "100%",
+          }}
+        >
           Contact Us
         </h1>
       </div>

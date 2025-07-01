@@ -126,15 +126,49 @@ const AboutUsPage = () => {
     <div className="bg-[#faf6f3]">
       {/* Banner */}
       <div
-        className="min-h-[420px] flex items-center justify-center relative rounded-b-[32px] shadow-[0_8px_32px_rgba(0,0,0,0.08)] -mt-8"
         style={{
-          background:
-            "url('/home/banner 2.png') center center/cover no-repeat",
+          width: "94vw",
+          minHeight: 320,
+          height: "38vw",
+          maxHeight: 420,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "url('/home/banner 2.png') center center/cover no-repeat",
+          margin: 0,
+          border: "none",
+          boxShadow: "none",
+          position: "relative",
+          left: "1%",
+          right: "50%",
+          zIndex: 1,
           ...bannerFade.style,
         }}
         ref={bannerFade.ref}
       >
-        <h1 className="text-white font-black text-[3.5rem] z-20 tracking-wider drop-shadow-[0_4px_24px_#7a1335cc]">
+        <div
+          style={{
+            width: "94vw",
+            height: "100%",
+            background: "rgba(0,0,0,0.36)",
+            position: "absolute",
+            left: 0,
+            top: 0,
+            zIndex: 2,
+          }}
+        />
+        <h1
+          style={{
+            color: "#fff",
+            fontWeight: 700,
+            fontSize: "2.8rem",
+            zIndex: 3,
+            position: "relative",
+            textAlign: "center",
+            letterSpacing: 0.5,
+            width: "100%",
+          }}
+        >
           About Us
         </h1>
       </div>
@@ -286,16 +320,22 @@ const AboutUsPage = () => {
 
       {/* FAQ Section */}
       <div
-        className="bg-[#f7f9fc] rounded-2xl mb-8 shadow-[0_2px_16px_#f0e3d1]"
+        className="rounded-2xl mb-8 shadow-[0_2px_16px_#f0e3d1]"
         ref={faqFade.ref}
-        style={faqFade.style}
+        style={{
+          background: "#8a2342", // maroon background
+          ...faqFade.style,
+        }}
       >
         <div className="container py-10">
           <div className="text-center mb-8">
-            <h3 className="fw-bold text-[2.4rem] tracking-wide text-[#7a1335] drop-shadow-[0_2px_8px_#f9e9c7] font-extrabold">
+            <h3 className="fw-bold text-[2.4rem] tracking-wide" style={{ color: "#ffe066" }}>
               Frequently Asked Questions
             </h3>
-            <div className="mx-auto mt-2 mb-6 w-24 h-1 rounded-full bg-gradient-to-r from-[#f9e9c7] via-[#991616] to-[#f7eded] opacity-70"></div>
+            <div className="mx-auto mt-2 mb-6 w-24 h-1 rounded-full" style={{
+              background: "linear-gradient(90deg, #ffe066 0%, #fff 100%)",
+              opacity: 0.7
+            }}></div>
           </div>
           <div className="flex flex-wrap justify-center gap-6">
             {faqs.map((faq, idx) => (
