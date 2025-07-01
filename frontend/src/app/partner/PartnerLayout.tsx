@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import AdminSideNav from "./AdminSideNav";
+import PartnerSideNav from "./PartnerSideNav";
+import { FaChartBar } from "react-icons/fa"; // Assuming you're using react-icons for icons
 
-const AdminLayout: React.FC = () => {
+const PartnerLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -22,7 +23,7 @@ const AdminLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
-      <AdminSideNav isOpen={isMobile ? sidebarOpen : true} onToggle={handleSidebarToggle} />
+      <PartnerSideNav isOpen={isMobile ? sidebarOpen : true} onToggle={handleSidebarToggle} />
       {/* Overlay for mobile */}
       {isMobile && sidebarOpen && (
         <div
@@ -45,9 +46,9 @@ const AdminLayout: React.FC = () => {
               onClick={handleSidebarToggle}
               aria-label="Open sidebar"
             >
-              <span className="material-icons">menu</span>
+              <span className="material-icons"><FaChartBar/></span>
             </button>
-            <span className="font-bold text-yellow-700 text-lg">Admin Panel</span>
+            <span className="font-bold text-yellow-700 text-lg">Partner Panel</span>
           </div>
         )}
         <main className="flex-1 p-2 sm:p-4 md:p-6 lg:p-8 overflow-auto">
@@ -60,7 +61,7 @@ const AdminLayout: React.FC = () => {
         <footer className="bg-white border-t px-4 py-3 md:px-6 md:py-4 mt-auto">
           <div className="max-w-7xl mx-auto">
             <p className="text-sm text-gray-500 text-center md:text-left">
-              © {new Date().getFullYear()} Admin Panel. All rights reserved.
+              © {new Date().getFullYear()} Partner Panel. All rights reserved.
             </p>
           </div>
         </footer>
@@ -69,4 +70,4 @@ const AdminLayout: React.FC = () => {
   );
 };
 
-export default AdminLayout;
+export default PartnerLayout;
