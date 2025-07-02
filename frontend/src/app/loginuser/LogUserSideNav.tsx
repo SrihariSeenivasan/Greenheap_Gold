@@ -1,42 +1,32 @@
-import {
-  FaBell,
-  FaBuilding,
-  FaBullhorn,
-  FaHeadset,
-  FaListAlt,
-  FaRupeeSign,
-  FaShoppingCart,
-  FaSignOutAlt,
-  FaTachometerAlt,
-  FaUsers,
-  FaWallet
-} from "react-icons/fa";
+import { FaBell, FaBoxes, FaIdCard, FaLeaf, FaMoneyCheckAlt, FaPercent, FaPiggyBank, FaSignOutAlt, FaTachometerAlt, FaUniversity, FaUser, FaWallet } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
 const menuItems = [
-  { to: "bdashboard", label: "Dashboard", icon: <FaTachometerAlt className="w-5 h-5 mr-2" /> },
-  { to: "bgoldpurchase", label: "Gold Purchase", icon: <FaShoppingCart className="w-5 h-5 mr-2" /> },
-  { to: "bsellornament", label: "Sell Ornaments", icon: <FaShoppingCart className="w-5 h-5 mr-2" /> },
-  { to: "bsipmanagement", label: "SIP Management", icon: <FaUsers className="w-5 h-5 mr-2" /> },
-  { to: "bborder-history", label: "Order History", icon: <FaListAlt className="w-5 h-5 mr-2" /> },
-  { to: "bcommission", label: "Commission", icon: <FaRupeeSign className="w-5 h-5 mr-2" /> },
-  { to: "bwallet", label: "Wallet", icon: <FaWallet className="w-5 h-5 mr-2" /> },
-  { to: "bmarketing-resources", label: "Marketing Resources", icon: <FaBullhorn className="w-5 h-5 mr-2" /> },
-  { to: "bsupport", label: "Support", icon: <FaHeadset className="w-5 h-5 mr-2" /> },
-  { to: "bprofile", label: "Business Profile", icon: <FaBuilding className="w-5 h-5 mr-2" /> },
-  { to: "bnotifications", label: "Notifications", icon: <FaBell className="w-5 h-5 mr-2" /> },
+  { to: "/admin", label: "My Dashboard", icon: <FaTachometerAlt className="w-5 h-5 mr-2" /> },
+  { to: "/adminprofile", label: "My Profile", icon: <FaUser className="w-5 h-5 mr-2" /> },
+  { to: "/manageornaments", label: "Manage Ornaments", icon: <FaBoxes className="w-5 h-5 mr-2" /> },
+  { to: "/manageusers", label: "Manage User's", icon: <FaBoxes className="w-5 h-5 mr-2" /> },
+  { to: "/commission", label: "Commission", icon: <FaPercent className="w-5 h-5 mr-2" /> },
+  { to: "/payoutrequest", label: "Payout Request", icon: <FaMoneyCheckAlt className="w-5 h-5 mr-2" /> },
+  { to: "/kyc", label: "KYC", icon: <FaIdCard className="w-5 h-5 mr-2" /> },
+  // { to: "/beneficiaries", label: "Beneficiaries", icon: <FaUsers className="w-5 h-5 mr-2" /> },
+  { to: "/savingplan", label: "Chit Jewels Saving Plan", icon: <FaPiggyBank className="w-5 h-5 mr-2" /> },
+  { to: "/spiplan", label: "Digital Gold SIP Plan", icon: <FaWallet className="w-5 h-5 mr-2" /> },
+  { to: "/plantscheme", label: "Gold Plant Scheme", icon: <FaLeaf className="w-5 h-5 mr-2" /> },
+  { to: "/notification", label: "Notification", icon: <FaBell className="w-5 h-5 mr-2" /> },
+  { to: "/mybankaccounts", label: "My Bank Accounts", icon: <FaUniversity className="w-5 h-5 mr-2" /> },
 ];
 
 const logoutItem = { to: "/", label: "Logout", icon: <FaSignOutAlt className="w-5 h-5 mr-2" /> };
 
-const B2BSideNav = () => {
+export default function LogUserSideNav() {
   const location = useLocation();
   const current = location.pathname;
 
   return (
     <aside className="w-64 bg-white shadow-lg hidden md:flex flex-col h-screen fixed top-0 left-0 z-30">
       <div className="h-16 flex items-center justify-center font-bold text-xl text-[#7a1335]">
-        B2B Panel
+        Admin Panel
       </div>
       <nav className="flex-1 px-4 py-2 space-y-1 overflow-y-auto">
         {menuItems.map((item) => {
@@ -68,10 +58,8 @@ const B2BSideNav = () => {
         </Link>
       </div>
       <div className="mb-4 text-[10px] text-[#7a1335] text-center opacity-60">
-        &copy; {new Date().getFullYear()} B2B Panel
+        &copy; {new Date().getFullYear()} Admin Panel
       </div>
     </aside>
   );
-};
-
-export default B2BSideNav;
+}

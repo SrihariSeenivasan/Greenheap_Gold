@@ -49,6 +49,15 @@ import PrivacyPlicyPage from "./src/app/user/PrivacyPolicy/privacy";
 import Terms from "./src/app/user/TermsAndCondition/termsandcondition";
 import UserHome from "./src/app/user/UserHome";
 import UserLayout from "./src/app/user/UserLayout";
+import LPrivacyPlicyPage from "./src/app/loginuser/PrivacyPolicy/privacy";
+import LAboutUsPage from "./src/app/loginuser/AboutUs/aboutus";
+import LJewelryProductPage from "./src/app/loginuser/BuyOrnaments/ProductDetail/JewelryProductPage .tsx";
+import LBuyOrnamentsPage from "./src/app/loginuser/BuyOrnaments/buyOrnaments";
+import LContactUsPage from "./src/app/loginuser/ContactUs/contactus";
+import LFooter from "./src/app/loginuser/Footer/Footer";
+import LNavBar from "./src/app/loginuser/NavBar/NavBar";
+import LTerms from "./src/app/loginuser/TermsAndCondition/termsandcondition";
+import LogUserLayout from "./src/app/loginuser/LogUserLayout";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -128,10 +137,23 @@ const AppRoutes: React.FC = () => {
         <Route path="/signuppopup" element={ <SignupPopup open={true} onClose={() => {}} />}/>
 
         </Route >
+
+        {/*Login User routes */}
+        <Route element={<LogUserLayout/>}>
+        {/* <Route path="/loguser" element={ <UserHome />}/> */}
+        <Route path="/lnavbar" element={ <LNavBar />}/>
+        <Route path="/lfooter" element={ <LFooter />}/>
+        <Route path="/lterms" element={ <LTerms />}/>
+        <Route path="/lcontactus" element={ <LContactUsPage />}/>
+        <Route path="/lbuyornaments" element={ <LBuyOrnamentsPage />}/>
+        <Route path="/lbuyornaments/:id" element={<LJewelryProductPage />} />
+        <Route path="/laboutus" element={ <LAboutUsPage />}/>
+        <Route path="/lprivacy" element={ <LPrivacyPlicyPage />}/>
+        
+
+        </Route >
              
           
-       
-       
       </Routes>
     
   );
