@@ -9,35 +9,36 @@ import SPIPPlan from "./src/app/admin/DigitalGoldSPIPlan/sipplan";
 import PlantScheme from "./src/app/admin/GoldPlantScheme/plantscheme";
 import KYC from "./src/app/admin/KYC/kyc";
 import ManageOrnaments from "./src/app/admin/ManageOrnaments/manageornaments";
+import ManageUsers from "./src/app/admin/ManageUsers/ManageUsers";
 import MyBankAccounts from "./src/app/admin/MyBankAccounts/mybankaccounts";
 import Notification from "./src/app/admin/Notification/notification";
-import Login from "./src/app/b2b/login/Login";
-import Dashboard from "./src/app/b2b/dashboard/Dashboard";
 import B2BLayout from "./src/app/b2b/B2BLayout";
+import Dashboard from "./src/app/b2b/dashboard/Dashboard";
 import GoldPurchase from "./src/app/b2b/gold-purchase/GoldPurchase";
-import SipManagement from "./src/app/b2b/sip-management/SipManagement";
-import OrderHistory from "./src/app/b2b/order-history/OrderHistory";
-import B2BManageOrnaments from "./src/app/b2b/manage-ornaments/ManageOrnaments";
-import CommissionB2B from "./src/app/b2b/commission/Commission";
-import Wallet from "./src/app/b2b/wallet/Wallet";
-import MarketingResources from "./src/app/b2b/marketing-resources/MarketingResources";
-import Support from "./src/app/b2b/support/Support";  
-import Profile from "./src/app/b2b/profile/Profile";
-import Notifications from "./src/app/b2b/notifications/Notifications";
+import Login from "./src/app/b2b/login/Login";
 import Logout from "./src/app/b2b/logout/Logout";
+import B2BManageOrnaments from "./src/app/b2b/manage-ornaments/ManageOrnaments";
+import MarketingResources from "./src/app/b2b/marketing-resources/MarketingResources";
+import Notifications from "./src/app/b2b/notifications/Notifications";
+import OrderHistory from "./src/app/b2b/order-history/OrderHistory";
+import Profile from "./src/app/b2b/profile/Profile";
+import SipManagement from "./src/app/b2b/sip-management/SipManagement";
+import Support from "./src/app/b2b/support/Support";
+import Wallet from "./src/app/b2b/wallet/Wallet";
 
-import PartnerNotification from "./src/app/partner/partnernotification";
 import PartnerLayout from "./src/app/partner/PartnerLayout";
 import PartnerCampaigns from "./src/app/partner/partnercampaigns";
 import PartnerCommission from "./src/app/partner/partnercommission";
 import PartnerDashboard from "./src/app/partner/partnerdashboard";
 import PartnerLeaderboard from "./src/app/partner/partnerleaderboard";
 import PartnerMarketing from "./src/app/partner/partnermarketing";
+import PartnerNotification from "./src/app/partner/partnernotification";
 import PartnerPayout from "./src/app/partner/partnerpayout";
 import PartnerProfile from "./src/app/partner/partnerprofile";
 import PartnerReferral from "./src/app/partner/partnerreferral";
 import PartnerSupport from "./src/app/partner/partnersupport";
 import AboutUsPage from "./src/app/user/AboutUs/aboutus";
+import JewelryProductPage from "./src/app/user/BuyOrnaments/ProductDetail/JewelryProductPage .tsx";
 import BuyOrnamentsPage from "./src/app/user/BuyOrnaments/buyOrnaments";
 import ContactUsPage from "./src/app/user/ContactUs/contactus";
 import Footer from "./src/app/user/Footer/Footer";
@@ -65,6 +66,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/notification" element={ <Notification/>}/>
         <Route path="/mybankaccounts" element={ <MyBankAccounts/>}/>
         <Route path="/manageornaments" element={ <ManageOrnaments/>}/>
+        <Route path="/manageusers" element={<ManageUsers />} />
       
         
         {/* Add other admin routes here */}
@@ -103,7 +105,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/pleaderboard" element={<PartnerLeaderboard />} />
           <Route path="/psupport" element={<PartnerSupport />} />
           <Route path="/pprofile" element={<PartnerProfile />} />
-          <Route path="/pnotification" element={<PartnerNotification />} />
+          <Route path="/pnotifications" element={<PartnerNotification />} />
           
           
         </Route>
@@ -117,8 +119,11 @@ const AppRoutes: React.FC = () => {
         <Route path="/terms" element={ <Terms />}/>
         <Route path="/contactus" element={ <ContactUsPage />}/>
         <Route path="/buyornaments" element={ <BuyOrnamentsPage />}/>
+        <Route path="/buyornaments/:id" element={<JewelryProductPage />} />
         <Route path="/aboutus" element={ <AboutUsPage />}/>
         <Route path="/privacy" element={ <PrivacyPlicyPage />}/>
+        {/* <Route path="/userhome" element={ <SignupPopup />}/>
+        <Route path="/userlayout" element={ <PartnerPopup />}/> */}
 
         </Route >
              

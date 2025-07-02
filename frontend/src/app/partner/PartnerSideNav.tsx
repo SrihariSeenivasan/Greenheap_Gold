@@ -1,100 +1,63 @@
-import { useState } from "react";
-import {
-    FaGift,
-    FaLink,
-    FaQuestionCircle,
-    FaRupeeSign,
-    FaSignOutAlt,
-    FaTachometerAlt,
-    FaTrophy,
-    FaUserCircle,
-    FaWallet
-} from "react-icons/fa";
+import { FaGift, FaLink, FaQuestionCircle, FaRupeeSign, FaSignOutAlt, FaTachometerAlt, FaTrophy, FaUserCircle, FaWallet } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 
 const menuItems = [
-  { name: "Dashboard", link: "/pdashboard", icon: <FaTachometerAlt /> },
-  { name: "Referral Link", link: "/preferral", icon: <FaLink /> },
-  { name: "Commission", link: "/pcommission", icon: <FaRupeeSign /> },
-  { name: "Payout", link: "/ppayout", icon: <FaWallet /> },
-  { name: "Campaigns", link: "/pcampaigns", icon: <FaGift /> },
-  { name: "Leaderboard", link: "/pleaderboard", icon: <FaTrophy /> },
-  { name: "Support", link: "/psupport", icon: <FaQuestionCircle /> },
-  { name: "Profile & KYC", link: "/pprofile", icon: <FaUserCircle /> },
-  { name: "Notification", link: "/pnotification", icon: <FaUserCircle /> },
+  { to: "/pdashboard", label: "Dashboard", icon: <FaTachometerAlt className="w-5 h-5 mr-2" /> },
+  { to: "/preferral", label: "Referral Link", icon: <FaLink className="w-5 h-5 mr-2" /> },
+  { to: "/pcommission", label: "Commission", icon: <FaRupeeSign className="w-5 h-5 mr-2" /> },
+  { to: "/ppayout", label: "Payout", icon: <FaWallet className="w-5 h-5 mr-2" /> },
+  { to: "/pcampaigns", label: "Campaigns", icon: <FaGift className="w-5 h-5 mr-2" /> },
+  { to: "/pleaderboard", label: "Leaderboard", icon: <FaTrophy className="w-5 h-5 mr-2" /> },
+  { to: "/psupport", label: "Support", icon: <FaQuestionCircle className="w-5 h-5 mr-2" /> },
+  { to: "/pprofile", label: "Profile & KYC", icon: <FaUserCircle className="w-5 h-5 mr-2" /> },
+  { to: "/pnotifications", label: "Notification", icon: <FaUserCircle className="w-5 h-5 mr-2" /> },
 ];
 
-const logoutItem = { name: "Back to User", link: "/", icon: <FaSignOutAlt /> };
+const logoutItem = { to: "/", label: "Back to User", icon: <FaSignOutAlt className="w-5 h-5 mr-2" /> };
 
-const PartnerSideNav = ({ isOpen, onToggle }: { isOpen?: boolean; onToggle?: () => void }) => {
-  const [active, setActive] = useState<string>(window.location.pathname);
-
-  const handleClick = (link: string) => {
-    setActive(link);
-    if (onToggle) onToggle();
-  };
+const PartnerSideNav = () => {
+  const location = useLocation();
+  const current = location.pathname;
 
   return (
-    <nav
-      className={`
-        fixed top-0 left-0 h-screen z-40 bg-white shadow-lg
-        w-16 sm:w-56
-        flex flex-col
-        overflow-y-auto
-        transition-transform transition-opacity duration-500 ease-in-out
-        ${isOpen === false ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100"}
-        sm:translate-x-0 sm:opacity-100
-      `}
-      style={{ minWidth: "4rem" }}
-    >
-      <div className="flex items-center gap-2 px-4 py-6 mb-4">
-        <FaTachometerAlt className="text-[#7a1335] text-2xl" />
-        <span className="text-lg font-bold text-[#7a1335] tracking-wide hidden sm:inline">Partner Panel</span>
+    <aside className="w-64 bg-white shadow-lg hidden md:flex flex-col h-screen fixed top-0 left-0 z-30">
+      <div className="h-16 flex items-center justify-center font-bold text-xl text-[#7a1335]">
+        Partner Panel
       </div>
-      <ul className="flex-1 space-y-1">
-        {menuItems.map((item) => (
-          <li key={item.name}>
-            <a
-              href={item.link}
-              onClick={() => handleClick(item.link)}
-              className={`
-                flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200
-                ${active === item.link
+      <nav className="flex-1 px-4 py-2 space-y-1 overflow-y-auto">
+        {menuItems.map((item) => {
+          const isActive = current === item.to;
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={`flex items-center px-4 py-2 rounded transition font-medium ${
+                isActive
                   ? "bg-[#7a1335] text-white font-bold shadow scale-105"
-                  : "text-[#7a1335] hover:bg-[#fbeaf0] hover:text-[#7a1335]"
-                }
-                group text-xs sm:text-sm
-              `}
+                  : "hover:bg-[#7a1335]/10 text-[#7a1335]"
+              }`}
+              style={isActive ? { fontWeight: 700 } : {}}
             >
-              <span className="text-lg">{item.icon}</span>
-              <span className="truncate hidden sm:inline">{item.name}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-      {/* Logout/back to user at the bottom, red color */}
-      <div className="mb-4 mt-2">
-        <a
-          href={logoutItem.link}
-          onClick={() => handleClick(logoutItem.link)}
-          className={`
-            flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200
-            justify-center sm:justify-start
-            ${active === logoutItem.link
-              ? "bg-red-600 text-white font-bold shadow scale-105"
-              : "text-red-600 hover:bg-red-100 hover:text-red-700"
-            }
-            group text-xs sm:text-sm font-semibold
-          `}
+              {item.icon}
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+      <div className="px-4 py-4 mt-auto">
+        <Link
+          to={logoutItem.to}
+          className="flex items-center px-4 py-2 rounded transition font-medium text-[#7a1335] hover:bg-[#7a1335]/10 hover:text-white"
         >
-          <span className="text-lg">{logoutItem.icon}</span>
-          <span className="truncate hidden sm:inline">{logoutItem.name}</span>
-        </a>
+          {logoutItem.icon}
+          {logoutItem.label}
+        </Link>
       </div>
-      <div className="mb-4 text-[10px] text-[#7a1335] text-center opacity-60 hidden sm:block">
+      <div className="mb-4 text-[10px] text-[#7a1335] text-center opacity-60">
         &copy; {new Date().getFullYear()} Partner Panel
       </div>
-    </nav>
+    </aside>
   );
-};
+}
 
 export default PartnerSideNav;

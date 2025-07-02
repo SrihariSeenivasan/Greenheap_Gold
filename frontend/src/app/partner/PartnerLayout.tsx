@@ -1,29 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import PartnerSideNav from "./PartnerSideNav";
-import { FaChartBar } from "react-icons/fa"; // Assuming you're using react-icons for icons
+
+const SIDEBAR_WIDTH = 256; // 64 * 4 (tailwind w-64)
 
 const PartnerLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      if (!mobile && sidebarOpen) setSidebarOpen(false);
+      if (!mobile) setSidebarOpen(false);
     };
-    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [sidebarOpen]);
+  }, []);
 
   const handleSidebarToggle = () => setSidebarOpen((open) => !open);
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
-      <PartnerSideNav isOpen={isMobile ? sidebarOpen : true} onToggle={handleSidebarToggle} />
+      <div>
+        {/* Desktop sidebar */}
+        <div className="hidden md:block">
+          <PartnerSideNav />
+        </div>
+        {/* Mobile sidebar (drawer) */}
+        {isMobile && (
+          <div
+            className={`fixed top-0 left-0 z-40 h-full transition-transform duration-300 bg-white shadow-lg ${
+              sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } w-64`}
+            style={{ width: SIDEBAR_WIDTH }}
+          >
+            <PartnerSideNav />
+          </div>
+        )}
+      </div>
       {/* Overlay for mobile */}
       {isMobile && sidebarOpen && (
         <div
@@ -35,7 +51,7 @@ const PartnerLayout: React.FC = () => {
       <div
         className={`
           flex-1 flex flex-col min-h-screen transition-all duration-300 ease-in-out
-          ${isMobile ? "ml-0" : "ml-16 sm:ml-56"}
+          ${isMobile ? "" : "md:ml-64"}
         `}
       >
         {/* Topbar for mobile */}
@@ -46,7 +62,7 @@ const PartnerLayout: React.FC = () => {
               onClick={handleSidebarToggle}
               aria-label="Open sidebar"
             >
-              <span className="material-icons"><FaChartBar/></span>
+              <span className="material-icons">menu</span>
             </button>
             <span className="font-bold text-yellow-700 text-lg">Partner Panel</span>
           </div>
@@ -71,3 +87,4 @@ const PartnerLayout: React.FC = () => {
 };
 
 export default PartnerLayout;
+

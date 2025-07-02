@@ -1,106 +1,65 @@
-import { useState } from "react";
-import {
-  FaBell,
-  FaBoxes,
-  FaIdCard,
-  FaLeaf,
-  FaMoneyCheckAlt,
-  FaPercent,
-  FaPiggyBank,
-  FaSignOutAlt,
-  FaTachometerAlt,
-  FaUniversity,
-  FaUser,
-  FaWallet
-} from "react-icons/fa";
+import { FaBell, FaBoxes, FaIdCard, FaLeaf, FaMoneyCheckAlt, FaPercent, FaPiggyBank, FaSignOutAlt, FaTachometerAlt, FaUniversity, FaUser, FaWallet } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 
 const menuItems = [
-  { name: "My Dashboard", link: "/admin", icon: <FaTachometerAlt /> },
-  { name: "My Profile", link: "/adminprofile", icon: <FaUser /> },
-  { name: "Manage Ornaments", link: "/manageornaments", icon: <FaBoxes /> },
-  { name: "Commission", link: "/commission", icon: <FaPercent /> },
-  { name: "Payout Request", link: "/payoutrequest", icon: <FaMoneyCheckAlt /> },
-  { name: "KYC", link: "/kyc", icon: <FaIdCard /> },
-  // { name: "Beneficiaries", link: "/beneficiaries", icon: <FaUsers /> },
-  { name: "Chit Jewels Saving Plan", link: "/savingplan", icon: <FaPiggyBank /> },
-  { name: "Digital Gold SPI Plan", link: "/spiplan", icon: <FaWallet /> },
-  { name: "Gold Plant Scheme", link: "/plantscheme", icon: <FaLeaf /> },
-  { name: "Notification", link: "/notification", icon: <FaBell /> },
-  { name: "My Bank Accounts", link: "/mybankaccounts", icon: <FaUniversity /> },
+  { to: "/admin", label: "My Dashboard", icon: <FaTachometerAlt className="w-5 h-5 mr-2" /> },
+  { to: "/adminprofile", label: "My Profile", icon: <FaUser className="w-5 h-5 mr-2" /> },
+  { to: "/manageornaments", label: "Manage Ornaments", icon: <FaBoxes className="w-5 h-5 mr-2" /> },
+  { to: "/manageusers", label: "Manage User's", icon: <FaBoxes className="w-5 h-5 mr-2" /> },
+  { to: "/commission", label: "Commission", icon: <FaPercent className="w-5 h-5 mr-2" /> },
+  { to: "/payoutrequest", label: "Payout Request", icon: <FaMoneyCheckAlt className="w-5 h-5 mr-2" /> },
+  { to: "/kyc", label: "KYC", icon: <FaIdCard className="w-5 h-5 mr-2" /> },
+  // { to: "/beneficiaries", label: "Beneficiaries", icon: <FaUsers className="w-5 h-5 mr-2" /> },
+  { to: "/savingplan", label: "Chit Jewels Saving Plan", icon: <FaPiggyBank className="w-5 h-5 mr-2" /> },
+  { to: "/spiplan", label: "Digital Gold SPI Plan", icon: <FaWallet className="w-5 h-5 mr-2" /> },
+  { to: "/plantscheme", label: "Gold Plant Scheme", icon: <FaLeaf className="w-5 h-5 mr-2" /> },
+  { to: "/notification", label: "Notification", icon: <FaBell className="w-5 h-5 mr-2" /> },
+  { to: "/mybankaccounts", label: "My Bank Accounts", icon: <FaUniversity className="w-5 h-5 mr-2" /> },
 ];
 
-const logoutItem = { name: "Logout", link: "/", icon: <FaSignOutAlt /> };
+const logoutItem = { to: "/", label: "Logout", icon: <FaSignOutAlt className="w-5 h-5 mr-2" /> };
 
-const AdminSideNav = ({ isOpen, onToggle }: { isOpen?: boolean; onToggle?: () => void }) => {
-  const [active, setActive] = useState<string>(window.location.pathname);
-
-  const handleClick = (link: string) => {
-    setActive(link);
-    if (onToggle) onToggle();
-  };
+export default function AdminSideNav() {
+  const location = useLocation();
+  const current = location.pathname;
 
   return (
-    <nav
-      className={`
-        fixed top-0 left-0 h-screen z-40 bg-white shadow-lg
-        w-16 sm:w-56
-        flex flex-col
-        overflow-y-auto
-        transition-transform transition-opacity duration-500 ease-in-out
-        ${isOpen === false ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100"}
-        sm:translate-x-0 sm:opacity-100
-      `}
-      style={{ minWidth: "4rem" }}
-    >
-      <div className="flex items-center gap-2 px-4 py-6 mb-4">
-        <FaTachometerAlt className="text-[#7a1335] text-2xl" />
-        <span className="text-lg font-bold text-[#7a1335] tracking-wide hidden sm:inline">Admin Panel</span>
+    <aside className="w-64 bg-white shadow-lg hidden md:flex flex-col h-screen fixed top-0 left-0 z-30">
+      <div className="h-16 flex items-center justify-center font-bold text-xl text-[#7a1335]">
+        Admin Panel
       </div>
-      <ul className="flex-1 space-y-1">
-        {menuItems.map((item) => (
-          <li key={item.name}>
-            <a
-              href={item.link}
-              onClick={() => handleClick(item.link)}
-              className={`
-                flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200
-                ${active === item.link
+      <nav className="flex-1 px-4 py-2 space-y-1 overflow-y-auto">
+        {menuItems.map((item) => {
+          const isActive = current === item.to;
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={`flex items-center px-4 py-2 rounded transition font-medium ${
+                isActive
                   ? "bg-[#7a1335] text-white font-bold shadow scale-105"
-                  : "text-[#7a1335] hover:bg-[#fbeaf0] hover:text-[#7a1335]"
-                }
-                group text-xs sm:text-sm
-              `}
+                  : "hover:bg-[#7a1335]/10 text-[#7a1335]"
+              }`}
+              style={isActive ? { fontWeight: 700 } : {}}
             >
-              <span className="text-lg">{item.icon}</span>
-              <span className="truncate hidden sm:inline">{item.name}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-      {/* Logout at the bottom, red color */}
-      <div className="mb-4 mt-2">
-        <a
-          href={logoutItem.link}
-          onClick={() => handleClick(logoutItem.link)}
-          className={`
-            flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200
-            justify-center sm:justify-start
-            ${active === logoutItem.link
-              ? "bg-red-600 text-white font-bold shadow scale-105"
-              : "text-red-600 hover:bg-red-100 hover:text-red-700"
-            }
-            group text-xs sm:text-sm font-semibold
-          `}
+              {item.icon}
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+      <div className="px-4 py-4 mt-auto">
+        <Link
+          to={logoutItem.to}
+          className="flex items-center px-4 py-2 rounded transition font-medium text-[#7a1335] hover:bg-[#7a1335]/10 hover:text-white"
         >
-          <span className="text-lg">{logoutItem.icon}</span>
-          <span className="truncate hidden sm:inline">{logoutItem.name}</span>
-        </a>
+          {logoutItem.icon}
+          {logoutItem.label}
+        </Link>
       </div>
-      <div className="mb-4 text-[10px] text-[#7a1335] text-center opacity-60 hidden sm:block">
+      <div className="mb-4 text-[10px] text-[#7a1335] text-center opacity-60">
         &copy; {new Date().getFullYear()} Admin Panel
       </div>
-    </nav>
+    </aside>
   );
-};
-
-export default AdminSideNav;
+}
