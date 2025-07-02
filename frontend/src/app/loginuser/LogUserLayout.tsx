@@ -86,4 +86,4 @@ const LogUserLayout: React.FC = () => {
   );
 };
 
-export default LogUserLayout;
+export default LogUserLayout; 

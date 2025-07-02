@@ -58,6 +58,8 @@ import LFooter from "./src/app/loginuser/Footer/Footer";
 import LNavBar from "./src/app/loginuser/NavBar/NavBar";
 import LTerms from "./src/app/loginuser/TermsAndCondition/termsandcondition";
 import LogUserLayout from "./src/app/loginuser/LogUserLayout";
+import LUserHome from "./src/app/loginuser/UserHome.tsx";
+import LUserLayout from "./src/app/loginuser/UserLayout";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -149,8 +151,8 @@ const AppRoutes: React.FC = () => {
         <Route path="/lbuyornaments/:id" element={<LJewelryProductPage />} />
         <Route path="/laboutus" element={ <LAboutUsPage />}/>
         <Route path="/lprivacy" element={ <LPrivacyPlicyPage />}/>
-        
-
+        <Route path="/lUserHome" element={ <LUserHome />}/>
+        <Route path="/lUserLayout" element={ <LUserLayout />}/>
         </Route >
              
           
