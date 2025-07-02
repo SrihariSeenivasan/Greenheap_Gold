@@ -60,7 +60,7 @@ import LTerms from "./src/app/loginuser/TermsAndCondition/termsandcondition";
 import LogUserLayout from "./src/app/loginuser/LogUserLayout";
 import LUserHome from "./src/app/loginuser/UserHome.tsx";
 import LUserLayout from "./src/app/loginuser/UserLayout";
-
+import Refund from "./src/app/user/TermsAndCondition/refund";
 const AppRoutes: React.FC = () => {
   return (
       <Routes>
@@ -137,7 +137,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/privacy" element={ <PrivacyPlicyPage />}/>
         <Route path="/partnerpopup" element={ <PartnerPopup open={true} onClose={() => {}} />}/>
         <Route path="/signuppopup" element={ <SignupPopup open={true} onClose={() => {}} />}/>
-
+        <Route path="/refund" element={ <Refund />}/>
         </Route >
 
         {/*Login User routes */}

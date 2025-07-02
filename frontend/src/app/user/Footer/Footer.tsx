@@ -56,7 +56,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="/terms-and-condition"
+                  href="terms"
                   className="text-dark text-decoration-none"
                 >
                   Terms and Conditions
@@ -64,15 +64,16 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="/privacy-policy"
+                  href="privacy"
                   className="text-dark text-decoration-none"
                 >
                   Privacy Policy
+
                 </a>
               </li>
               <li>
                 <a
-                  href="/refund-cancellation"
+                  href="refund"
                   className="text-dark text-decoration-none"
                 >
                   Refund & Cancellation Policy

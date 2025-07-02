@@ -43,54 +43,25 @@ const Terms = () => {
       </div>
       {/* Terms Content Section */}
       <section
-        style={{
-          maxWidth: 1200,
-          margin: "40px auto 40px auto",
-          background: "#fff",
-          borderRadius: 18,
-          boxShadow: "0 4px 24px #f3e6d7",
-          padding: "32px 24px",
-          marginTop: 0,
-          position: "relative",
-          zIndex: 3,
-          minHeight: 240,
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          gap: 58,
-        }}
+       
       >
         <div
           style={{
             flex: 1,
-            minWidth: 320,
+            minWidth: 1200,
             maxWidth: 600,
             background: "#fff",
             borderRadius: 14,
             boxShadow: "0 2px 12px #f9e9c7",
             padding: "32px 18px 28px 18px",
-            margin: "0 auto",
+            margin: "40px auto 0 auto", // Add top margin for space after banner, center horizontally
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            position: "relative",
           }}
         >
-          <h2
-            style={{
-              color: "#991313",
-              fontWeight: 800,
-              fontSize: "2.1rem",
-              marginBottom: 24,
-              fontFamily: "'Red Hat Display', 'DM Sans', Arial, sans-serif",
-              textAlign: "center",
-              letterSpacing: 0.2,
-              borderBottom: "2px solid #f9e9c7",
-              paddingBottom: 10,
-            }}
-          >
-            Terms and Conditions
-          </h2>
+         
           <div
             style={{
               color: "#222",
