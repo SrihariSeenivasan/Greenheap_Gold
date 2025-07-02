@@ -8,6 +8,12 @@ export const products = [
     material: "Gold",
     goldpurity: "24K (99.9%)",
     quality: "Certified",
+    category: "Investment",
+    discount: "10%",
+    weight: "1g",
+    rating: 4.5,
+    reviews: 120,
+    purity: "24K (99.9%)",
     description: {
       title: "Product Highlights",
       points: [
@@ -30,6 +36,12 @@ export const products = [
     material: "Gold",
     goldpurity: "24K (99.9%)",
     quality: "Certified",
+    category: "Investment",
+    discount: "10%",
+    weight: "1g",
+    rating: 4.5,
+    reviews: 120,
+    purity: "24K (99.9%)",
     description: {
       title: "Product Highlights",
       points: [
@@ -52,6 +64,12 @@ export const products = [
     material: "Gold",
     goldpurity: "24K (99.9%)",
     quality: "Certified",
+    category: "Investment",
+    discount: "10%",
+    weight: "1g",
+    rating: 4.5,
+    reviews: 120,
+    purity: "24K (99.9%)",
     description: {
       title: "Product Highlights",
       points: [
@@ -74,6 +92,12 @@ export const products = [
     material: "Gold",
     goldpurity: "24K (99.9%)",
     quality: "Certified",
+    category: "Investment",
+    discount: "10%",
+    weight: "1g",
+    rating: 4.5,
+    reviews: 120,
+    purity: "24K (99.9%)",
     description: {
       title: "Product Highlights",
       points: [
@@ -96,6 +120,12 @@ export const products = [
     material: "Gold",
     goldpurity: "24K (99.9%)",
     quality: "Certified",
+    category: "Investment",
+    discount: "10%",
+    weight: "1g",
+    rating: 4.5,
+    reviews: 120,
+    purity: "24K (99.9%)",
     description: {
       title: "Product Highlights",
       points: [
@@ -118,6 +148,12 @@ export const products = [
     material: "Gold",
     goldpurity: "24K (99.9%)",
     quality: "Certified",
+    category: "Investment",
+    discount: "10%",
+    weight: "1g",
+    rating: 4.5,
+    reviews: 120,
+    purity: "24K (99.9%)",
     description: {
       title: "Product Highlights",
       points: [
