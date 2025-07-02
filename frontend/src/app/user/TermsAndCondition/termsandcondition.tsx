@@ -58,7 +58,7 @@ const Terms = () => {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "flex-start",
-          gap: 48,
+          gap: 58,
         }}
       >
         <div
