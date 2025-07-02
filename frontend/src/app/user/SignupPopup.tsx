@@ -506,8 +506,8 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
                   onChange={e => handleOtpChange(idx, e.target.value)}
                   onKeyDown={e => handleOtpKeyDown(idx, e)}
                   style={{
-                    width: 70,
-                    height: 38,
+                    width: 48,
+                    height: 48,
                     fontSize: 28,
                     textAlign: "center",
                     border: "2px solid #991313",

@@ -6,12 +6,11 @@ import "../../../globals.css";
 import Footer from "./Footer/Footer";
 import NavBar from "./NavBar/NavBar";
 
-
 interface UserLayoutProps {
   children?: React.ReactNode;
 }
 
-const LogUserLayout: React.FC<UserLayoutProps> = () => {
+const LUserLayout: React.FC<UserLayoutProps> = () => {
   return (
     <div >
       <NavBar />
@@ -32,4 +31,4 @@ const LogUserLayout: React.FC<UserLayoutProps> = () => {
   );
 };
 
-export default LogUserLayout; 
+export default LUserLayout;

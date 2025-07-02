@@ -4,9 +4,9 @@ import CustomImage from "../../components/custom/Image";
 
 export const MENU = [
 	{ name: "Home", link: "/" },
-	{ name: "About Us", link: "/aboutus" },
-	{ name: "Buy Ornaments", link: "/buyornaments" },
-	{ name: "Contact Us", link: "/contactus" },
+	{ name: "About Us", link: "/laboutus" },
+	{ name: "Buy Ornaments", link: "/lbuyornaments" },
+	{ name: "Contact Us", link: "/lcontactus" },
 ];
 
 const LNavBar = () => {
@@ -194,27 +194,94 @@ const LNavBar = () => {
 							<i className="fa fa-handshake-o" style={{ fontSize: 14 }} />
 							Become a partner / Login
 						</a>
-						<a
-							href="SignupPopup"
-							style={{
-								color: "#8a2342", // always maroon
-								fontWeight: 700, // bold
-								fontSize: 15, // increased font size
-								textDecoration: "none",
-								marginLeft: 5,
-								whiteSpace: "nowrap",
-								padding: "7px 16px",
-								borderRadius: 10,
-								transition: "border 0.18s, color 0.18s, background 0.18s",
-								background: "transparent",
-								border: hovered === "User Login / Signup" ? "1.5px solid #8a2342" : "1.5px solid transparent",
-								cursor: "pointer"
-							}}
-							onMouseEnter={() => setHovered("User Login / Signup")}
-							onMouseLeave={() => setHovered(null)}
-						>
-							User Login / Signup
-						</a>
+						{/* User Profile Dropdown */}
+						<div style={{ position: "relative" }}>
+							<button
+								onClick={() => setHovered(hovered === "profile" ? null : "profile")}
+								style={{
+									background: "#fff",
+									border: "1.5px solid #e0e0e0",
+									borderRadius: "50%",
+									width: 38,
+									height: 38,
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									cursor: "pointer",
+									marginLeft: 8,
+									boxShadow: hovered === "profile" ? "0 2px 8px #f0e3d1" : "none",
+									transition: "box-shadow 0.18s, border 0.18s",
+									position: "relative",
+									padding: 0,
+								}}
+								aria-label="User Profile"
+							>
+								<img
+									src="/home/user_profile.png"
+									alt="Profile"
+									style={{
+										width: 28,
+										height: 28,
+										borderRadius: "50%",
+										objectFit: "cover",
+										background: "#eee",
+									}}
+								/>
+							</button>
+							{hovered === "profile" && (
+								<div
+									style={{
+										position: "absolute",
+										top: 46,
+										right: 0,
+										background: "#fff",
+										border: "1.5px solid #e0e0e0",
+										borderRadius: 10,
+										boxShadow: "0 4px 16px #f0e3d1",
+										minWidth: 160,
+										zIndex: 2000,
+										padding: "8px 0",
+										display: "flex",
+										flexDirection: "column",
+										alignItems: "stretch"
+									}}
+									onMouseLeave={() => setHovered(null)}
+								>
+									<a
+										href="/user/dashboard"
+										style={{
+											padding: "10px 18px",
+											color: "#7a1335",
+											fontWeight: 600,
+											fontSize: 15,
+											textDecoration: "none",
+											borderBottom: "1px solid #f0e3d1",
+											transition: "background 0.15s",
+											background: "transparent",
+											cursor: "pointer"
+										}}
+										onClick={() => setHovered(null)}
+									>
+										My Dashboard
+									</a>
+									<a
+										href="/logout"
+										style={{
+											padding: "10px 18px",
+											color: "#991313",
+											fontWeight: 600,
+											fontSize: 15,
+											textDecoration: "none",
+											background: "transparent",
+											cursor: "pointer"
+										}}
+										onClick={() => setHovered(null)}
+									>
+										Logout
+									</a>
+								</div>
+							)}
+						</div>
 					</div>
 				</div>
 			</nav>

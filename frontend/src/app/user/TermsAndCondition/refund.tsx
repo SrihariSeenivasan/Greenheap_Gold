@@ -1,7 +1,7 @@
 import TitleBanner from "../../components/custom/TitleBanner";
 import styles from "./styles.module.css";
 
-const PrivacyPlicyPage = () => {
+const Refund = () => {
   return (
     <div style={{ background: "#fff", minHeight: "100vh" }}>
       {/* Banner section with background image and centered title */}
@@ -38,7 +38,7 @@ const PrivacyPlicyPage = () => {
             fontFamily: "'Red Hat Display', 'DM Sans', Arial, sans-serif",
           }}
         >
-          Privacy and Policy
+          Refund & Cancellation Policy
         </h1>
       </div>
       {/* Terms Content Section */}
@@ -187,5 +187,5 @@ const PrivacyPlicyPage = () => {
   );
 };
 
-export default PrivacyPlicyPage;
+export default Refund;
        
