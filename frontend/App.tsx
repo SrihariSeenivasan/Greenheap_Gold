@@ -58,6 +58,16 @@ import LFooter from "./src/app/loginuser/Footer/Footer";
 import LNavBar from "./src/app/loginuser/NavBar/NavBar";
 import LTerms from "./src/app/loginuser/TermsAndCondition/termsandcondition";
 import LogUserLayout from "./src/app/loginuser/LogUserLayout";
+import LogUserDashboardLayout from "./src/app/loginuser/LogUserDashboardLayout";
+import LMyProfile from "./src/app/loginuser/dashboardComponents/MyProfile";
+import LMyDashboard from "./src/app/loginuser/dashboardComponents/MyDashboard";
+import LKYC from "./src/app/loginuser/dashboardComponents/KYC";
+import LChitJewelsSavingPlan from "./src/app/loginuser/dashboardComponents/ChitJewelsSavingPlan";
+import LDigitalGoldSIPPlan from "./src/app/loginuser/dashboardComponents/DigitalGoldSIPPlan";
+import LGoldPlantScheme from "./src/app/loginuser/dashboardComponents/GoldPlantScheme";
+import LNotification from "./src/app/loginuser/dashboardComponents/Notification";
+import LMyBankAccounts from "./src/app/loginuser/dashboardComponents/MyBankAccounts";
+
 
 const AppRoutes: React.FC = () => {
   return (
@@ -79,15 +89,13 @@ const AppRoutes: React.FC = () => {
         <Route path="/manageornaments" element={ <ManageOrnaments/>}/>
         <Route path="/manageusers" element={<ManageUsers />} />
       
-        
-        {/* Add other admin routes here */}
-        
-        
-
+      
         </Route>
+
         {/* B2B routes */}
+        
        {/* <Route element={<B2BLayout/>}> */}
-      <Route path="/b2b/login" element={<Login />} />
+        <Route path="/b2b/login" element={<Login />} />
       <Route  element={<B2BLayout />}>
         <Route path="bdashboard" element={<Dashboard />} />
         <Route path="bgoldpurchase" element={<GoldPurchase />} />
@@ -101,11 +109,13 @@ const AppRoutes: React.FC = () => {
         <Route path="bprofile" element={<Profile />} />
         <Route path="bnotifications" element={<Notifications />} />
         <Route path="logout" element={<Logout />} />
-        </Route>
+      </Route>
+
       {/* </Route> */}
       
     
         {/* Partner routes */}
+
         <Route element={<PartnerLayout/>}>
           <Route path="/pdashboard" element={<PartnerDashboard />} />
           <Route path="/preferral" element={<PartnerReferral />} />
@@ -123,7 +133,7 @@ const AppRoutes: React.FC = () => {
         
       
         {/*User routes */}
-        <Route element={<UserLayout/>}>
+      <Route element={<UserLayout/>}>
         <Route path="/" element={ <UserHome />}/>
         <Route path="/navbar" element={ <NavBar />}/>
         <Route path="/footer" element={ <Footer />}/>
@@ -136,9 +146,10 @@ const AppRoutes: React.FC = () => {
         <Route path="/partnerpopup" element={ <PartnerPopup open={true} onClose={() => {}} />}/>
         <Route path="/signuppopup" element={ <SignupPopup open={true} onClose={() => {}} />}/>
 
-        </Route >
+      </Route >
 
         {/*Login User routes */}
+
         <Route element={<LogUserLayout/>}>
         {/* <Route path="/loguser" element={ <UserHome />}/> */}
         <Route path="/lnavbar" element={ <LNavBar />}/>
@@ -149,7 +160,21 @@ const AppRoutes: React.FC = () => {
         <Route path="/lbuyornaments/:id" element={<LJewelryProductPage />} />
         <Route path="/laboutus" element={ <LAboutUsPage />}/>
         <Route path="/lprivacy" element={ <LPrivacyPlicyPage />}/>
-        
+
+        {/*Login UserDashboard routes */}
+        <Route element={<LogUserDashboardLayout/>}>
+        <Route path="/user" element={ <LMyDashboard />}/>
+        <Route path="/userprofile" element={ <LMyProfile />}/>
+        <Route path="/userkyc" element={ <LKYC />}/>
+        <Route path="/userbeneficiaries" element={ <LNavBar />}/>
+        <Route path="/usersavingplan" element={ <LChitJewelsSavingPlan />}/>
+        <Route path="/userspiplan" element={ <LDigitalGoldSIPPlan />}/>
+        <Route path="/userplantscheme" element={ <LGoldPlantScheme />}/>
+        <Route path="/usernotification" element={ <LNotification />}/>
+        <Route path="/usermybankaccounts" element={ <LMyBankAccounts />}/>
+
+
+        </Route>
 
         </Route >
              
