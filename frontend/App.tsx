@@ -25,6 +25,8 @@ import Profile from "./src/app/b2b/profile/Profile";
 import SipManagement from "./src/app/b2b/sip-management/SipManagement";
 import Support from "./src/app/b2b/support/Support";
 import Wallet from "./src/app/b2b/wallet/Wallet";
+import PartnerPopup from "./src/app/partner/PartnerPopup";
+import SignupPopup from "./src/app/user/SignupPopup";
 
 import PartnerLayout from "./src/app/partner/PartnerLayout";
 import PartnerCampaigns from "./src/app/partner/partnercampaigns";
@@ -122,8 +124,8 @@ const AppRoutes: React.FC = () => {
         <Route path="/buyornaments/:id" element={<JewelryProductPage />} />
         <Route path="/aboutus" element={ <AboutUsPage />}/>
         <Route path="/privacy" element={ <PrivacyPlicyPage />}/>
-        {/* <Route path="/userhome" element={ <SignupPopup />}/>
-        <Route path="/userlayout" element={ <PartnerPopup />}/> */}
+        <Route path="/partnerpopup" element={ <PartnerPopup open={true} onClose={() => {}} />}/>
+        <Route path="/signuppopup" element={ <SignupPopup open={true} onClose={() => {}} />}/>
 
         </Route >
              
