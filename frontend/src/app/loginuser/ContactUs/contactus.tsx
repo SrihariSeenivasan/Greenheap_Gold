@@ -71,12 +71,14 @@ const LContactUsPage = () => {
               <i className="fa fa-whatsapp text-2xl"></i>
               Start WhatsApp Chat
             </a>
-            <button
+            <a
+              href="/contactus"
               className="mt-8 text-[#7a1335] underline hover:text-[#991616] transition-colors"
+              style={{ display: "inline-block", textAlign: "center" }}
               onClick={() => setActiveSection("contact")}
             >
               &larr; Back to Contact Options
-            </button>
+            </a>
           </div>
         </div>
       );
@@ -98,12 +100,14 @@ const LContactUsPage = () => {
               <i className="fa fa-envelope-open"></i>
               support@greenheapgold.com
             </a>
-            <button
+            <a
+              href="/contactus"
               className="mt-8 text-[#7a1335] underline hover:text-[#991616] transition-colors"
+              style={{ display: "inline-block", textAlign: "center" }}
               onClick={() => setActiveSection("contact")}
             >
               &larr; Back to Contact Options
-            </button>
+            </a>
           </div>
         </div>
       );
@@ -125,12 +129,14 @@ const LContactUsPage = () => {
               <i className="fa fa-phone-square"></i>
               +91 81900 59995
             </a>
-            <button
+            <a
+              href="/contactus"
               className="mt-8 text-[#7a1335] underline hover:text-[#991616] transition-colors"
+              style={{ display: "inline-block", textAlign: "center" }}
               onClick={() => setActiveSection("contact")}
             >
               &larr; Back to Contact Options
-            </button>
+            </a>
           </div>
         </div>
       );
@@ -422,6 +428,10 @@ const LContactUsPage = () => {
     </div>
   );
 };
+
+
+
+
 
 export default LContactUsPage;
 

@@ -72,7 +72,6 @@ import LUserHome from "./src/app/loginuser/LogUserHome";
 import BuyNow from "./src/app/loginuser/BuyNow/buynow";
 import  Wishlist from "./src/app/loginuser/Wishlist/wishlist";
 
-
 const AppRoutes: React.FC = () => {
   return (
       <Routes>
@@ -172,7 +171,6 @@ const AppRoutes: React.FC = () => {
         <Route path="/Wishlist" element={<Wishlist/>}/>
       
         <Route path="/lUserHome" element={ <LUserHome/>}/>
-        
 
         {/*Login UserDashboard routes */}
         <Route path="user" element={<LogUserDashboardLayout/>}>

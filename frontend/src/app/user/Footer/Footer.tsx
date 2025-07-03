@@ -81,7 +81,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="/contact-us"
+                  href="/contactus"
                   className="text-dark text-decoration-none"
                 >
                   Contact Us
