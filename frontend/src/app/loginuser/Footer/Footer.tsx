@@ -48,7 +48,7 @@ const LFooter = () => {
             >
               <li>
                 <a
-                  href="/about-us"
+                  href="/laboutus"
                   className="text-dark text-decoration-none"
                 >
                   About Us
@@ -56,7 +56,7 @@ const LFooter = () => {
               </li>
               <li>
                 <a
-                  href="/terms-and-condition"
+                  href="/lterms"
                   className="text-dark text-decoration-none"
                 >
                   Terms and Conditions
@@ -64,7 +64,7 @@ const LFooter = () => {
               </li>
               <li>
                 <a
-                  href="/privacy-policy"
+                  href="/lprivacy"
                   className="text-dark text-decoration-none"
                 >
                   Privacy Policy
@@ -80,7 +80,7 @@ const LFooter = () => {
               </li>
               <li>
                 <a
-                  href="/contact-us"
+                  href="/lcontactus"
                   className="text-dark text-decoration-none"
                 >
                   Contact Us

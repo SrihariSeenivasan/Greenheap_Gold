@@ -195,7 +195,7 @@ const LNavBar = () => {
 							Become a partner / Login
 						</a>
 						{/* User Profile Dropdown */}
-						<div style={{ position: "relative" }}>
+						<div style={{ position: "relative", display: "flex", alignItems: "center" }}>
 							<button
 								onClick={() => setHovered(hovered === "profile" ? null : "profile")}
 								style={{
@@ -208,11 +208,12 @@ const LNavBar = () => {
 									alignItems: "center",
 									justifyContent: "center",
 									cursor: "pointer",
-									marginLeft: 8,
+									marginLeft: 84,
 									boxShadow: hovered === "profile" ? "0 2px 8px #f0e3d1" : "none",
 									transition: "box-shadow 0.18s, border 0.18s",
 									position: "relative",
 									padding: 0,
+									zIndex: 1201
 								}}
 								aria-label="User Profile"
 							>
@@ -231,56 +232,110 @@ const LNavBar = () => {
 							{hovered === "profile" && (
 								<div
 									style={{
-										position: "absolute",
-										top: 46,
-										right: 0,
-										background: "#fff",
+										position: "fixed",
+										top: 112, // 44px top bar + 48px nav bar
+										right: 78, // adjust to align with profile button
+										background: "rgba(38, 38, 38, 0.98)",
 										border: "1.5px solid #e0e0e0",
-										borderRadius: 10,
-										boxShadow: "0 4px 16px #f0e3d1",
-										minWidth: 160,
-										zIndex: 2000,
-										padding: "8px 0",
+										borderRadius: 16,
+										boxShadow: "0 8px 32px #bf7e1a33, 0 1.5px 8px #99131322",
+										minWidth: 200,
+										zIndex: 20000,
+										padding: "10px 0",
 										display: "flex",
 										flexDirection: "column",
-										alignItems: "stretch"
+										alignItems: "stretch",
+										animation: "fadeInProfileDropdown 0.18s cubic-bezier(.4,0,.2,1)",
+										backdropFilter: "blur(8px)",
+										marginTop: 0,
+										overflow: "hidden"
 									}}
 									onMouseLeave={() => setHovered(null)}
 								>
 									<a
 										href="/user/dashboard"
 										style={{
-											padding: "10px 18px",
-											color: "#7a1335",
-											fontWeight: 600,
-											fontSize: 15,
+											padding: "16px 28px",
+											color: "#fff",
+											fontWeight: 700,
+											fontSize: 16,
 											textDecoration: "none",
-											borderBottom: "1px solid #f0e3d1",
-											transition: "background 0.15s",
+											borderBottom: "1px solid #3a2d2d",
+											transition: "background 0.15s, color 0.15s",
 											background: "transparent",
-											cursor: "pointer"
+											cursor: "pointer",
+											letterSpacing: 0.1,
+											display: "flex",
+											alignItems: "center"
 										}}
+										onMouseEnter={e => (e.currentTarget.style.background = "#222")}
+										onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
 										onClick={() => setHovered(null)}
 									>
+										<span style={{
+											display: "inline-block",
+											width: 22,
+											height: 22,
+											marginRight: 10,
+											background: "linear-gradient(135deg,#bf7e1a 60%,#fffbe8 100%)",
+											borderRadius: "50%",
+											boxShadow: "0 1px 4px #f9e9c7",
+											textAlign: "center",
+											lineHeight: "22px",
+											fontWeight: 900,
+											color: "#fff"
+										}}></span>
 										My Dashboard
 									</a>
 									<a
 										href="/logout"
 										style={{
-											padding: "10px 18px",
-											color: "#991313",
-											fontWeight: 600,
-											fontSize: 15,
+											padding: "16px 28px",
+											color: "#fff",
+											fontWeight: 700,
+											fontSize: 16,
 											textDecoration: "none",
 											background: "transparent",
-											cursor: "pointer"
+											cursor: "pointer",
+											letterSpacing: 0.1,
+											display: "flex",
+											alignItems: "center"
+										}}
+										onMouseEnter={e => {
+											e.currentTarget.style.background = "#991313";
+											e.currentTarget.style.color = "#fffbe8";
+										}}
+										onMouseLeave={e => {
+											e.currentTarget.style.background = "transparent";
+											e.currentTarget.style.color = "#fff";
 										}}
 										onClick={() => setHovered(null)}
 									>
+										<span style={{
+											display: "inline-block",
+											width: 22,
+											height: 22,
+											marginRight: 10,
+											background: "linear-gradient(135deg,#991313 60%,#fffbe8 100%)",
+											borderRadius: "50%",
+											boxShadow: "0 1px 4px #fbeaf0",
+											textAlign: "center",
+											lineHeight: "22px",
+											fontWeight: 900,
+											color: "#fff"
+										}}></span>
 										Logout
 									</a>
 								</div>
 							)}
+							<style>
+								{`
+								@keyframes fadeInProfileDropdown {
+									from { opacity: 0; transform: translateY(12px);}
+									to { opacity: 1; transform: translateY(0);}
+								}
+								`}
+							</style>
 						</div>
 					</div>
 				</div>
