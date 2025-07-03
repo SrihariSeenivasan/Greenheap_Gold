@@ -26,6 +26,7 @@ import LChitJewelsSavingPlan from './DashboardComponents/ChitJewelsSavingPlan';
 import LDigitalGoldSIPPlan from './DashboardComponents/DigitalGoldSIPPlan';
 import Wishlist from './Wishlist/wishlist';
 import Cart from './Cart/cart';
+import LBeneficiaries from './DashboardComponents/Beneficiaries';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('My Dashboard');
@@ -183,21 +184,22 @@ const Dashboard = () => {
   );
 
   const renderBeneficiaries = () => (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800">Beneficiaries</h2>
-      <div className="bg-white rounded-xl p-6 shadow-sm border">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold">Manage Beneficiaries</h3>
-          <button className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-lg font-medium">
-            Add Beneficiary
-          </button>
-        </div>
-        <div className="text-center py-12 text-gray-500">
-          <Users className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-          <p>No beneficiaries added yet</p>
-        </div>
-      </div>
-    </div>
+    // <div className="space-y-6">
+    //   <h2 className="text-2xl font-bold text-gray-800">Beneficiaries</h2>
+    //   <div className="bg-white rounded-xl p-6 shadow-sm border">
+    //     <div className="flex justify-between items-center mb-6">
+    //       <h3 className="text-lg font-semibold">Manage Beneficiaries</h3>
+    //       <button className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-lg font-medium">
+    //         Add Beneficiary
+    //       </button>
+    //     </div>
+    //     <div className="text-center py-12 text-gray-500">
+    //       <Users className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+    //       <p>No beneficiaries added yet</p>
+    //     </div>
+    //   </div>
+    // </div>
+    <LBeneficiaries/>
   );
 
   const renderSavingPlan = () => (

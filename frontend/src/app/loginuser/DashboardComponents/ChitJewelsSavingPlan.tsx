@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Gem, TrendingUp, Calendar, Target, Star, Plus, Eye, Settings, ChevronRight } from 'lucide-react';
-
+import { useNavigate } from 'react-router-dom';
 const LChitJewelsSavingPlan = () => {
   const [selectedTab, setSelectedTab] = useState('active');
 
@@ -43,6 +43,7 @@ const LChitJewelsSavingPlan = () => {
       color: "from-rose-400 to-red-500"
     }
   ];
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -171,7 +172,7 @@ const LChitJewelsSavingPlan = () => {
                     </div>
 
                     <div className="flex items-center space-x-3 mt-6 pt-4 border-t border-gray-100">
-                      <button className="flex-1 bg-[#7a1335] text-white py-2 px-4 rounded-lg hover:bg-[#5a0f28] transition-all duration-300 text-sm font-medium">
+                      <button className="flex-1 bg-[#7a1335] text-white py-2 px-4 rounded-lg hover:bg-[#5a0f28] transition-all duration-300 text-sm font-medium" onClick={() => navigate('/paymentpopup')}>
                         Make Payment
                       </button>
                       <button className="p-2 text-gray-600 hover:text-[#7a1335] hover:bg-gray-100 rounded-lg transition-colors">

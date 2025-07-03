@@ -1,4 +1,4 @@
-import { Award, Eye, Heart, MessageCircle, Share2, Shield, ShoppingCart, Sparkles, Star, Zap } from 'lucide-react';
+import { Award, Eye, Heart, Share2, Shield, ShoppingCart, Sparkles, Star, Zap } from 'lucide-react';
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { pricebreakup, products } from "../../../../../constants";
@@ -263,7 +263,10 @@ const LJewelryProductPage = () => {
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {similarProducts.map((p, idx) => (
-                <div key={idx} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group">
+                <div
+                  key={idx}
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full"
+                >
                   <div className="aspect-square overflow-hidden">
                     <img 
                       src={p.img} 
@@ -271,11 +274,12 @@ const LJewelryProductPage = () => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
                     />
                   </div>
-                  <div className="p-3">
+                  <div className="p-3 flex flex-col flex-1">
                     <h4 className="font-medium text-[#7a1335] mb-1">{p.title}</h4>
                     <p className="text-lg font-bold text-[#7a1335] mb-2">{p.price}</p>
+                    <div className="flex-1" />
                     <button
-                      className="w-full bg-[#7a1335]/10 text-[#7a1335] py-2 px-3 rounded-lg text-sm font-medium hover:bg-[#7a1335] hover:text-white transition-all duration-300"
+                      className="w-full bg-[#7a1335]/10 text-[#7a1335] py-2 px-3 rounded-lg text-sm font-medium hover:bg-[#7a1335] hover:text-white transition-all duration-300 mt-auto"
                       onClick={() => navigate(`/lbuyornaments/${p.id}`)}
                     >
                       View Details

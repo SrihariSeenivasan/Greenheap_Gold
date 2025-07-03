@@ -71,8 +71,14 @@ import Refund from "./src/app/user/RefundPolicy/refund";
 import LUserHome from "./src/app/loginuser/LogUserHome";
 import BuyNow from "./src/app/loginuser/BuyNow/buynow";
 import  Wishlist from "./src/app/loginuser/Wishlist/wishlist";
-
-
+import PaymentPopup from "./src/app/components/PopUp/PaymentPopUp/Paymentpopup";
+import LMyDashboard from "./src/app/loginuser/DashboardComponents/MyDashboard.tsx";
+import LMyProfile from "./src/app/loginuser/DashboardComponents/MyProfile.tsx";
+import LKYC from "./src/app/loginuser/DashboardComponents/KYC.tsx"; 
+import LChitJewelsSavingPlan from "./src/app/loginuser/DashboardComponents/ChitJewelsSavingPlan.tsx";
+import LGoldPlantScheme from "./src/app/loginuser/DashboardComponents/GoldPlantScheme.tsx";
+import LDigitalGoldSIPPlan from "./src/app/loginuser/DashboardComponents/DigitalGoldSIPPlan.tsx";
+import LNotification from "./src/app/loginuser/DashboardComponents/Notification.tsx";
 const AppRoutes: React.FC = () => {
   return (
       <Routes>
@@ -170,14 +176,12 @@ const AppRoutes: React.FC = () => {
         <Route path="/lprivacy" element={ <LPrivacyPlicyPage />}/>
         <Route path="/buynow" element={ <BuyNow />}/>
         <Route path="/Wishlist" element={<Wishlist/>}/>
-
         <Route path="/lUserHome" element={ <LUserHome/>}/>
-        
+        <Route path="paymentpopup" element={<PaymentPopup/>}/>
 
-        {/*Login UserDashboard routes */}
-        <Route path="user" element={<LogUserDashboardLayout/>}>
-      
-        {/* <Route path="/userdash" element={ <LMyDashboard />}/>
+
+        
+        <Route path="/userdash" element={ <LMyDashboard />}/>
         <Route path="/userprofile" element={ <LMyProfile />}/>
         <Route path="/userkyc" element={ <LKYC />}/>
         <Route path="/userbeneficiaries" element={ <LNavBar />}/>
@@ -185,9 +189,20 @@ const AppRoutes: React.FC = () => {
         <Route path="/userspiplan" element={ <LDigitalGoldSIPPlan />}/>
         <Route path="/userplantscheme" element={ <LGoldPlantScheme />}/>
         <Route path="/usernotification" element={ <LNotification />}/>
-        <Route path="/usermybankaccounts" element={ <LMyBankAccounts />}/> */}
-        </Route >
+        <Route path="/usermybankaccounts" element={ <MyBankAccounts />}/>
 
+
+
+
+       
+        
+
+        {/*Login UserDashboard routes */}
+        <Route path="user" element={<LogUserDashboardLayout/>}>
+         
+      
+        </Route >
+        
 
         
 

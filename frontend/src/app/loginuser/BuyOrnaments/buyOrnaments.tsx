@@ -288,7 +288,11 @@ const LBuyOrnamentsPage = () => {
                 transform: hoveredCard === idx ? 'translateY(-12px)' : 'translateY(0)',
                 cursor: 'pointer',
                 position: 'relative',
-                border: '1px solid #f7f8fc'
+                border: '1px solid #f7f8fc',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                minHeight: 540 // ensure enough height for bottom actions
               }}
             >
               {/* Discount Badge */}
@@ -384,7 +388,7 @@ const LBuyOrnamentsPage = () => {
               </div>
 
               {/* Content */}
-              <div style={{ padding: '0 32px 32px 32px' }}>
+              <div style={{ padding: '0 32px 32px 32px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                 {/* Rating */}
                 <div style={{
                   display: 'flex',
@@ -497,10 +501,14 @@ const LBuyOrnamentsPage = () => {
                   </div>
                 </div>
 
-                {/* Action Buttons */}
+                {/* Spacer to push actions to bottom */}
+                <div style={{ flex: 1 }}></div>
+
+                {/* Action Buttons at bottom */}
                 <div style={{
                   display: 'flex',
-                  gap: '12px'
+                  gap: '12px',
+                  marginTop: 'auto'
                 }}>
                   <button
                     style={{
@@ -560,7 +568,7 @@ const LBuyOrnamentsPage = () => {
                     onMouseLeave={(e) => {
                       (e.target as HTMLButtonElement).style.backgroundColor = 'rgba(122, 19, 53, 0.1)';
                       (e.target as HTMLButtonElement).style.color = '#7a1335';
-                     (e.target as HTMLButtonElement).style.transform = 'scale(1)';
+                      (e.target as HTMLButtonElement).style.transform = 'scale(1)';
                       (e.target as HTMLButtonElement).style.borderColor = 'rgba(122, 19, 53, 0.2)';
                     }}
                   >

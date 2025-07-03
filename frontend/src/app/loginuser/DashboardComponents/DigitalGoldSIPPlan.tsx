@@ -11,8 +11,10 @@ import {
   Award,
   Coins,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const LDigitalGoldSIPPlan = () => {
+  const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = useState('monthly');
 
   const primaryColor = '#7a1335';
@@ -181,9 +183,10 @@ const LDigitalGoldSIPPlan = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="flex-1 bg-[#7a1335] hover:bg-[#5f0e2a] text-white font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
+                <button className="flex-1 bg-[#7a1335] hover:bg-[#5f0e2a] text-white font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2" onClick={() => navigate('/paymentpopup')}>
                   <Plus className="w-5 h-5" />
                   <span>Start New SIP</span>
+
                 </button>
                 <button className="flex-1 bg-white hover:bg-gray-50 text-[#7a1335] font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-[#7a1335]/20 flex items-center justify-center space-x-2">
                   <Wallet className="w-5 h-5" />

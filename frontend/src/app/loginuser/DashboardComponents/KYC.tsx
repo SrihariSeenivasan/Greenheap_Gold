@@ -1,14 +1,14 @@
-import React, { useState, ChangeEvent, FC } from 'react';
 import {
-  Upload,
-  CheckCircle,
   AlertCircle,
-  User,
+  Camera,
+  CheckCircle,
   CreditCard,
   FileText,
-  Camera,
   LucideIcon,
+  Upload,
+  User,
 } from 'lucide-react';
+import { ChangeEvent, FC, useState } from 'react';
 
 type DocumentType = 'aadhar' | 'pan';
 
@@ -63,6 +63,7 @@ const LKYC: FC = () => {
   const [aadharFile, setAadharFile] = useState<File | null>(null);
   const [panFile, setPanFile] = useState<File | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleFileUpload = (type: DocumentType, event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -103,6 +104,26 @@ const LKYC: FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
+      {/* Popup Modal */}
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
+          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-xs w-full flex flex-col items-center">
+            <CheckCircle className="w-12 h-12 text-green-500 mb-4" />
+            <div className="text-lg font-semibold text-gray-800 mb-2 text-center">
+              Proof Sent for Verification
+            </div>
+            <div className="text-gray-600 text-center mb-4">
+              Your proof has been sent to admin and will be verified soon.
+            </div>
+            <button
+              className="mt-2 px-6 py-2 bg-[#7a1335] text-white rounded-lg hover:bg-[#5a0f28] transition-all duration-200 font-medium"
+              onClick={() => setShowPopup(false)}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
@@ -245,7 +266,10 @@ const LKYC: FC = () => {
               >
                 {isEditing ? 'Cancel' : 'Edit Details'}
               </button>
-              <button className="flex-1 px-6 py-3 bg-[#7a1335] text-white rounded-lg hover:bg-[#5a0f28] transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+              <button
+                className="flex-1 px-6 py-3 bg-[#7a1335] text-white rounded-lg hover:bg-[#5a0f28] transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                onClick={() => setShowPopup(true)}
+              >
                 Submit for Verification
               </button>
             </div>
