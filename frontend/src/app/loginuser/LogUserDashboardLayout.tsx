@@ -11,7 +11,8 @@ import {
   Building2, 
   LogOut,
   ChevronRight,
-  Store
+  Store,
+  Heart
 } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import BankUPIManager from './DashboardComponents/MyBankAccounts';
@@ -22,6 +23,8 @@ import LMyProfile from './DashboardComponents/MyProfile';
 import LMyDashboard from './DashboardComponents/MyDashboard';
 import LChitJewelsSavingPlan from './DashboardComponents/ChitJewelsSavingPlan';
 import LDigitalGoldSIPPlan from './DashboardComponents/DigitalGoldSIPPlan';
+import Wishlist from './Wishlist/wishlist';
+import Cart from './Cart/cart';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('My Dashboard');
@@ -34,6 +37,8 @@ const Dashboard = () => {
     { id: 'Chit Jewels Saving Plan', label: 'Chit Jewels Saving Plan', icon: Gem },
     { id: 'Digital Gold SIP Plan', label: 'Digital Gold SIP Plan', icon: Coins },
     { id: 'Gold Plant Scheme', label: 'Gold Plant Scheme', icon: Sprout },
+    { id: 'Wishlist', label: 'Wishlist', icon: Heart },
+    { id: 'Cart', label: 'Cart', icon: Heart },
     { id: 'Notification', label: 'Notification', icon: Bell },
     { id: 'My Bank Accounts', label: 'My Bank Accounts', icon: Building2 },
     { id: 'Logout', label: 'Logout', icon: LogOut },
@@ -274,6 +279,15 @@ const Dashboard = () => {
     <BankUPIManager/>
   );
 
+   const renderWishlist = () => (
+    <Wishlist/>  
+
+   );
+    const renderCart = () => (
+    <Cart/>  
+
+   );
+
   const renderContent = () => {
     switch (activeTab) {
       case 'My Dashboard':
@@ -290,6 +304,10 @@ const Dashboard = () => {
         return renderDigitalGold();
       case 'Gold Plant Scheme':
         return renderGoldPlant();
+      case 'Wishlist':
+        return renderWishlist();  
+      case 'Cart':
+        return renderCart();
       case 'Notification':
         return renderNotification();
       case 'My Bank Accounts':
