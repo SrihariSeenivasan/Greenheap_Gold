@@ -3,7 +3,7 @@ import CustomButton from "../../components/custom/CustomButton";
 import CustomImage from "../../components/custom/Image";
 
 export const MENU = [
-	{ name: "Home", link: "/" },
+	{ name: "Home", link: "/LUserHome" },
 	{ name: "About Us", link: "/laboutus" },
 	{ name: "Buy Ornaments", link: "/lbuyornaments" },
 	{ name: "Contact Us", link: "/lcontactus" },
