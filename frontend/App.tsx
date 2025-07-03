@@ -81,7 +81,7 @@ import LDigitalGoldSIPPlan from "./src/app/loginuser/DashboardComponents/Digital
 import LNotification from "./src/app/loginuser/DashboardComponents/Notification.tsx";
 import Cart from "./src/app/loginuser/Cart/cart";
 import LRefund from "./src/app/loginuser/Refund/refund.tsx";
-
+import PayoutRequest from "./src/app/admin/PayoutRequest/payoutrequest";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -92,7 +92,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/admin" element={ <AdminDashboard/>}/>
         <Route path="/adminprofile" element={ <AdminProfile/>}/>
         <Route path="/commission" element={ <Commission/>}/>
-        <Route path="/payoutrequest" element={ <Commission/>}/>
+        <Route path="/payoutrequest" element={ <PayoutRequest/>}/>
         <Route path="/kyc" element={ <KYC/>}/>
         {/* <Route path="/beneficiaries" element={ <Beneficiaries/>}/> */}
         <Route path="/savingplan" element={ <SavingPlan/>}/>

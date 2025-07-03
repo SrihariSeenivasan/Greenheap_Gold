@@ -37,25 +37,6 @@ const PayoutRequest = () => {
     }
   ]);
 
-  const [editId, setEditId] = useState<number | null>(null);
-  const [editAmount, setEditAmount] = useState<number>(0);
-
-  const handleEdit = (id: number, amount: number) => {
-    setEditId(id);
-    setEditAmount(amount);
-  };
-
-  const handleEditSave = (id: number) => {
-    setRequests(requests.map(request =>
-      request.id === id ? { ...request, amount: editAmount } : request
-    ));
-    setEditId(null);
-  };
-
-  const handleEditCancel = () => {
-    setEditId(null);
-  };
-
   const handleApprove = (id: number) => {
     setRequests(requests.map(request => 
       request.id === id ? { ...request, status: 'Approved' } : request
@@ -102,18 +83,7 @@ const PayoutRequest = () => {
                 {requests.map((request) => (
                   <tr key={request.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                     <td className="py-4 px-4 font-medium text-gray-900">{request.partner}</td>
-                    <td className="py-4 px-4 text-gray-700">
-                      {editId === request.id ? (
-                        <input
-                          type="number"
-                          value={editAmount}
-                          onChange={e => setEditAmount(Number(e.target.value))}
-                          className="border px-2 py-1 rounded w-24"
-                        />
-                      ) : (
-                        <>₹{request.amount.toLocaleString()}</>
-                      )}
-                    </td>
+                    <td className="py-4 px-4 text-gray-700">₹{request.amount.toLocaleString()}</td>
                     <td className="py-4 px-4 text-gray-700">{request.requestDate}</td>
                     <td className="py-4 px-4">
                       <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
@@ -129,37 +99,12 @@ const PayoutRequest = () => {
                           <Eye className="w-4 h-4 mr-1" />
                           View
                         </button>
-                        {/* Always show Edit button for all statuses */}
-                        {editId === request.id ? (
+                        
+                        {request.status === 'Pending' && (
                           <>
-                            <button
-                              onClick={() => handleEditSave(request.id)}
-                              className="inline-flex items-center px-3 py-1.5 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 transition-colors"
-                            >
-                              <Check className="w-4 h-4 mr-1" />
-                              Save
-                            </button>
-                            <button
-                              onClick={handleEditCancel}
-                              className="inline-flex items-center px-3 py-1.5 bg-gray-400 text-white text-sm font-medium rounded-md hover:bg-gray-500 transition-colors"
-                            >
-                              <X className="w-4 h-4 mr-1" />
-                              Cancel
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button
-                              onClick={() => handleEdit(request.id, request.amount)}
-                              className="inline-flex items-center px-3 py-1.5 bg-yellow-500 text-white text-sm font-medium rounded-md hover:bg-yellow-600 transition-colors"
-                            >
-                              Edit
-                            </button>
-                            {/* Status change buttons always available */}
                             <button
                               onClick={() => handleApprove(request.id)}
                               className="inline-flex items-center px-3 py-1.5 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 transition-colors"
-                              disabled={editId === request.id}
                             >
                               <Check className="w-4 h-4 mr-1" />
                               Approve
@@ -167,7 +112,6 @@ const PayoutRequest = () => {
                             <button
                               onClick={() => handleReject(request.id)}
                               className="inline-flex items-center px-3 py-1.5 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 transition-colors"
-                              disabled={editId === request.id}
                             >
                               <X className="w-4 h-4 mr-1" />
                               Reject
