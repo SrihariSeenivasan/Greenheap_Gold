@@ -69,6 +69,7 @@ import LogUserDashboardLayout from "./src/app/loginuser/LogUserDashboardLayout";
 // import LMyBankAccounts from "./src/app/loginuser/dashboardComponents/MyBankAccounts";
 import Refund from "./src/app/user/RefundPolicy/refund";
 import LUserHome from "./src/app/loginuser/LogUserHome";
+import BuyNow from "./src/app/loginuser/BuyNow/buynow";
 
 
 const AppRoutes: React.FC = () => {
@@ -166,13 +167,14 @@ const AppRoutes: React.FC = () => {
         <Route path="/lbuyornaments/:id" element={<LJewelryProductPage />} />
         <Route path="/laboutus" element={ <LAboutUsPage />}/>
         <Route path="/lprivacy" element={ <LPrivacyPlicyPage />}/>
-
+        <Route path="/buynow" element={ <BuyNow />}/>
 
         <Route path="/lUserHome" element={ <LUserHome/>}/>
         
 
         {/*Login UserDashboard routes */}
         <Route path="user" element={<LogUserDashboardLayout/>}>
+      
         {/* <Route path="/userdash" element={ <LMyDashboard />}/>
         <Route path="/userprofile" element={ <LMyProfile />}/>
         <Route path="/userkyc" element={ <LKYC />}/>

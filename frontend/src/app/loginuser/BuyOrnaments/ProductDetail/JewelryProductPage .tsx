@@ -168,7 +168,7 @@ const LJewelryProductPage = () => {
                   <ShoppingCart className="w-4 h-4" />
                   <span>Add to Cart</span>
                 </button>
-                <button className="flex-1 bg-white border-2 border-[#7a1335] text-[#7a1335] py-3 px-4 rounded-xl font-semibold hover:bg-[#7a1335] hover:text-[#bf0f0f] transition-all duration-300">
+                <button className="flex-1 bg-white border-2 border-[#7a1335] text-[#7a1335] py-3 px-4 rounded-xl font-semibold hover:bg-[#7a1335] hover:text-[#bf0f0f] transition-all duration-300" onClick={() => navigate("/buynow")}>
                   Buy Now
                 </button>
               </div>
@@ -276,7 +276,7 @@ const LJewelryProductPage = () => {
                     <p className="text-lg font-bold text-[#7a1335] mb-2">{p.price}</p>
                     <button
                       className="w-full bg-[#7a1335]/10 text-[#7a1335] py-2 px-3 rounded-lg text-sm font-medium hover:bg-[#7a1335] hover:text-white transition-all duration-300"
-                      onClick={() => navigate(`/buyornaments/${p.id}`)}
+                      onClick={() => navigate(`/lbuyornaments/${p.id}`)}
                     >
                       View Details
                     </button>
