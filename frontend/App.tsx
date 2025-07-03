@@ -71,7 +71,6 @@ import Refund from "./src/app/user/RefundPolicy/refund";
 import LUserHome from "./src/app/loginuser/LogUserHome";
 
 
-
 const AppRoutes: React.FC = () => {
   return (
       <Routes>
@@ -169,9 +168,8 @@ const AppRoutes: React.FC = () => {
         <Route path="/lprivacy" element={ <LPrivacyPlicyPage />}/>
 
 
-
         <Route path="/lUserHome" element={ <LUserHome/>}/>
-
+        
 
         {/*Login UserDashboard routes */}
         <Route path="user" element={<LogUserDashboardLayout/>}>

@@ -28,7 +28,11 @@ const CustomImage = ({ src, alt, width, height, style, className }: CustomImageP
 const LBuyOrnamentsPage = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [likedItems, setLikedItems] = useState<Set<number>>(new Set());
+
+  const [likedItems, setLikedItems] = useState<Set<number>>(() => {
+    const stored = localStorage.getItem("wishlist");
+    return stored ? new Set(JSON.parse(stored)) : new Set();
+  });
   const navigate = useNavigate();
 
   const categories = ['All', 'Necklaces', 'Earrings', 'Bangles', 'Rings', 'Chains', 'Pendants'];
@@ -47,6 +51,7 @@ const LBuyOrnamentsPage = () => {
       newLikedItems.add(productId);
     }
     setLikedItems(newLikedItems);
+    localStorage.setItem("wishlist", JSON.stringify(Array.from(newLikedItems)));
   };
 
   return (
