@@ -59,14 +59,14 @@ import LNavBar from "./src/app/loginuser/NavBar/NavBar";
 import LTerms from "./src/app/loginuser/TermsAndCondition/termsandcondition";
 import LogUserLayout from "./src/app/loginuser/LogUserLayout";
 import LogUserDashboardLayout from "./src/app/loginuser/LogUserDashboardLayout";
-import LMyProfile from "./src/app/loginuser/dashboardComponents/MyProfile";
-import LMyDashboard from "./src/app/loginuser/dashboardComponents/MyDashboard";
-import LKYC from "./src/app/loginuser/dashboardComponents/KYC";
-import LChitJewelsSavingPlan from "./src/app/loginuser/dashboardComponents/ChitJewelsSavingPlan";
-import LDigitalGoldSIPPlan from "./src/app/loginuser/dashboardComponents/DigitalGoldSIPPlan";
-import LGoldPlantScheme from "./src/app/loginuser/dashboardComponents/GoldPlantScheme";
-import LNotification from "./src/app/loginuser/dashboardComponents/Notification";
-import LMyBankAccounts from "./src/app/loginuser/dashboardComponents/MyBankAccounts";
+// import LMyProfile from "./src/app/loginuser/dashboardComponents/MyProfile";
+// import LMyDashboard from "./src/app/loginuser/dashboardComponents/MyDashboard";
+// import LKYC from "./src/app/loginuser/dashboardComponents/KYC";
+// import LChitJewelsSavingPlan from "./src/app/loginuser/dashboardComponents/ChitJewelsSavingPlan";
+// import LDigitalGoldSIPPlan from "./src/app/loginuser/dashboardComponents/DigitalGoldSIPPlan";
+// import LGoldPlantScheme from "./src/app/loginuser/dashboardComponents/GoldPlantScheme";
+// import LNotification from "./src/app/loginuser/dashboardComponents/Notification";
+// import LMyBankAccounts from "./src/app/loginuser/dashboardComponents/MyBankAccounts";
 import Refund from "./src/app/user/RefundPolicy/refund";
 import LUserHome from "./src/app/loginuser/LogUserHome";
 
@@ -167,8 +167,8 @@ const AppRoutes: React.FC = () => {
         <Route path="/lUserHome" element={ <LUserHome/>}/>
 
         {/*Login UserDashboard routes */}
-        <Route element={<LogUserDashboardLayout/>}>
-        <Route path="/user" element={ <LMyDashboard />}/>
+        <Route path="user" element={<LogUserDashboardLayout/>}>
+        {/* <Route path="/userdash" element={ <LMyDashboard />}/>
         <Route path="/userprofile" element={ <LMyProfile />}/>
         <Route path="/userkyc" element={ <LKYC />}/>
         <Route path="/userbeneficiaries" element={ <LNavBar />}/>
@@ -176,10 +176,11 @@ const AppRoutes: React.FC = () => {
         <Route path="/userspiplan" element={ <LDigitalGoldSIPPlan />}/>
         <Route path="/userplantscheme" element={ <LGoldPlantScheme />}/>
         <Route path="/usernotification" element={ <LNotification />}/>
-        <Route path="/usermybankaccounts" element={ <LMyBankAccounts />}/>
+        <Route path="/usermybankaccounts" element={ <LMyBankAccounts />}/> */}
+        </Route >
 
 
-        </Route>
+        
 
         </Route >
              
