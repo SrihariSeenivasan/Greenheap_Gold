@@ -526,7 +526,7 @@ const LBuyOrnamentsPage = () => {
                       (e.target as HTMLButtonElement).style.backgroundColor = '#7a1335';
                       (e.target as HTMLButtonElement).style.boxShadow = 'none';
                     }}
-                    onClick={() => navigate(`/buyornaments/${product.id}`)}
+                    onClick={() => navigate(`/lbuyornaments/${product.id}`)}
                   >
                     <Eye size={18} />
                     View Details
