@@ -170,7 +170,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/lprivacy" element={ <LPrivacyPlicyPage />}/>
         <Route path="/buynow" element={ <BuyNow />}/>
         <Route path="/Wishlist" element={<Wishlist/>}/>
-
+      
         <Route path="/lUserHome" element={ <LUserHome/>}/>
         
 

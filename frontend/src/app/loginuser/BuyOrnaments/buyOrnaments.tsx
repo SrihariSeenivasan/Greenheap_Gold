@@ -33,6 +33,10 @@ const LBuyOrnamentsPage = () => {
     const stored = localStorage.getItem("wishlist");
     return stored ? new Set(JSON.parse(stored)) : new Set();
   });
+  const [cartItems, setCartItems] = useState<number[]>(() => {
+    const stored = localStorage.getItem("cart");
+    return stored ? JSON.parse(stored) : [];
+  });
   const navigate = useNavigate();
 
   const categories = ['All', 'Necklaces', 'Earrings', 'Bangles', 'Rings', 'Chains', 'Pendants'];
@@ -52,6 +56,12 @@ const LBuyOrnamentsPage = () => {
     }
     setLikedItems(newLikedItems);
     localStorage.setItem("wishlist", JSON.stringify(Array.from(newLikedItems)));
+  };
+
+  const addToCart = (productId: number) => {
+    const updated = [...cartItems, productId];
+    setCartItems(updated);
+    localStorage.setItem("cart", JSON.stringify(updated));
   };
 
   return (
@@ -560,9 +570,10 @@ const LBuyOrnamentsPage = () => {
                     onMouseLeave={(e) => {
                       (e.target as HTMLButtonElement).style.backgroundColor = 'rgba(122, 19, 53, 0.1)';
                       (e.target as HTMLButtonElement).style.color = '#7a1335';
-                     (e.target as HTMLButtonElement).style.transform = 'scale(1)';
+                      (e.target as HTMLButtonElement).style.transform = 'scale(1)';
                       (e.target as HTMLButtonElement).style.borderColor = 'rgba(122, 19, 53, 0.2)';
                     }}
+                    onClick={() => addToCart(product.id)}
                   >
                     <ShoppingCart size={20} />
                   </button>
