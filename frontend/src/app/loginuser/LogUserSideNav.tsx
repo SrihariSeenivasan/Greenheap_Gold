@@ -1,4 +1,4 @@
-import { FaBell, FaBoxes, FaIdCard, FaLeaf, FaMoneyCheckAlt, FaPercent, FaPiggyBank, FaSignOutAlt, FaTachometerAlt, FaUniversity, FaUser, FaUsers, FaWallet } from "react-icons/fa";
+import { FaBell, FaIdCard, FaLeaf, FaPiggyBank, FaSignOutAlt, FaTachometerAlt, FaUniversity, FaUser, FaUsers, FaWallet } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
 const menuItems = [
@@ -20,7 +20,7 @@ export default function LogUserSideNav() {
   const current = location.pathname;
 
   return (
-    <aside className="w-64 bg-white shadow-lg hidden md:flex flex-col h-screen fixed top-0 left-0 z-30">
+    <aside className="w-64 bg-white shadow-lg hidden md:flex flex-col h-screen fixed top-0 left-0 z-30 pt-32">
       <div className="h-16 flex items-center justify-center font-bold text-xl text-[#7a1335]">
         User Dashboard
       </div>

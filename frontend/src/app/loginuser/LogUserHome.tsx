@@ -1,8 +1,6 @@
+import React, { useEffect, useRef, useState } from "react";
 import Carousel from "../components/custom/Carousel";
-import CustomButton from "../components/custom/CustomButton";
-import CustomImage from "../components/custom/Image";
 import style from "./style.module.css";
-import React, { useState, useRef, useEffect } from "react";
 
 // Helper hook for scroll animation
 function useScrollFadeIn(direction: "left" | "right" | "up" | "down" = "up", duration = 700, delay = 0) {
@@ -414,6 +412,7 @@ const LUserHome = () => {
           </div>
         </div>
       </section>
+      
 
       {/* Discover Our Jewel Collection Banner */}
       <div

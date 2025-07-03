@@ -58,8 +58,6 @@ import LFooter from "./src/app/loginuser/Footer/Footer";
 import LNavBar from "./src/app/loginuser/NavBar/NavBar";
 import LTerms from "./src/app/loginuser/TermsAndCondition/termsandcondition";
 import LogUserLayout from "./src/app/loginuser/LogUserLayout";
-import LUserHome from "./src/app/loginuser/LogUserHome.tsx";
-import Refund from "./src/app/user/TermsAndCondition/refund";
 import LogUserDashboardLayout from "./src/app/loginuser/LogUserDashboardLayout";
 import LMyProfile from "./src/app/loginuser/dashboardComponents/MyProfile";
 import LMyDashboard from "./src/app/loginuser/dashboardComponents/MyDashboard";
@@ -69,6 +67,9 @@ import LDigitalGoldSIPPlan from "./src/app/loginuser/dashboardComponents/Digital
 import LGoldPlantScheme from "./src/app/loginuser/dashboardComponents/GoldPlantScheme";
 import LNotification from "./src/app/loginuser/dashboardComponents/Notification";
 import LMyBankAccounts from "./src/app/loginuser/dashboardComponents/MyBankAccounts";
+import Refund from "./src/app/user/RefundPolicy/refund";
+import LUserHome from "./src/app/loginuser/LogUserHome";
+
 
 
 const AppRoutes: React.FC = () => {
@@ -151,8 +152,8 @@ const AppRoutes: React.FC = () => {
         <Route path="/refund" element={ <Refund />}/>
         </Route >
 
-
       
+
 
         {/*Login User routes */}
 
@@ -167,8 +168,9 @@ const AppRoutes: React.FC = () => {
         <Route path="/laboutus" element={ <LAboutUsPage />}/>
         <Route path="/lprivacy" element={ <LPrivacyPlicyPage />}/>
 
-        <Route path="/lUserHome" element={ <LUserHome />}/>
-        
+
+
+        <Route path="/lUserHome" element={ <LUserHome/>}/>
 
 
         {/*Login UserDashboard routes */}

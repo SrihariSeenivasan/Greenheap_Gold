@@ -23,9 +23,9 @@ const LogUserDashboardLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
-      <div>
+      <div className="flex-shrink-0">
         {/* Desktop sidebar */}
-        <div className="hidden md:block">
+        <div className="hidden md:block fixed top-0 left-0 h-full z-30" >
           <LogUserSideNav />
         </div>
         {/* Mobile sidebar (drawer) */}
@@ -53,7 +53,15 @@ const LogUserDashboardLayout: React.FC = () => {
           flex-1 flex flex-col min-h-screen transition-all duration-300 ease-in-out
           ${isMobile ? "" : "md:ml-64"}
         `}
+
+
+        style={{
+          marginLeft: !isMobile ? SIDEBAR_WIDTH : 0,
+          width: !isMobile ? `calc(100% - ${SIDEBAR_WIDTH}px)` : "100%",
+        }}
       >
+
+
         {/* Topbar for mobile */}
         {isMobile && (
           <div className="bg-white shadow flex items-center px-4 py-3 sticky top-0 z-20">
@@ -74,7 +82,6 @@ const LogUserDashboardLayout: React.FC = () => {
             </div>
           </div>
         </main>
-        
       </div>
     </div>
   );
