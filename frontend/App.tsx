@@ -67,7 +67,7 @@ import LogUserDashboardLayout from "./src/app/loginuser/LogUserDashboardLayout";
 // import LGoldPlantScheme from "./src/app/loginuser/dashboardComponents/GoldPlantScheme";
 // import LNotification from "./src/app/loginuser/dashboardComponents/Notification";
 // import LMyBankAccounts from "./src/app/loginuser/dashboardComponents/MyBankAccounts";
-import Refund from "./src/app/user/RefundPolicy/refund";
+import Refund from "./src/app/user/RefundPolicy/refund.tsx";
 import LUserHome from "./src/app/loginuser/LogUserHome";
 import BuyNow from "./src/app/loginuser/BuyNow/buynow";
 import  Wishlist from "./src/app/loginuser/Wishlist/wishlist";
@@ -79,6 +79,10 @@ import LChitJewelsSavingPlan from "./src/app/loginuser/DashboardComponents/ChitJ
 import LGoldPlantScheme from "./src/app/loginuser/DashboardComponents/GoldPlantScheme.tsx";
 import LDigitalGoldSIPPlan from "./src/app/loginuser/DashboardComponents/DigitalGoldSIPPlan.tsx";
 import LNotification from "./src/app/loginuser/DashboardComponents/Notification.tsx";
+import Cart from "./src/app/loginuser/Cart/cart";
+import LRefund from "./src/app/loginuser/Refund/refund.tsx";
+
+
 const AppRoutes: React.FC = () => {
   return (
       <Routes>
@@ -155,6 +159,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/privacy" element={ <PrivacyPlicyPage />}/>
         <Route path="/partnerpopup" element={ <PartnerPopup open={true} onClose={() => {}} />}/>
         <Route path="/signuppopup" element={ <SignupPopup open={true} onClose={() => {}} />}/>
+        
 
         <Route path="/refund" element={ <Refund />}/>
       </Route >
@@ -178,6 +183,8 @@ const AppRoutes: React.FC = () => {
         <Route path="/Wishlist" element={<Wishlist/>}/>
         <Route path="/lUserHome" element={ <LUserHome/>}/>
         <Route path="paymentpopup" element={<PaymentPopup/>}/>
+        <Route path="/cart" element={<Cart/>}/>
+        <Route path="/lrefund" element={ <LRefund />}/>
 
 
         

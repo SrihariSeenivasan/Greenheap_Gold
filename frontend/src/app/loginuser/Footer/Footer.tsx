@@ -72,7 +72,7 @@ const LFooter = () => {
               </li>
               <li>
                 <a
-                  href="/refund-cancellation"
+                  href="/lrefund"
                   className="text-dark text-decoration-none"
                 >
                   Refund & Cancellation Policy

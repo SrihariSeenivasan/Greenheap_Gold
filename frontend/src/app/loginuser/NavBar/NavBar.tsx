@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import CustomButton from "../../components/custom/CustomButton";
-import CustomImage from "../../components/custom/Image";
+import { Crown, LogOut, Settings, Shield, Sparkles, User } from "lucide-react";
+import { useState } from "react";
 
 export const MENU = [
 	{ name: "Home", link: "/LUserHome" },
@@ -26,7 +25,7 @@ const LNavBar = () => {
 					justifyContent: "space-between",
 					padding: "0 2vw",
 					borderBottom: "1.5px solid #fff",
-					fontFamily: "'Red Hat Display', 'DM Sans', Arial, sans-serif", // updated font family
+					fontFamily: "'Red Hat Display', 'DM Sans', Arial, sans-serif",
 					fontSize: 18,
 					fontWeight: 400,
 					letterSpacing: 0.2,
@@ -73,6 +72,7 @@ const LNavBar = () => {
 					</a>
 				</div>
 			</div>
+			
 			{/* Main nav */}
 			<nav
 				style={{
@@ -80,7 +80,7 @@ const LNavBar = () => {
 					width: "100%",
 					boxShadow: "0 2px 8px #f0e3d1",
 					position: "fixed",
-					top: 44, // below the fixed top bar
+					top: 44,
 					left: 0,
 					right: 0,
 					zIndex: 1000,
@@ -101,18 +101,22 @@ const LNavBar = () => {
 						boxSizing: "border-box",
 						flexWrap: "wrap",
 						gap: 10,
-						fontFamily: "'Red Hat Display', 'DM Sans', Arial, sans-serif", // updated font family
+						fontFamily: "'Red Hat Display', 'DM Sans', Arial, sans-serif",
 					}}
 				>
 					{/* Logo */}
 					<a href="/" style={{ display: "flex", alignItems: "center", minWidth: 70 }}>
-						<CustomImage
-							src={"/logo.png"}
-							wrapperClss="h-auto w-[80px] min-w-[70px]"
-							height="auto"
-							width="80px"
+						<img
+							src="/logo.png"
+							alt="Logo"
+							style={{
+								height: "auto",
+								width: "80px",
+								minWidth: "70px"
+							}}
 						/>
 					</a>
+					
 					{/* Menu */}
 					<ul
 						style={{
@@ -124,7 +128,7 @@ const LNavBar = () => {
 							listStyle: "none",
 							fontSize: 15,
 							fontWeight: 500,
-							fontFamily: "'Red Hat Display', 'DM Sans', Arial, sans-serif", // updated font family
+							fontFamily: "'Red Hat Display', 'DM Sans', Arial, sans-serif",
 							flexWrap: "wrap"
 						}}
 					>
@@ -159,7 +163,6 @@ const LNavBar = () => {
 										outline: hovered === menuItem.name ? "1.5px solid #7a1335" : "none",
 									}}
 								>
-									{/* Always show hovered text if hovered, else show normal */}
 									{hovered === menuItem.name
 										? `Go to ${menuItem.name}`
 										: menuItem.name}
@@ -167,6 +170,7 @@ const LNavBar = () => {
 							</li>
 						))}
 					</ul>
+					
 					{/* Right actions */}
 					<div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
 						<a
@@ -194,152 +198,420 @@ const LNavBar = () => {
 							<i className="fa fa-handshake-o" style={{ fontSize: 14 }} />
 							Become a partner / Login
 						</a>
-						{/* User Profile Dropdown */}
+						
+						{/* Enhanced User Profile Dropdown */}
 						<div style={{ position: "relative", display: "flex", alignItems: "center" }}>
 							<button
 								onClick={() => setHovered(hovered === "profile" ? null : "profile")}
 								style={{
-									background: "#fff",
-									border: "1.5px solid #e0e0e0",
+									background: hovered === "profile" 
+										? "linear-gradient(135deg, #6a0822 0%, #8a2342 100%)" 
+										: "#fff",
+									border: hovered === "profile" 
+										? "3px solid transparent" 
+										: "2px solid #e0e0e0",
 									borderRadius: "50%",
-									width: 38,
-									height: 38,
+									width: 45,
+									height: 45,
 									display: "flex",
 									alignItems: "center",
 									justifyContent: "center",
 									cursor: "pointer",
-									marginLeft: 84,
-									boxShadow: hovered === "profile" ? "0 2px 8px #f0e3d1" : "none",
-									transition: "box-shadow 0.18s, border 0.18s",
+									marginLeft: 10,
+									boxShadow: hovered === "profile" 
+										? "0 0 20px rgba(106, 8, 34, 0.4), 0 0 40px rgba(138, 35, 66, 0.2)" 
+										: "0 2px 8px rgba(240, 227, 209, 0.3)",
+									transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
 									position: "relative",
 									padding: 0,
-									zIndex: 1201
+									zIndex: 1201,
+									transform: hovered === "profile" ? "scale(1.05)" : "scale(1)",
 								}}
 								aria-label="User Profile"
 							>
+								{hovered === "profile" && (
+									<div style={{
+										position: "absolute",
+										top: "-3px",
+										left: "-3px",
+										right: "-3px",
+										bottom: "-3px",
+										borderRadius: "50%",
+										background: "linear-gradient(45deg, #FFD700, #FFA500, #FF6347, #FFD700)",
+										backgroundSize: "300% 300%",
+										animation: "royalBorder 3s ease infinite",
+										zIndex: -1
+									}} />
+								)}
 								<img
 									src="/home/user_profile.png"
 									alt="Profile"
 									style={{
-										width: 28,
-										height: 28,
+										width: 32,
+										height: 32,
 										borderRadius: "50%",
 										objectFit: "cover",
 										background: "#eee",
+										border: hovered === "profile" ? "2px solid rgba(255,255,255,0.3)" : "none"
 									}}
 								/>
+								{hovered === "profile" && (
+									<div style={{
+										position: "absolute",
+										top: "-6px",
+										right: "-6px",
+										width: "18px",
+										height: "18px",
+										background: "linear-gradient(45deg, #FFD700, #FFA500)",
+										borderRadius: "50%",
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "center",
+										animation: "crownPulse 1.5s ease-in-out infinite",
+										border: "2px solid #fff"
+									}}>
+										<Crown size={10} color="#fff" />
+									</div>
+								)}
 							</button>
+							
 							{hovered === "profile" && (
 								<div
 									style={{
 										position: "fixed",
-										top: 112, // 44px top bar + 48px nav bar
-										right: 78, // adjust to align with profile button
-										background: "rgba(38, 38, 38, 0.98)",
-										border: "1.5px solid #e0e0e0",
-										borderRadius: 16,
-										boxShadow: "0 8px 32px #bf7e1a33, 0 1.5px 8px #99131322",
-										minWidth: 200,
+										top: 95,
+										right: 20,
+										background: "rgba(255, 255, 255, 0.98)",
+										backdropFilter: "blur(20px)",
+										border: "1px solid rgba(255, 255, 255, 0.3)",
+										borderRadius: 20,
+										boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1)",
+										minWidth: 280,
 										zIndex: 20000,
-										padding: "10px 0",
+										padding: "0",
 										display: "flex",
 										flexDirection: "column",
 										alignItems: "stretch",
-										animation: "fadeInProfileDropdown 0.18s cubic-bezier(.4,0,.2,1)",
-										backdropFilter: "blur(8px)",
-										marginTop: 0,
+										animation: "luxuryFadeIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
 										overflow: "hidden"
 									}}
 									onMouseLeave={() => setHovered(null)}
 								>
-									<a
-										href="/user/dashboard"
-										style={{
-											padding: "16px 28px",
-											color: "#fff",
-											fontWeight: 700,
-											fontSize: 16,
-											textDecoration: "none",
-											borderBottom: "1px solid #3a2d2d",
-											transition: "background 0.15s, color 0.15s",
-											background: "transparent",
-											cursor: "pointer",
-											letterSpacing: 0.1,
-											display: "flex",
-											alignItems: "center"
-										}}
-										onMouseEnter={e => (e.currentTarget.style.background = "#222")}
-										onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-										onClick={() => setHovered(null)}
-									>
-										<span style={{
-											display: "inline-block",
-											width: 22,
-											height: 22,
-											marginRight: 10,
-											background: "linear-gradient(135deg,#bf7e1a 60%,#fffbe8 100%)",
+									{/* Header Section */}
+									<div style={{
+										background: "linear-gradient(135deg, #6a0822 0%, #8a2342 100%)",
+										padding: "20px",
+										textAlign: "center",
+										position: "relative",
+										overflow: "hidden"
+									}}>
+										<div style={{
+											position: "absolute",
+											top: 0,
+											left: 0,
+											right: 0,
+											bottom: 0,
+											background: "url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"grain\" width=\"100\" height=\"100\" patternUnits=\"userSpaceOnUse\"><circle cx=\"50\" cy=\"50\" r=\"1\" fill=\"%23ffffff\" opacity=\"0.1\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23grain)\"/></svg>') repeat",
+											opacity: 0.3
+										}} />
+										<div style={{
+											width: 70,
+											height: 70,
 											borderRadius: "50%",
-											boxShadow: "0 1px 4px #f9e9c7",
-											textAlign: "center",
-											lineHeight: "22px",
-											fontWeight: 900,
-											color: "#fff"
-										}}></span>
-										My Dashboard
-									</a>
-									<a
-										href="/logout"
-										style={{
-											padding: "16px 28px",
-											color: "#fff",
-											fontWeight: 700,
-											fontSize: 16,
-											textDecoration: "none",
-											background: "transparent",
-											cursor: "pointer",
-											letterSpacing: 0.1,
+											background: "rgba(255, 255, 255, 0.2)",
+											margin: "0 auto 12px",
 											display: "flex",
-											alignItems: "center"
-										}}
-										onMouseEnter={e => {
-											e.currentTarget.style.background = "#991313";
-											e.currentTarget.style.color = "#fffbe8";
-										}}
-										onMouseLeave={e => {
-											e.currentTarget.style.background = "transparent";
-											e.currentTarget.style.color = "#fff";
-										}}
-										onClick={() => setHovered(null)}
-									>
-										<span style={{
-											display: "inline-block",
-											width: 22,
-											height: 22,
-											marginRight: 10,
-											background: "linear-gradient(135deg,#991313 60%,#fffbe8 100%)",
-											borderRadius: "50%",
-											boxShadow: "0 1px 4px #fbeaf0",
-											textAlign: "center",
-											lineHeight: "22px",
-											fontWeight: 900,
-											color: "#fff"
-										}}></span>
-										Logout
-									</a>
+											alignItems: "center",
+											justifyContent: "center",
+											border: "3px solid rgba(255, 255, 255, 0.3)",
+											position: "relative"
+										}}>
+											<img
+												src="/home/user_profile.png"
+												alt="Profile"
+												style={{
+													width: 55,
+													height: 55,
+													borderRadius: "50%",
+													objectFit: "cover"
+												}}
+											/>
+											<div style={{
+												position: "absolute",
+												top: -4,
+												right: -4,
+												background: "linear-gradient(45deg, #FFD700, #FFA500)",
+												borderRadius: "50%",
+												width: 22,
+												height: 22,
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "center",
+												animation: "floatCrown 2s ease-in-out infinite",
+												border: "2px solid #fff"
+											}}>
+												<Crown size={12} color="#fff" />
+											</div>
+										</div>
+										<h3 style={{
+											color: "#fff",
+											fontSize: "18px",
+											fontWeight: "600",
+											margin: "0 0 6px 0",
+											textShadow: "0 2px 4px rgba(0,0,0,0.3)"
+										}}>
+											John Doe
+										</h3>
+										<p style={{
+											color: "rgba(255, 255, 255, 0.9)",
+											fontSize: "13px",
+											margin: 0,
+											opacity: 0.9
+										}}>
+											Premium Member
+										</p>
+									</div>
+
+									{/* Menu Items */}
+									<div style={{ padding: "6px 0" }}>
+										<a
+											href="/user"
+											style={{
+												padding: "14px 20px",
+												color: "#2D3748",
+												fontWeight: 500,
+												fontSize: 15,
+												textDecoration: "none",
+												transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+												background: "transparent",
+												cursor: "pointer",
+												display: "flex",
+												alignItems: "center",
+												position: "relative",
+												overflow: "hidden"
+											}}
+											onMouseEnter={e => {
+												e.currentTarget.style.background = "linear-gradient(135deg, #6a0822 0%, #8a2342 100%)";
+												e.currentTarget.style.color = "#fff";
+												e.currentTarget.style.transform = "translateX(6px)";
+											}}
+											onMouseLeave={e => {
+												e.currentTarget.style.background = "transparent";
+												e.currentTarget.style.color = "#2D3748";
+												e.currentTarget.style.transform = "translateX(0)";
+											}}
+											onClick={() => setHovered(null)}
+										>
+											<div style={{
+												width: 36,
+												height: 36,
+												borderRadius: "50%",
+												background: "linear-gradient(135deg, #6a0822 0%, #8a2342 100%)",
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "center",
+												marginRight: 14,
+												boxShadow: "0 4px 12px rgba(106, 8, 34, 0.3)"
+											}}>
+												<User size={16} color="#fff" />
+											</div>
+											<span>My Dashboard</span>
+											<Sparkles size={14} style={{ marginLeft: "auto", opacity: 0.6 }} />
+										</a>
+
+										{/* <a
+											href="/user/settings"
+											style={{
+												padding: "14px 20px",
+												color: "#2D3748",
+												fontWeight: 500,
+												fontSize: 15,
+												textDecoration: "none",
+												transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+												background: "transparent",
+												cursor: "pointer",
+												display: "flex",
+												alignItems: "center",
+												position: "relative",
+												overflow: "hidden"
+											}}
+											onMouseEnter={e => {
+												e.currentTarget.style.background = "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)";
+												e.currentTarget.style.color = "#fff";
+												e.currentTarget.style.transform = "translateX(6px)";
+											}}
+											onMouseLeave={e => {
+												e.currentTarget.style.background = "transparent";
+												e.currentTarget.style.color = "#2D3748";
+												e.currentTarget.style.transform = "translateX(0)";
+											}}
+											onClick={() => setHovered(null)}
+										>
+											<div style={{
+												width: 36,
+												height: 36,
+												borderRadius: "50%",
+												background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "center",
+												marginRight: 14,
+												boxShadow: "0 4px 12px rgba(79, 172, 254, 0.3)"
+											}}>
+												<Settings size={16} color="#fff" />
+											</div>
+											<span>Settings</span>
+										</a>
+
+										<a
+											href="/user/premium"
+											style={{
+												padding: "14px 20px",
+												color: "#2D3748",
+												fontWeight: 500,
+												fontSize: 15,
+												textDecoration: "none",
+												transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+												background: "transparent",
+												cursor: "pointer",
+												display: "flex",
+												alignItems: "center",
+												position: "relative",
+												overflow: "hidden"
+											}}
+											onMouseEnter={e => {
+												e.currentTarget.style.background = "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)";
+												e.currentTarget.style.color = "#8B4513";
+												e.currentTarget.style.transform = "translateX(6px)";
+											}}
+											onMouseLeave={e => {
+												e.currentTarget.style.background = "transparent";
+												e.currentTarget.style.color = "#2D3748";
+												e.currentTarget.style.transform = "translateX(0)";
+											}}
+											onClick={() => setHovered(null)}
+										>
+											<div style={{
+												width: 36,
+												height: 36,
+												borderRadius: "50%",
+												background: "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "center",
+												marginRight: 14,
+												boxShadow: "0 4px 12px rgba(255, 215, 0, 0.4)"
+											}}>
+												<Shield size={16} color="#fff" />
+											</div>
+											<span>Premium Features</span>
+											<div style={{
+												background: "linear-gradient(45deg, #FFD700, #FFA500)",
+												color: "#fff",
+												fontSize: "9px",
+												padding: "2px 6px",
+												borderRadius: "8px",
+												marginLeft: "auto",
+												fontWeight: "600",
+												textTransform: "uppercase"
+											}}>
+												VIP
+											</div>
+										 </a>
+
+										 <div style={{
+											height: "1px",
+											background: "linear-gradient(90deg, transparent, #e2e8f0, transparent)",
+											margin: "6px 20px"
+										}} /> */}
+
+										<a
+											href="/"
+											style={{
+												padding: "14px 20px",
+												color: "#E53E3E",
+												fontWeight: 500,
+												fontSize: 15,
+												textDecoration: "none",
+												background: "transparent",
+												cursor: "pointer",
+												display: "flex",
+												alignItems: "center",
+												transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+												position: "relative",
+												overflow: "hidden"
+											}}
+											onMouseEnter={e => {
+												e.currentTarget.style.background = "linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)";
+												e.currentTarget.style.color = "#fff";
+												e.currentTarget.style.transform = "translateX(6px)";
+											}}
+											onMouseLeave={e => {
+												e.currentTarget.style.background = "transparent";
+												e.currentTarget.style.color = "#E53E3E";
+												e.currentTarget.style.transform = "translateX(0)";
+											}}
+											onClick={() => setHovered(null)}
+										>
+											<div style={{
+												width: 36,
+												height: 36,
+												borderRadius: "50%",
+												background: "linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)",
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "center",
+												marginRight: 14,
+												boxShadow: "0 4px 12px rgba(255, 107, 107, 0.3)"
+											}}>
+												<LogOut size={16} color="#fff" />
+											</div>
+											<span>Logout</span>
+										</a>
+									</div>
 								</div>
 							)}
-							<style>
-								{`
-								@keyframes fadeInProfileDropdown {
-									from { opacity: 0; transform: translateY(12px);}
-									to { opacity: 1; transform: translateY(0);}
-								}
-								`}
-							</style>
 						</div>
 					</div>
 				</div>
 			</nav>
+
+			<style>
+				{`
+				@keyframes luxuryFadeIn {
+					0% { 
+						opacity: 0; 
+						transform: translateY(-15px) scale(0.95);
+						filter: blur(8px);
+					}
+					50% {
+						opacity: 0.8;
+						transform: translateY(-8px) scale(0.98);
+						filter: blur(4px);
+					}
+					100% { 
+						opacity: 1; 
+						transform: translateY(0) scale(1);
+						filter: blur(0px);
+					}
+				}
+				
+				@keyframes royalBorder {
+					0%, 100% { background-position: 0% 50%; }
+					50% { background-position: 100% 50%; }
+				}
+				
+				@keyframes crownPulse {
+					0%, 100% { transform: scale(1) rotate(0deg); }
+					50% { transform: scale(1.15) rotate(5deg); }
+				}
+				
+				@keyframes floatCrown {
+					0%, 100% { transform: translateY(0px) rotate(0deg); }
+					50% { transform: translateY(-2px) rotate(5deg); }
+				}
+				`}
+			</style>
 		</>
 	);
 };

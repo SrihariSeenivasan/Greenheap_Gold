@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
 import {
-  Star,
-  TrendingUp,
-  Shield,
   Award,
   ChevronRight,
-  Sparkles
+  Shield,
+  Sparkles,
+  Star,
+  TrendingUp
 } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const LGoldPlantScheme = () => {
+  const navigate = useNavigate();
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const stats = [
@@ -94,7 +97,7 @@ const LGoldPlantScheme = () => {
               ))}
             </div>
 
-            <button className="w-full bg-gradient-to-r from-[#7a1335] to-red-700 text-white py-4 rounded-xl font-semibold text-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+            <button className="w-full bg-gradient-to-r from-[#7a1335] to-red-700 text-white py-4 rounded-xl font-semibold text-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2" onClick={() => navigate('/paymentpopup')}>
               Start Investment
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -130,10 +133,16 @@ const LGoldPlantScheme = () => {
               Join thousands of satisfied investors who have secured their financial future with our gold schemes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-[#7a1335] px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+              <button
+                className="bg-white text-[#7a1335] px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                onClick={() => navigate('/usersavingplan')}
+              >
                 Get Started Now
               </button>
-              <button className="border-2 border-white text-white px-8 py-3 rounded-xl font-semibold hover:bg-white hover:text-[#7a1335] transition-all duration-300">
+              <button
+                className="border-2 border-white text-white px-8 py-3 rounded-xl font-semibold hover:bg-black hover:text-[#7a1335] transition-all duration-300"
+                onClick={() => navigate('/paymentpopup')}
+              >
                 Learn More
               </button>
             </div>

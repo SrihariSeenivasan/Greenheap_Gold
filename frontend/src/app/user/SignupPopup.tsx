@@ -278,6 +278,10 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
               </div>
             </div>
             <button
+              onClick={() => {
+                // handle login logic here
+                navigate("/user");
+              }}
               type="submit"
               style={{
                 width: "100%",
@@ -409,6 +413,7 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
               </label>
             </div>
             <button
+            
               type="submit"
               style={{
                 width: "100%",
@@ -541,7 +546,10 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
                 boxShadow: "0 2px 8px #f9e9c7",
               }}
               // Add your OTP submit logic here
-              onClick={() => { /* handle OTP submit */ }}
+               onClick={() => {
+                // handle login logic here
+                navigate("/user");
+              }}
             >
               Verify OTP
             </button>
