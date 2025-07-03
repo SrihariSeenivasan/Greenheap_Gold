@@ -1,157 +1,176 @@
-import { useState } from "react";
-import { FaChartLine, FaCoins, FaGem, FaHourglassHalf, FaStar, FaTrophy, FaUsers, FaWallet } from "react-icons/fa";
-
+import { FaArrowRight, FaChartLine, FaCoins, FaCreditCard, FaGem, FaHourglassHalf, FaPiggyBank, FaShoppingCart, FaStar, FaTrophy, FaUsers, FaWallet } from "react-icons/fa";
 
 const summary = [
-  { label: "Total Gold Purchased", value: "₹0 / 0g", icon: <FaCoins className="w-8 h-8" />, highlight: true },
-  { label: "SIP Accounts Created", value: "0", icon: <FaUsers className="w-8 h-8 text-[#7a1335]" /> },
-  { label: "Monthly Purchase Volume", value: "0g", icon: <FaChartLine className="w-8 h-8 text-[#7a1335]" /> },
-  { label: "Pending Orders", value: "0", icon: <FaHourglassHalf className="w-8 h-8 text-[#7a1335]" /> },
-  { label: "Wallet Balance", value: "₹0", icon: <FaWallet className="w-8 h-8 text-[#7a1335]" /> },
+  { label: "Total Gold Purchased", value: "₹0", subValue: "0g", icon: <FaCoins className="w-6 h-6" />, highlight: true },
+  { label: "SIP Accounts", value: "0", subValue: "Active", icon: <FaUsers className="w-6 h-6" /> },
+  { label: "Monthly Volume", value: "0g", subValue: "This month", icon: <FaChartLine className="w-6 h-6" /> },
+  { label: "Pending Orders", value: "0", subValue: "In queue", icon: <FaHourglassHalf className="w-6 h-6" /> },
+  { label: "Wallet Balance", value: "₹0", subValue: "Available", icon: <FaWallet className="w-6 h-6" /> },
 ];
 
-const FloatingParticle = ({ delay, size, color }: { delay: number; size: string; color: string }) => (
-  <div 
-    className={`absolute ${size} ${color} rounded-full opacity-20 animate-bounce`}
-    style={{
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      animationDelay: `${delay}s`,
-      animationDuration: `${3 + Math.random() * 2}s`
-    }}
-  />
-);
-
-const GoldSparkle = ({ delay }: { delay: number }) => (
-  <div 
-    className="absolute animate-pulse"
-    style={{
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      animationDelay: `${delay}s`,
-      animationDuration: `${2 + Math.random()}s`
-    }}
-  >
-    <FaStar className="w-3 h-3 text-yellow-400 opacity-60" />
-  </div>
-);
-
 export default function Dashboard() {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-
   return (
-    <div className="max-w-7xl mx-auto space-y-8 relative overflow-hidden">
-      {/* Animated Header */}
-      <div className="text-center mb-12 relative">
-        <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#7a1335] to-[#a31d4b] text-white px-8 py-4 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300">
-          <FaTrophy className="w-6 h-6 animate-spin" style={{ animationDuration: '3s' }} />
-          <h1 className="text-3xl font-bold">Gold Trading Dashboard</h1>
-          <FaGem className="w-6 h-6 animate-pulse" />
-        </div>
-      </div>
-
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-        {summary.map((item, idx) => (
-          <div
-            key={item.label}
-            className={`rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transition-all duration-500 cursor-pointer relative overflow-hidden ${
-              item.highlight
-                ? "bg-gradient-to-br from-[#7a1335] via-[#a31d4b] to-[#d4426e] text-white transform hover:scale-110 hover:rotate-1"
-                : "bg-white hover:bg-gradient-to-br hover:from-white hover:to-yellow-50 transform hover:scale-105 hover:-rotate-1"
-            } ${hoveredCard === idx ? 'shadow-2xl z-10' : ''}`}
-            style={item.highlight ? { boxShadow: "0 8px 32px 0 #7a133560, 0 0 0 1px #ffd70020" } : {}}
-            onMouseEnter={() => setHoveredCard(idx)}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            {/* Floating Icons */}
-            <div className={`mb-2 transform transition-all duration-300 ${hoveredCard === idx ? 'scale-125 rotate-12' : ''}`}>
-              {item.icon}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4 lg:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100">
+      <div className="max-w-4xl mx-auto px-2 py-6">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center space-x-3 mb-3">
+            <div className="p-2 bg-gradient-to-br from-[#7a1335] to-[#5a0f26] rounded-xl shadow-lg">
+              <FaGem className="w-7 h-7 text-white" />
             </div>
-            <div className="font-semibold text-center text-base mb-2 transition-all duration-300">
-              {item.label}
+            <div className="text-left">
+              <h1 className="text-2xl font-semibold text-[#7a1335] tracking-wide mb-1">B2B Dashboard</h1>
             </div>
-            <div className={`text-2xl font-extrabold transition-all duration-300 ${
-              hoveredCard === idx ? 'text-3xl' : ''
-            }`}>
-              {item.value}
-            </div>
-            {/* Decorative corner elements */}
-            {item.highlight && (
-              <>
-                <div className="absolute top-2 right-2">
-                  <FaStar className="w-4 h-4 text-yellow-300 animate-spin" style={{ animationDuration: '4s' }} />
-                </div>
-                <div className="absolute bottom-2 left-2">
-                  <FaGem className="w-3 h-3 text-yellow-200 animate-bounce" />
-                </div>
-              </>
-            )}
           </div>
-        ))}
-      </div>
-
-      {/* Achievement/Status Section */}
-      <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-3xl p-8 shadow-2xl relative overflow-hidden mb-8">
-        <div className="relative z-10 text-center">
-          <div className="flex justify-center items-center space-x-4 mb-4">
-            <FaTrophy className="w-8 h-8 text-white animate-bounce" />
-            <h2 className="text-3xl font-bold text-white">Ready to Start Your Gold Journey!</h2>
-            <FaTrophy className="w-8 h-8 text-white animate-bounce" style={{ animationDelay: '0.5s' }} />
-          </div>
-          <p className="text-white/90 text-lg font-medium">Begin investing in gold today and watch your portfolio shine</p>
         </div>
-        {/* Animated background waves */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
-          <svg className="absolute bottom-0 w-full h-20" viewBox="0 0 1200 120">
-            <path d="M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 L1200,120 L0,120 Z" fill="white" fillOpacity="0.1">
-              <animate attributeName="d" 
-                values="M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 L1200,120 L0,120 Z;
-                        M0,80 C200,40 400,80 600,40 C800,80 1000,40 1200,80 L1200,120 L0,120 Z;
-                        M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 L1200,120 L0,120 Z" 
-                dur="4s" 
-                repeatCount="indefinite" />
-            </path>
-          </svg>
-        </div>
-      </div>
 
-      {/* Enhanced Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {[
-          { icon: FaCoins, title: "Buy Gold", desc: "Start your investment", buttonText: "Go to Gold Purchase", gradient: "from-[#7a1335] to-[#7a1335]" },
-          { icon: FaUsers, title: "Add SIP Customer", desc: "Systematic investment", buttonText: "Go to SIP Management", gradient: "from-purple-500 to-purple-700" },
-          { icon: FaWallet, title: "Wallet Top-up", desc: "Fund your account", buttonText: "Go to Wallet", gradient: "from-green-500 to-green-700" }
-        ].map((action, idx) => (
-          <div 
-            key={idx}
-            className="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all duration-500 cursor-pointer overflow-hidden"
-          >
-            {/* Animated background gradient */}
-            <div className={`absolute inset-0 bg-gradient-to-r ${action.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-            {/* Content */}
-            <div className="relative z-10 flex flex-col items-center text-center">
-              <div className="mb-4 p-4 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 shadow-lg transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
-                <action.icon className="w-8 h-8 text-white" />
+        {/* Summary Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+          {summary.map((item, idx) => (
+            <div
+              key={item.label}
+              className={`relative rounded-xl p-4 border text-center ${
+                item.highlight
+                  ? "bg-gradient-to-br from-[#7a1335] via-[#8d1a3d] to-[#a01b42] text-white shadow-lg border-[#7a1335]/20"
+                  : "bg-white/80 shadow border-gray-200/50 hover:shadow-lg"
+              }`}
+            >
+              <div className={`flex items-center justify-center w-10 h-10 rounded-xl mb-2 ${
+                item.highlight 
+                  ? "bg-white/20 text-white" 
+                  : "bg-gradient-to-br from-[#7a1335]/10 to-[#7a1335]/5 text-[#7a1335]"
+              }`}>
+                {item.icon}
               </div>
-              <h3 className="text-2xl font-bold mb-2 text-gray-800 group-hover:text-[#7a1335] transition-colors duration-300">
-                {action.title}
-              </h3>
-              <p className="text-gray-600 group-hover:text-[#7a1335] mb-6 transition-colors duration-300">
-                {action.desc}
-              </p>
-              <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold px-6 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 group-hover:shadow-xl">
-                {action.buttonText}
-              </button>
+              <div className="space-y-1">
+                <p className={`text-xs font-medium uppercase ${
+                  item.highlight ? "text-white/70" : "text-gray-500"
+                }`}>
+                  {item.label}
+                </p>
+                <div className={`text-lg font-bold ${
+                  item.highlight ? "text-white" : "text-[#7a1335]"
+                }`}>
+                  {item.value}
+                </div>
+                <div className={`text-xs ${
+                  item.highlight ? "text-white/60" : "text-gray-400"
+                }`}>
+                  {item.subValue}
+                </div>
+              </div>
             </div>
-            {/* Decorative elements */}
-            <div className="absolute top-4 right-4 opacity-20 group-hover:opacity-40 transition-opacity duration-300">
-              <FaStar className="w-6 h-6 text-yellow-400 animate-spin" style={{ animationDuration: '6s' }} />
+          ))}
+        </div>
+
+        {/* Welcome Section */}
+        <div className="relative bg-gradient-to-r from-[#7a1335] via-[#8d1a3d] to-[#a01b42] rounded-2xl p-6 shadow-xl overflow-hidden mb-8">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpolygon points='50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40'/%3E%3C/g%3E%3C/svg%3E")`,
+              backgroundSize: '100px 100px'
+            }} />
+          </div>
+          <div className="relative z-10 text-center">
+            <div className="flex justify-center items-center space-x-3 mb-3">
+              <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
+                <FaTrophy className="w-7 h-7 text-white" />
+              </div>
+              <h2 className="text-xl font-semibold text-white tracking-wide">Welcome to Premium Gold Trading</h2>
+              <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
+                <FaStar className="w-7 h-7 text-white" />
+              </div>
+            </div>
+            <p className="text-white/90 text-base font-light max-w-xl mx-auto leading-relaxed">
+              Experience luxury investment with our gold trading platform.
+            </p>
+          </div>
+        </div>
+
+        {/* Action Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {[
+            { 
+              icon: FaShoppingCart, 
+              title: "Gold Purchase", 
+              desc: "Buy gold at market rates", 
+              buttonText: "Trade",
+              accent: "from-[#7a1335] to-[#a01b42]"
+            },
+            { 
+              icon: FaPiggyBank, 
+              title: "SIP Portfolio", 
+              desc: "Invest regularly in gold", 
+              buttonText: "Create SIP",
+              accent: "from-purple-700 to-purple-900"
+            },
+            { 
+              icon: FaCreditCard, 
+              title: "Wallet Suite", 
+              desc: "Manage your funds", 
+              buttonText: "Wallet",
+              accent: "from-emerald-700 to-emerald-900"
+            }
+          ].map((action, idx) => (
+            <div 
+              key={idx}
+              className="group relative bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow border border-gray-200/50 hover:shadow-lg"
+            >
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className={`p-3 rounded-xl bg-gradient-to-br ${action.accent} shadow`}>
+                  <action.icon className="w-7 h-7 text-white" />
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-lg font-semibold text-[#7a1335]">{action.title}</h3>
+                  <p className="text-gray-600 text-sm">{action.desc}</p>
+                </div>
+                <button className={`inline-flex items-center space-x-2 bg-gradient-to-r ${action.accent} text-white font-medium px-4 py-2 rounded-lg shadow hover:shadow-lg`}>
+                  <span>{action.buttonText}</span>
+                  <FaArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="absolute top-3 right-3 opacity-20">
+                <FaGem className="w-5 h-5 text-[#7a1335]" />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer Status */}
+        <div className="text-center">
+          <div className="inline-flex items-center space-x-6 bg-white/90 backdrop-blur-sm rounded-xl px-6 py-3 shadow border border-gray-200/50">
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-emerald-500 rounded-full shadow"></div>
+              <span className="font-medium text-gray-700 text-sm">Premium Service Active</span>
+            </div>
+            <div className="h-4 w-px bg-gray-300"></div>
+            <div className="flex items-center space-x-2">
+              <FaShieldAlt className="w-4 h-4 text-[#7a1335]" />
+              <span className="font-medium text-gray-700 text-sm">Bank-Grade Security</span>
+            </div>
+            <div className="h-4 w-px bg-gray-300"></div>
+            <div className="flex items-center space-x-2">
+              <FaClock className="w-4 h-4 text-[#7a1335]" />
+              <span className="font-medium text-gray-700 text-sm">Concierge Support</span>
             </div>
           </div>
-        ))}
+        </div>
       </div>
+    </div>
     </div>
   );
 }
+
+// Additional luxury icons
+const FaShieldAlt = ({ className }: { className?: string }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 20 20">
+    <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+  </svg>
+);
+
+const FaClock = ({ className }: { className?: string }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 20 20">
+    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+  </svg>
+);

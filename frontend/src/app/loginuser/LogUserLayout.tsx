@@ -1,87 +1,33 @@
-import React, { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { MessageCircle } from "lucide-react";
+import React from "react";
 import { Outlet } from "react-router-dom";
-import AdminSideNav from "./LogUserSideNav";
+import "../../../globals.css";
+import Footer from "./Footer/Footer";
+import NavBar from "./NavBar/NavBar";
 
-const SIDEBAR_WIDTH = 256; // 64 * 4 (tailwind w-64)
 
-const LogUserLayout: React.FC = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+interface UserLayoutProps {
+  children?: React.ReactNode;
+}
 
-  useEffect(() => {
-    const handleResize = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      if (!mobile) setSidebarOpen(false);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const handleSidebarToggle = () => setSidebarOpen((open) => !open);
-
+const LogUserLayout: React.FC<UserLayoutProps> = () => {
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
-      <div>
-        {/* Desktop sidebar */}
-        <div className="hidden md:block">
-          <AdminSideNav />
-        </div>
-        {/* Mobile sidebar (drawer) */}
-        {isMobile && (
-          <div
-            className={`fixed top-0 left-0 z-40 h-full transition-transform duration-300 bg-white shadow-lg ${
-              sidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } w-64`}
-            style={{ width: SIDEBAR_WIDTH }}
-          >
-            <AdminSideNav />
-          </div>
-        )}
-      </div>
-      {/* Overlay for mobile */}
-      {isMobile && sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-30 z-30"
-          onClick={handleSidebarToggle}
-        />
-      )}
-      {/* Main Content */}
-      <div
-        className={`
-          flex-1 flex flex-col min-h-screen transition-all duration-300 ease-in-out
-          ${isMobile ? "" : "md:ml-64"}
-        `}
-      >
-        {/* Topbar for mobile */}
-        {isMobile && (
-          <div className="bg-white shadow flex items-center px-4 py-3 sticky top-0 z-20">
+    <div >
+      <NavBar />
+      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-neutral-100 p-4 md:p-6 lg:p-8">
+          <Outlet />
+          {/* Floating WhatsApp Button */}
+          <div className="fixed right-4 bottom-4 z-50 md:right-6 md:bottom-6">
             <button
-              className="text-yellow-600 text-2xl mr-3"
-              onClick={handleSidebarToggle}
-              aria-label="Open sidebar"
+              className="bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 animate-bounce"
+              style={{ boxShadow: "0 8px 32px 0 rgba(0,0,0,0.18)" }}
             >
-              <span className="material-icons">menu</span>
+              <MessageCircle className="w-6 h-6" />
             </button>
-            <span className="font-bold text-yellow-700 text-lg">Admin Panel</span>
           </div>
-        )}
-        <main className="flex-1 p-2 sm:p-4 md:p-6 lg:p-8 overflow-auto">
-          <div className="max-w-7xl mx-auto w-full">
-            <div className="bg-white rounded-lg shadow-sm border min-h-[calc(100vh-8rem)] p-2 sm:p-4 md:p-6">
-              <Outlet />
-            </div>
-          </div>
+          <Footer/>
         </main>
-        <footer className="bg-white border-t px-4 py-3 md:px-6 md:py-4 mt-auto">
-          <div className="max-w-7xl mx-auto">
-            <p className="text-sm text-gray-500 text-center md:text-left">
-              © {new Date().getFullYear()} Admin Panel. All rights reserved.
-            </p>
-          </div>
-        </footer>
-      </div>
     </div>
   );
 };
