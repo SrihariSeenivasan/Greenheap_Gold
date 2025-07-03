@@ -12,6 +12,7 @@ import {
   LogOut,
   ChevronRight,
   Store,
+  Backpack,
   Heart
 } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
@@ -38,10 +39,10 @@ const Dashboard = () => {
     { id: 'Digital Gold SIP Plan', label: 'Digital Gold SIP Plan', icon: Coins },
     { id: 'Gold Plant Scheme', label: 'Gold Plant Scheme', icon: Sprout },
     { id: 'Wishlist', label: 'Wishlist', icon: Heart },
-    { id: 'Cart', label: 'Cart', icon: Heart },
+    { id: 'Cart', label: 'Cart', icon: Backpack },
     { id: 'Notification', label: 'Notification', icon: Bell },
     { id: 'My Bank Accounts', label: 'My Bank Accounts', icon: Building2 },
-    { id: 'Logout', label: 'Logout', icon: LogOut },
+    // { id: 'Logout', label: 'Logout', icon: LogOut },
   ];
 
   const renderDashboard = () => (
@@ -320,10 +321,8 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-gray-50 pt-32">
       {/* Left Sidebar */}
-      <div className="w-80 bg-white shadow-lg">
-        <div className="p-6">
-          <h1 className="text-xl font-bold text-gray-800">Greenheap<span className="text-yellow-600">gold</span></h1>
-        </div>
+      <div className="w-80 bg-white shadow-lg h-screen overflow-y-auto">
+        
         
         <nav className="mt-6">
           {menuItems.map((item) => {
@@ -346,7 +345,6 @@ const Dashboard = () => {
           })}
         </nav>
       </div>
-
       {/* Main Content */}
       <div className="flex-1 overflow-auto">
         <div className="p-8">
