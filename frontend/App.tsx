@@ -72,7 +72,6 @@ import LUserHome from "./src/app/loginuser/LogUserHome";
 import BuyNow from "./src/app/loginuser/BuyNow/buynow";
 
 
-
 const AppRoutes: React.FC = () => {
   return (
       <Routes>
@@ -170,9 +169,8 @@ const AppRoutes: React.FC = () => {
         <Route path="/lprivacy" element={ <LPrivacyPlicyPage />}/>
         <Route path="/buynow" element={ <BuyNow />}/>
 
-
         <Route path="/lUserHome" element={ <LUserHome/>}/>
-
+        
 
         {/*Login UserDashboard routes */}
         <Route path="user" element={<LogUserDashboardLayout/>}>
