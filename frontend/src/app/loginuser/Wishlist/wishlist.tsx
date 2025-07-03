@@ -22,7 +22,7 @@ const Wishlist = () => {
 
   return (
     <div style={{
-      padding: "40px 0",
+      padding: "256px 0",
       minHeight: "80vh",
       background: "#fafbfc",
       fontFamily: "'Inter', sans-serif"
