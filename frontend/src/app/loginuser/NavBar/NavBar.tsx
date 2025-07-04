@@ -1,5 +1,6 @@
-import { ChevronDown, Crown, LogOut, Mail, Menu, Phone, Settings, Shield, User, X } from "lucide-react";
+import { ChevronDown, Crown, LogOut, Mail, Menu, Phone, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import CustomImage from "../../components/custom/Image";
 
 export const MENU = [
 	{ name: "Home", link: "/LUserHome" },
@@ -199,62 +200,414 @@ const LNavBar = () => {
 						width: "100%",
 						boxSizing: "border-box",
 						fontFamily: "'Inter', 'Red Hat Display', 'DM Sans', Arial, sans-serif",
-						position: "relative"
+						position: "relative",
+						flexWrap: isMobile ? "wrap" : "nowrap"
 					}}
 				>
 					{/* Logo */}
-					<div style={{ 
-						display: "flex", 
-						alignItems: "center", 
-						zIndex: 1001,
-						flex: isMobile ? "0 0 auto" : "0 0 200px"
-					}}>
-						<a href="/" style={{ 
-							display: "flex", 
-							alignItems: "center",
-							transition: "transform 0.3s ease"
-						}}
-						onMouseEnter={e => !isMobile && (e.currentTarget.style.transform = "scale(1.05)")}
-						onMouseLeave={e => !isMobile && (e.currentTarget.style.transform = "scale(1)")}
-						>
-							<div style={{
-								width: isMobile ? "50px" : isTablet ? "60px" : "70px",
-								height: isMobile ? "50px" : isTablet ? "60px" : "70px",
-								background: "linear-gradient(135deg, #6a0822 0%, #8a2342 100%)",
-								borderRadius: "12px",
+					<a href="/" style={{ display: "flex", alignItems: "center", minWidth: 50 }}>
+						<CustomImage
+							src={"/logo.png"}
+							wrapperClss={`h-auto ${isMobile ? "w-[60px] min-w-[50px]" : "w-[80px] min-w-[70px]"}`}
+							height="auto"
+							width={isMobile ? "60px" : "80px"}
+						/>
+					</a>
+
+					{/* All Category Dropdown - Responsive INSIDE NAVBAR for mobile */}
+					{isMobile && (
+						<div
+							style={{
+								width: "100%",
+								marginTop: "8px",
 								display: "flex",
-								alignItems: "center",
-								justifyContent: "center",
-								fontSize: isMobile ? "20px" : "24px",
-								fontWeight: "bold",
-								color: "#fff",
-								boxShadow: "0 4px 16px rgba(106, 8, 34, 0.3)"
-							}}>
-								💎
-							</div>
-							{!isMobile && (
-								<div style={{ marginLeft: "12px" }}>
-									<h1 style={{
-										fontSize: isTablet ? "18px" : "22px",
-										fontWeight: "700",
-										color: "#2D3748",
-										margin: 0,
-										lineHeight: 1.2
+								justifyContent: "center"
+							}}
+						>
+							<button
+								onClick={() => setHovered(hovered === "categories" ? null : "categories")}
+								style={{
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									gap: "6px",
+									width: "98vw",
+									maxWidth: "420px",
+									padding: "12px 8px",
+									background: hovered === "categories"
+										? "linear-gradient(135deg, #6a0822 0%, #8a2342 100%)"
+										: "rgba(106, 8, 34, 0.1)",
+									color: hovered === "categories" ? "#fff" : "#6a0822",
+									border: "none",
+									borderRadius: "12px",
+									fontWeight: 600,
+									fontSize: "15px",
+									cursor: "pointer",
+									transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+									boxShadow: hovered === "categories"
+										? "0 4px 16px rgba(106, 8, 34, 0.3)"
+										: "0 2px 8px rgba(0, 0, 0, 0.1)",
+									transform: hovered === "categories" ? "translateY(-2px)" : "translateY(0)",
+									whiteSpace: "nowrap",
+									marginBottom: "8px",
+								}}
+							>
+								<span style={{ fontSize: "17px" }}>🛍️</span>
+								<span style={{ fontSize: "15px" }}>All Categories</span>
+								<ChevronDown
+									size={16}
+									style={{
+										transform: hovered === "categories" ? "rotate(180deg)" : "rotate(0deg)",
+										transition: "transform 0.3s ease"
+									}}
+								/>
+							</button>
+							{/* Dropdown for mobile */}
+							{hovered === "categories" && (
+								<div
+									style={{
+										position: "fixed",
+										top: "calc(100px + 48px)",
+										left: 0,
+										right: 0,
+										background: "rgba(255, 255, 255, 0.98)",
+										backdropFilter: "blur(20px)",
+										borderRadius: "0",
+										boxShadow: "0 20px 40px rgba(0, 0, 0, 0.15)",
+										width: "100vw",
+										zIndex: 3000,
+										overflow: "hidden",
+										border: "1px solid rgba(255, 255, 255, 0.2)",
+										animation: "slideIn 0.3s ease-out",
+										padding: "0",
+										maxHeight: "calc(100vh - 160px)",
+										overflowY: "auto",
+									}}
+									onClick={() => setHovered(null)}
+								>
+									<div style={{
+										background: "linear-gradient(135deg, #6a0822 0%, #8a2342 100%)",
+										padding: "12px",
+										textAlign: "center"
 									}}>
-										GoldCraft
-									</h1>
-									<p style={{
-										fontSize: "12px",
-										color: "#718096",
-										margin: 0,
-										fontWeight: 500
-									}}>
-										Premium Ornaments
-									</p>
+										<h3 style={{
+											color: "#fff",
+											fontSize: "16px",
+											fontWeight: "600",
+											margin: "0 0 8px 0"
+										}}>
+											Browse by Category
+										</h3>
+										<p style={{
+											color: "rgba(255, 255, 255, 0.8)",
+											fontSize: "13px",
+											margin: 0
+										}}>
+											Discover our premium collection
+										</p>
+									</div>
+									<div
+										style={{
+											padding: "12px",
+											display: "grid",
+											gridTemplateColumns: "1fr",
+											gap: "12px"
+										}}
+									>
+										{[
+											{
+												name: "Gold",
+												icon: "🥇",
+												color: "#FFD700",
+												bgColor: "rgba(255, 215, 0, 0.1)",
+												subcategories: ["Men", "Women", "Kids", "Unisex"]
+											},
+											{
+												name: "Silver",
+												icon: "🥈",
+												color: "#C0C0C0",
+												bgColor: "rgba(192, 192, 192, 0.1)",
+												subcategories: ["Men", "Women", "Kids", "Unisex"]
+											},
+											{
+												name: "Platinum",
+												icon: "⭐",
+												color: "#E5E4E2",
+												bgColor: "rgba(229, 228, 226, 0.1)",
+												subcategories: ["Men", "Women", "Kids", "Unisex"]
+											}
+										].map((category, index) => (
+											<div
+												key={category.name}
+												style={{
+													background: category.bgColor,
+													borderRadius: "16px",
+													padding: "12px",
+													border: `1px solid ${category.color}30`,
+													transition: "all 0.3s ease"
+												}}
+											>
+												<div style={{
+													display: "flex",
+													alignItems: "center",
+													gap: "12px",
+													marginBottom: "12px"
+												}}>
+													<span style={{ fontSize: "20px" }}>{category.icon}</span>
+													<h4 style={{
+														color: "#374151",
+														fontSize: "15px",
+														fontWeight: "600",
+														margin: 0
+													}}>
+														{category.name}
+													</h4>
+												</div>
+												<div style={{
+													display: "flex",
+													flexDirection: "row",
+													gap: "8px",
+													flexWrap: "wrap"
+												}}>
+													{category.subcategories.map((sub, subIndex) => (
+														<a
+															key={sub}
+															href={`/category/${category.name.toLowerCase()}/${sub.toLowerCase()}`}
+															style={{
+																display: "flex",
+																alignItems: "center",
+																gap: "6px",
+																padding: "7px 10px",
+																borderRadius: "8px",
+																textDecoration: "none",
+																color: "#6B7280",
+																fontWeight: 500,
+																fontSize: "13px",
+																transition: "all 0.3s ease"
+															}}
+															onClick={() => setHovered(null)}
+														>
+															<span style={{ fontSize: "14px" }}>
+																{sub === "Men" ? "👨" : sub === "Women" ? "👩" : sub === "Kids" ? "👶" : "👥"}
+															</span>
+															{sub}
+														</a>
+													))}
+												</div>
+											</div>
+										))}
+									</div>
 								</div>
 							)}
-						</a>
-					</div>
+						</div>
+					)}
+					{/* Desktop All Category */}
+					{!isMobile && (
+						<div
+							style={{
+								position: "relative",
+								marginLeft: "24px",
+								flex: "0 0 auto",
+								width: "auto",
+								marginTop: 0,
+								display: "flex",
+								justifyContent: "flex-start",
+							}}
+						>
+							<button
+								onClick={() => setHovered(hovered === "categories" ? null : "categories")}
+								onMouseEnter={() => setHovered("categories")}
+								style={{
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									gap: "8px",
+									width: "auto",
+									padding: "12px 20px",
+									background: hovered === "categories"
+										? "linear-gradient(135deg, #6a0822 0%, #8a2342 100%)"
+										: "rgba(106, 8, 34, 0.1)",
+									color: hovered === "categories" ? "#fff" : "#6a0822",
+									border: "none",
+									borderRadius: "12px",
+									fontWeight: 600,
+									fontSize: "15px",
+									cursor: "pointer",
+									transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+									boxShadow: hovered === "categories"
+										? "0 4px 16px rgba(106, 8, 34, 0.3)"
+										: "0 2px 8px rgba(0, 0, 0, 0.1)",
+									transform: hovered === "categories" ? "translateY(-2px)" : "translateY(0)",
+									whiteSpace: "nowrap",
+									marginBottom: 0,
+								}}
+							>
+								<span style={{ fontSize: "18px" }}>🛍️</span>
+								All Categories
+								<ChevronDown
+									size={16}
+									style={{
+										transform: hovered === "categories" ? "rotate(180deg)" : "rotate(0deg)",
+										transition: "transform 0.3s ease"
+									}}
+								/>
+							</button>
+							{/* Dropdown for desktop */}
+							{hovered === "categories" && (
+								<div
+									style={{
+										position: "absolute",
+										top: "60px",
+										left: 0,
+										background: "rgba(255, 255, 255, 0.98)",
+										backdropFilter: "blur(20px)",
+										borderRadius: "20px",
+										boxShadow: "0 20px 40px rgba(0, 0, 0, 0.15)",
+										minWidth: "600px",
+										width: "auto",
+										zIndex: 3000,
+										overflow: "hidden",
+										border: "1px solid rgba(255, 255, 255, 0.2)",
+										animation: "slideIn 0.3s ease-out",
+										padding: undefined,
+										maxHeight: undefined,
+										overflowY: undefined,
+									}}
+									onMouseLeave={() => setHovered(null)}
+								>
+									<div style={{
+										background: "linear-gradient(135deg, #6a0822 0%, #8a2342 100%)",
+										padding: "20px 24px",
+										textAlign: "center"
+									}}>
+										<h3 style={{
+											color: "#fff",
+											fontSize: "18px",
+											fontWeight: "600",
+											margin: "0 0 8px 0"
+										}}>
+											Browse by Category
+										</h3>
+										<p style={{
+											color: "rgba(255, 255, 255, 0.8)",
+											fontSize: "14px",
+											margin: 0
+										}}>
+											Discover our premium collection
+										</p>
+									</div>
+									<div
+										style={{
+											padding: "24px",
+											display: "grid",
+											gridTemplateColumns: "1fr 1fr 1fr",
+											gap: "24px"
+										}}
+									>
+										{[
+											{
+												name: "Gold",
+												icon: "🥇",
+												color: "#FFD700",
+												bgColor: "rgba(255, 215, 0, 0.1)",
+												subcategories: ["Men", "Women", "Kids", "Unisex"]
+											},
+											{
+												name: "Silver",
+												icon: "🥈",
+												color: "#C0C0C0",
+												bgColor: "rgba(192, 192, 192, 0.1)",
+												subcategories: ["Men", "Women", "Kids", "Unisex"]
+											},
+											{
+												name: "Platinum",
+												icon: "⭐",
+												color: "#E5E4E2",
+												bgColor: "rgba(229, 228, 226, 0.1)",
+												subcategories: ["Men", "Women", "Kids", "Unisex"]
+											}
+										].map((category, index) => (
+											<div
+												key={category.name}
+												style={{
+													background: category.bgColor,
+													borderRadius: "16px",
+													padding: "20px",
+													border: `1px solid ${category.color}30`,
+													transition: "all 0.3s ease"
+												}}
+												onMouseEnter={e => {
+													e.currentTarget.style.transform = "translateY(-4px)";
+													e.currentTarget.style.boxShadow = `0 8px 24px ${category.color}40`;
+												}}
+												onMouseLeave={e => {
+													e.currentTarget.style.transform = "translateY(0)";
+													e.currentTarget.style.boxShadow = "none";
+												}}
+											>
+												<div style={{
+													display: "flex",
+													alignItems: "center",
+													gap: "12px",
+													marginBottom: "16px"
+												}}>
+													<span style={{ fontSize: "24px" }}>{category.icon}</span>
+													<h4 style={{
+														color: "#374151",
+														fontSize: "16px",
+														fontWeight: "600",
+														margin: 0
+													}}>
+														{category.name}
+													</h4>
+												</div>
+												<div style={{
+													display: "flex",
+													flexDirection: "column",
+													gap: "8px"
+												}}>
+													{category.subcategories.map((sub, subIndex) => (
+														<a
+															key={sub}
+															href={`/category/${category.name.toLowerCase()}/${sub.toLowerCase()}`}
+															style={{
+																display: "flex",
+																alignItems: "center",
+																gap: "8px",
+																padding: "8px 12px",
+																borderRadius: "8px",
+																textDecoration: "none",
+																color: "#6B7280",
+																fontWeight: 500,
+																fontSize: "14px",
+																transition: "all 0.3s ease"
+															}}
+															onMouseEnter={e => {
+																e.currentTarget.style.background = "rgba(106, 8, 34, 0.1)";
+																e.currentTarget.style.color = "#6a0822";
+																e.currentTarget.style.transform = "translateX(4px)";
+															}}
+															onMouseLeave={e => {
+																e.currentTarget.style.background = "transparent";
+																e.currentTarget.style.color = "#6B7280";
+																e.currentTarget.style.transform = "translateX(0)";
+															}}
+															onClick={() => setHovered(null)}
+														>
+															<span style={{ fontSize: "16px" }}>
+																{sub === "Men" ? "👨" : sub === "Women" ? "👩" : sub === "Kids" ? "👶" : "👥"}
+															</span>
+															{sub}
+														</a>
+													))}
+												</div>
+											</div>
+										))}
+									</div>
+								</div>
+							)}
+						</div>
+					)}
 
 					{/* Desktop Navigation Menu */}
 					{!isMobile && (
