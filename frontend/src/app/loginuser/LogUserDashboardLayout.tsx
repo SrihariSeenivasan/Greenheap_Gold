@@ -323,7 +323,7 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-gray-50 pt-32">
       {/* Left Sidebar */}
-      <div className="w-80 bg-white shadow-lg h-screen overflow-y-auto">
+      <div className="w-60 bg-white shadow-lg h-screen overflow-y-auto">
         
         
         <nav className="mt-6">
