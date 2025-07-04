@@ -257,7 +257,12 @@ const PartnerPopup: React.FC<PartnerPopupProps> = ({ open, onClose }) => {
                 boxShadow: "0 2px 8px #f9e9c7",
               }}
               // Add your OTP submit logic here
-              onClick={() => { /* handle OTP submit */ }}
+              onClick={() => {
+                // handle login logic here
+                navigate("/pdashboard");
+
+                
+              }}
             >
               Verify OTP
             </button>

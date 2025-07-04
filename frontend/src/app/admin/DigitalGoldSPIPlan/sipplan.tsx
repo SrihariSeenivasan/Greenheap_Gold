@@ -54,17 +54,23 @@ const SIPPlan = () => {
     setShowAdd(true);
   };
 
-  const handleStatusToggle = (id: number) => {
+  const handleStatusChange = (id: number, newStatus: string) => {
     setSPIPlans((prev) =>
       prev.map((plan) =>
-        plan.id === id
-          ? {
-              ...plan,
-              status: plan.status === "Active" ? "Closed" : "Active",
-            }
-          : plan
+        plan.id === id ? { ...plan, status: newStatus } : plan
       )
     );
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "Active":
+        return "bg-green-100 text-green-700";
+      case "Closed":
+        return "bg-gray-200 text-gray-700";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
   };
 
   return (
@@ -72,7 +78,7 @@ const SIPPlan = () => {
       <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 w-full max-w-full sm:max-w-4xl">
         <h1 className="text-xl sm:text-2xl font-bold text-[#7a1335] mb-4 sm:mb-6">Digital Gold SPI Plans</h1>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white rounded-lg overflow-hidden">
+          <table className="min-w-full bg-white rounded-lg overflow-hidden text-xs sm:text-sm">
             <thead>
               <tr>
                 <th className="px-2 sm:px-4 py-2 text-[#7a1335]">Plan Name</th>
@@ -80,41 +86,42 @@ const SIPPlan = () => {
                 <th className="px-2 sm:px-4 py-2 text-[#7a1335]">Monthly Amount</th>
                 <th className="px-2 sm:px-4 py-2 text-[#7a1335]">Description</th>
                 <th className="px-2 sm:px-4 py-2 text-[#7a1335]">Status</th>
-                <th className="px-2 sm:px-4 py-2 text-[#7a1335]">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {spiPlans.map((plan, idx) => (
+              {spiPlans.map((plan) => (
                 <tr key={plan.id} className="border-b last:border-b-0">
-                  <td className="px-4 py-3">{plan.name}</td>
-                  <td className="px-4 py-3">{plan.tenure}</td>
-                  <td className="px-4 py-3">{plan.monthly}</td>
-                  <td className="px-4 py-3 text-gray-600">{plan.description}</td>
-                  <td className="px-4 py-3">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      plan.status === "Active" ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-700"
-                    }`}>
-                      {plan.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 space-x-2">
-                    <div className="flex flex-row gap-3 mt-6">
-                    <button
-                      className={`px-3 py-1 rounded text-xs font-semibold transition ${
-                        plan.status === "Active"
-                          ? "bg-gray-300 hover:bg-gray-400 text-gray-800"
-                          : "bg-green-500 hover:bg-green-600 text-white"
-                      }`}
-                      onClick={() => handleStatusToggle(plan.id)}
-                    >
-                      {plan.status === "Active" ? "Close" : "Activate"}
-                    </button>
-                    <button
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs"
-                      onClick={() => handleEdit(idx)}
-                    >
-                      Edit
-                    </button>
+                  <td className="px-4 py-3 align-middle">{plan.name}</td>
+                  <td className="px-4 py-3 align-middle">{plan.tenure}</td>
+                  <td className="px-4 py-3 align-middle">{plan.monthly}</td>
+                  <td className="px-4 py-3 text-gray-600 align-middle">{plan.description}</td>
+                  <td className="px-4 py-3 align-middle">
+                    <div className="relative w-full max-w-[160px]">
+                      <select
+                        value={plan.status}
+                        onChange={e => handleStatusChange(plan.id, e.target.value)}
+                        className={`block w-full px-3 py-2 rounded-full text-xs sm:text-sm font-medium border-0 focus:ring-2 focus:ring-purple-500 transition ${getStatusColor(plan.status)}`}
+                        style={{
+                          minWidth: 100,
+                          appearance: 'none',
+                          backgroundPosition: 'right 0.75rem center',
+                          backgroundRepeat: 'no-repeat'
+                        }}
+                      >
+                        <option value="Active">Active</option>
+                        <option value="Closed">Closed</option>
+                      </select>
+                      <span
+                        style={{
+                          pointerEvents: 'none',
+                          position: 'absolute',
+                          right: 14,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          fontSize: 12,
+                          color: '#888'
+                        }}
+                      >▼</span>
                     </div>
                   </td>
                 </tr>
@@ -129,71 +136,104 @@ const SIPPlan = () => {
           Add New SPI Plan
         </button>
         {showAdd && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-2">
-            <div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 min-w-[90vw] sm:min-w-[320px] max-w-[98vw] sm:max-w-[90vw]">
-              <h2 className="text-lg font-bold mb-4 text-[#7a1335]">{editIdx !== null ? "Edit SPI Plan" : "Add New SPI Plan"}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Left column: Plan Name, Tenure */}
-                <div className="flex flex-col gap-2">
-                  <div>
-                    <label className="block text-sm mb-1">Plan Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={newPlan.name}
-                      onChange={handleAddChange}
-                      className="w-full px-3 py-2 border rounded"
-                      placeholder="Plan Name"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm mb-1">Tenure</label>
-                    <input
-                      type="text"
-                      name="tenure"
-                      value={newPlan.tenure}
-                      onChange={handleAddChange}
-                      className="w-full px-3 py-2 border rounded"
-                      placeholder="e.g. 12 months"
-                    />
-                  </div>
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 50,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "rgba(0,0,0,0.4)",
+              padding: 8
+            }}
+          >
+            <div
+              style={{
+                background: "#fff",
+                borderRadius: "0.75rem",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+                minWidth: 320,
+                maxWidth: 420,
+                width: "100%",
+                padding: 24,
+                position: "relative",
+                margin: "0 auto"
+              }}
+            >
+              <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16, color: "#7a1335", textAlign: "center" }}>
+                {editIdx !== null ? "Edit SPI Plan" : "Add New SPI Plan"}
+              </h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                <div>
+                  <label style={{ display: "block", fontSize: 14, marginBottom: 4 }}>Plan Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={newPlan.name}
+                    onChange={handleAddChange}
+                    style={{ width: "100%", padding: "8px 12px", borderRadius: 4, border: "1px solid #ccc" }}
+                    placeholder="Plan Name"
+                  />
                 </div>
-                {/* Right column: Monthly Amount, Status, Description */}
-                <div className="flex flex-col gap-2">
-                  <div>
-                    <label className="block text-sm mb-1">Monthly Amount</label>
-                    <input
-                      type="text"
-                      name="monthly"
-                      value={newPlan.monthly}
-                      onChange={handleAddChange}
-                      className="w-full px-3 py-2 border rounded"
-                      placeholder="e.g. ₹1,000"
-                    />
-                  </div>
-                 
-                  <div>
-                    <label className="block text-sm mb-1">Description</label>
-                    <textarea
-                      name="description"
-                      value={newPlan.description}
-                      onChange={handleAddChange}
-                      className="w-full px-3 py-2 border rounded"
-                      placeholder="Description"
-                      rows={2}
-                    />
-                  </div>
+                <div>
+                  <label style={{ display: "block", fontSize: 14, marginBottom: 4 }}>Tenure</label>
+                  <input
+                    type="text"
+                    name="tenure"
+                    value={newPlan.tenure}
+                    onChange={handleAddChange}
+                    style={{ width: "100%", padding: "8px 12px", borderRadius: 4, border: "1px solid #ccc" }}
+                    placeholder="e.g. 12 months"
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: 14, marginBottom: 4 }}>Monthly Amount</label>
+                  <input
+                    type="text"
+                    name="monthly"
+                    value={newPlan.monthly}
+                    onChange={handleAddChange}
+                    style={{ width: "100%", padding: "8px 12px", borderRadius: 4, border: "1px solid #ccc" }}
+                    placeholder="e.g. ₹1,000"
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: 14, marginBottom: 4 }}>Description</label>
+                  <textarea
+                    name="description"
+                    value={newPlan.description}
+                    onChange={handleAddChange}
+                    style={{ width: "100%", padding: "8px 12px", borderRadius: 4, border: "1px solid #ccc" }}
+                    placeholder="Description"
+                    rows={2}
+                  />
                 </div>
               </div>
-              <div className="flex gap-2 justify-end mt-4">
+              <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 16 }}>
                 <button
-                  className="px-4 py-1 rounded bg-[#7a1335] hover:bg-[#a31d4b] text-white"
+                  style={{
+                    padding: "8px 16px",
+                    borderRadius: 4,
+                    background: "#7a1335",
+                    color: "#fff",
+                    fontWeight: 600,
+                    border: "none",
+                    cursor: "pointer"
+                  }}
                   onClick={handleAddPlan}
                 >
                   {editIdx !== null ? "Save" : "Add"}
                 </button>
                 <button
-                  className="px-4 py-1 rounded bg-gray-300 hover:bg-gray-400 text-gray-800"
+                  style={{
+                    padding: "8px 16px",
+                    borderRadius: 4,
+                    background: "#e5e7eb",
+                    color: "#374151",
+                    border: "none",
+                    cursor: "pointer"
+                  }}
                   onClick={() => {
                     setShowAdd(false);
                     setNewPlan(emptyPlan);

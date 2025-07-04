@@ -94,7 +94,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/commission" element={ <Commission/>}/>
         <Route path="/payoutrequest" element={ <PayoutRequest/>}/>
         <Route path="/kyc" element={ <KYC/>}/>
-        {/* <Route path="/beneficiaries" element={ <Beneficiaries/>}/> */}
+       
         <Route path="/savingplan" element={ <SavingPlan/>}/>
         <Route path="/spiplan" element={ <SPIPPlan/>}/>
         <Route path="/plantscheme" element={ <PlantScheme/>}/>

@@ -280,7 +280,9 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
             <button
               onClick={() => {
                 // handle login logic here
-                navigate("/user");
+                navigate("/LUserHome");
+
+                
               }}
               type="submit"
               style={{
@@ -548,7 +550,7 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
               // Add your OTP submit logic here
                onClick={() => {
                 // handle login logic here
-                navigate("/user");
+                navigate("/LUserHome");
               }}
             >
               Verify OTP

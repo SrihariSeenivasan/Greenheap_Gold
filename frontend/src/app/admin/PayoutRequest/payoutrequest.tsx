@@ -1,4 +1,4 @@
-import { Check, Download, Eye, X } from 'lucide-react';
+import { Check, Eye, PenIcon, X } from 'lucide-react';
 import { useState } from 'react';
 
 const PayoutRequest = () => {
@@ -56,15 +56,9 @@ const PayoutRequest = () => {
     setEditId(null);
   };
 
-  const handleApprove = (id: number) => {
+  const handleStatusChange = (id: number, newStatus: string) => {
     setRequests(requests.map(request => 
-      request.id === id ? { ...request, status: 'Approved' } : request
-    ));
-  };
-
-  const handleReject = (id: number) => {
-    setRequests(requests.map(request => 
-      request.id === id ? { ...request, status: 'Rejected' } : request
+      request.id === id ? { ...request, status: newStatus } : request
     ));
   };
 
@@ -95,7 +89,7 @@ const PayoutRequest = () => {
                   <th className="text-left py-3 px-4 font-semibold text-gray-700">Amount</th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-700">Request Date</th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+                 
                 </tr>
               </thead>
               <tbody>
@@ -116,84 +110,30 @@ const PayoutRequest = () => {
                     </td>
                     <td className="py-4 px-4 text-gray-700">{request.requestDate}</td>
                     <td className="py-4 px-4">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
-                        {request.status}
-                      </span>
+                      <select
+                        value={request.status}
+                        onChange={(e) => handleStatusChange(request.id, e.target.value)}
+                        className={`px-3 py-1 rounded-full text-sm font-medium border-0 focus:ring-2 focus:ring-purple-500 ${getStatusColor(request.status)}`}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
                     </td>
-                    <td className="py-4 px-4">
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => console.log('View details for', request.partner)}
-                          className="inline-flex items-center px-3 py-1.5 bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-600 transition-colors"
-                        >
-                          <Eye className="w-4 h-4 mr-1" />
-                          View
-                        </button>
-                        {/* Always show Edit button for all statuses */}
-                        {editId === request.id ? (
-                          <>
-                            <button
-                              onClick={() => handleEditSave(request.id)}
-                              className="inline-flex items-center px-3 py-1.5 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 transition-colors"
-                            >
-                              <Check className="w-4 h-4 mr-1" />
-                              Save
-                            </button>
-                            <button
-                              onClick={handleEditCancel}
-                              className="inline-flex items-center px-3 py-1.5 bg-gray-400 text-white text-sm font-medium rounded-md hover:bg-gray-500 transition-colors"
-                            >
-                              <X className="w-4 h-4 mr-1" />
-                              Cancel
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button
-                              onClick={() => handleEdit(request.id, request.amount)}
-                              className="inline-flex items-center px-3 py-1.5 bg-yellow-500 text-white text-sm font-medium rounded-md hover:bg-yellow-600 transition-colors"
-                            >
-                              Edit
-                            </button>
-                            {/* Status change buttons always available */}
-                            <button
-                              onClick={() => handleApprove(request.id)}
-                              className="inline-flex items-center px-3 py-1.5 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 transition-colors"
-                              disabled={editId === request.id}
-                            >
-                              <Check className="w-4 h-4 mr-1" />
-                              Approve
-                            </button>
-                            <button
-                              onClick={() => handleReject(request.id)}
-                              className="inline-flex items-center px-3 py-1.5 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 transition-colors"
-                              disabled={editId === request.id}
-                            >
-                              <X className="w-4 h-4 mr-1" />
-                              Reject
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    </td>
+                  
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
           
-          <div className="mt-6 flex justify-between items-center">
+          <div className="mt-6">
             <div className="text-sm text-gray-600">
               Total Requests: {requests.length} | 
               Pending: {requests.filter(r => r.status === 'Pending').length} | 
               Approved: {requests.filter(r => r.status === 'Approved').length} | 
               Rejected: {requests.filter(r => r.status === 'Rejected').length}
             </div>
-            
-            <button className="inline-flex items-center px-4 py-2 bg-purple-700 text-white font-medium rounded-md hover:bg-purple-800 transition-colors">
-              <Download className="w-4 h-4 mr-2" />
-              Download Report
-            </button>
           </div>
         </div>
       </div>

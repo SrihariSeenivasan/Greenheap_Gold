@@ -67,17 +67,23 @@ const PlantScheme = () => {
 		setShowAdd(true);
 	};
 
-	const handleStatusToggle = (id: number) => {
+	const handleStatusChange = (id: number, newStatus: string) => {
 		setSchemes((prev) =>
 			prev.map((scheme) =>
-				scheme.id === id
-					? {
-							...scheme,
-							status: scheme.status === "Active" ? "Closed" : "Active",
-					  }
-					: scheme
+				scheme.id === id ? { ...scheme, status: newStatus } : scheme
 			)
 		);
+	};
+
+	const getStatusColor = (status: string) => {
+		switch (status) {
+			case "Active":
+				return "bg-green-100 text-green-700";
+			case "Closed":
+				return "bg-gray-200 text-gray-700";
+			default:
+				return "bg-gray-100 text-gray-700";
+		}
 	};
 
 	return (
@@ -87,7 +93,7 @@ const PlantScheme = () => {
 					Gold Plant Schemes
 				</h1>
 				<div className="overflow-x-auto">
-					<table className="min-w-full bg-white rounded-lg overflow-hidden">
+					<table className="min-w-full bg-white rounded-lg overflow-hidden text-xs sm:text-sm">
 						<thead>
 							<tr>
 								<th className="px-2 sm:px-4 py-2 text-[#7a1335]">Scheme Name</th>
@@ -95,47 +101,50 @@ const PlantScheme = () => {
 								<th className="px-2 sm:px-4 py-2 text-[#7a1335]">Min Investment</th>
 								<th className="px-2 sm:px-4 py-2 text-[#7a1335]">Description</th>
 								<th className="px-2 sm:px-4 py-2 text-[#7a1335]">Status</th>
-								<th className="px-2 sm:px-4 py-2 text-[#7a1335]">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
-							{schemes.map((scheme, idx) => (
+							{schemes.map((scheme) => (
 								<tr key={scheme.id} className="border-b last:border-b-0">
-									<td className="px-4 py-3">{scheme.name}</td>
-									<td className="px-4 py-3">{scheme.duration}</td>
-									<td className="px-4 py-3">{scheme.minInvest}</td>
-									<td className="px-4 py-3 text-gray-600">
+									<td className="px-4 py-3 align-middle">{scheme.name}</td>
+									<td className="px-4 py-3 align-middle">{scheme.duration}</td>
+									<td className="px-4 py-3 align-middle">{scheme.minInvest}</td>
+									<td className="px-4 py-3 text-gray-600 align-middle">
 										{scheme.description}
 									</td>
-									<td className="px-4 py-3">
-										<span
-											className={`px-3 py-1 rounded-full text-xs font-semibold ${
-												scheme.status === "Active"
-													? "bg-green-100 text-green-700"
-													: "bg-gray-200 text-gray-700"
-											}`}
-										>
-											{scheme.status}
-										</span>
-									</td>
-									<td className="px-4 py-3 space-x-2">
-										<div className="flex flex-row gap-3 mt-6">
-										<button
-											className={`px-3 py-1 rounded text-xs font-semibold transition ${
-												scheme.status === "Active"
-													? "bg-gray-300 hover:bg-gray-400 text-gray-800"
-													: "bg-green-500 hover:bg-green-600 text-white"
-											}`}
-											onClick={() => handleStatusToggle(scheme.id)}
-										>
-											{scheme.status === "Active" ? "Close" : "Activate"}
-										</button>
-										<button
-											className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs"
-											onClick={() => handleEdit(idx)}
-										>
-											Edit
-										</button>
+									<td className="px-4 py-3 align-middle">
+										<div className="relative w-full max-w-[160px]">
+											<select
+												value={scheme.status}
+												onChange={(e) =>
+													handleStatusChange(scheme.id, e.target.value)
+												}
+												className={`block w-full px-3 py-2 rounded-full text-xs sm:text-sm font-medium border-0 focus:ring-2 focus:ring-purple-500 transition ${getStatusColor(
+													scheme.status
+												)}`}
+												style={{
+													minWidth: 100,
+													appearance: "none",
+													backgroundPosition: "right 0.75rem center",
+													backgroundRepeat: "no-repeat",
+												}}
+											>
+												<option value="Active">Active</option>
+												<option value="Closed">Closed</option>
+											</select>
+											<span
+												style={{
+													pointerEvents: "none",
+													position: "absolute",
+													right: 14,
+													top: "50%",
+													transform: "translateY(-50%)",
+													fontSize: 12,
+													color: "#888",
+												}}
+											>
+												▼
+											</span>
 										</div>
 									</td>
 								</tr>
@@ -145,77 +154,185 @@ const PlantScheme = () => {
 				</div>
 				<button
 					className="mt-4 sm:mt-6 bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 px-6 rounded transition w-full sm:w-auto"
-					onClick={() => { setShowAdd(true); setEditIdx(null); }}
+					onClick={() => {
+						setShowAdd(true);
+						setEditIdx(null);
+					}}
 				>
 					Add New Scheme
 				</button>
 				{showAdd && (
-					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-2">
-						<div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 min-w-[90vw] sm:min-w-[320px] max-w-[98vw] sm:max-w-[90vw]">
-							<h2 className="text-lg font-bold mb-4 text-[#7a1335]">
+					<div
+						style={{
+							position: "fixed",
+							inset: 0,
+							zIndex: 50,
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							background: "rgba(0,0,0,0.4)",
+							padding: 8,
+						}}
+					>
+						<div
+							style={{
+								background: "#fff",
+								borderRadius: "0.75rem",
+								boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+								minWidth: 320,
+								maxWidth: 420,
+								width: "100%",
+								padding: 24,
+								position: "relative",
+								margin: "0 auto",
+							}}
+						>
+							<h2
+								style={{
+									fontSize: 20,
+									fontWeight: 700,
+									marginBottom: 16,
+									color: "#7a1335",
+									textAlign: "center",
+								}}
+							>
 								{editIdx !== null ? "Edit Scheme" : "Add New Scheme"}
 							</h2>
-							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-								{/* Left: Scheme Name, Duration */}
-								<div className="flex flex-col gap-2">
-									<div>
-										<label className="block text-sm mb-1">Scheme Name</label>
-										<input
-											type="text"
-											name="name"
-											value={newScheme.name}
-											onChange={handleAddChange}
-											className="w-full px-3 py-2 border rounded"
-											placeholder="Scheme Name"
-										/>
-									</div>
-									<div>
-										<label className="block text-sm mb-1">Duration</label>
-										<input
-											type="text"
-											name="duration"
-											value={newScheme.duration}
-											onChange={handleAddChange}
-											className="w-full px-3 py-2 border rounded"
-											placeholder="e.g. 18 months"
-										/>
-									</div>
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "column",
+									gap: 16,
+								}}
+							>
+								<div>
+									<label
+										style={{
+											display: "block",
+											fontSize: 14,
+											marginBottom: 4,
+										}}
+									>
+										Scheme Name
+									</label>
+									<input
+										type="text"
+										name="name"
+										value={newScheme.name}
+										onChange={handleAddChange}
+										style={{
+											width: "100%",
+											padding: "8px 12px",
+											borderRadius: 4,
+											border: "1px solid #ccc",
+										}}
+										placeholder="Scheme Name"
+									/>
 								</div>
-								{/* Right: Min Investment, Description */}
-								<div className="flex flex-col gap-2">
-									<div>
-										<label className="block text-sm mb-1">Min Investment</label>
-										<input
-											type="text"
-											name="minInvest"
-											value={newScheme.minInvest}
-											onChange={handleAddChange}
-											className="w-full px-3 py-2 border rounded"
-											placeholder="e.g. ₹5,000"
-										/>
-									</div>
-									<div>
-										<label className="block text-sm mb-1">Description</label>
-										<textarea
-											name="description"
-											value={newScheme.description}
-											onChange={handleAddChange}
-											className="w-full px-3 py-2 border rounded"
-											placeholder="Description"
-											rows={2}
-										/>
-									</div>
+								<div>
+									<label
+										style={{
+											display: "block",
+											fontSize: 14,
+											marginBottom: 4,
+										}}
+									>
+										Duration
+									</label>
+									<input
+										type="text"
+										name="duration"
+										value={newScheme.duration}
+										onChange={handleAddChange}
+										style={{
+											width: "100%",
+											padding: "8px 12px",
+											borderRadius: 4,
+											border: "1px solid #ccc",
+										}}
+										placeholder="e.g. 18 months"
+									/>
+								</div>
+								<div>
+									<label
+										style={{
+											display: "block",
+											fontSize: 14,
+											marginBottom: 4,
+										}}
+									>
+										Min Investment
+									</label>
+									<input
+										type="text"
+										name="minInvest"
+										value={newScheme.minInvest}
+										onChange={handleAddChange}
+										style={{
+											width: "100%",
+											padding: "8px 12px",
+											borderRadius: 4,
+											border: "1px solid #ccc",
+										}}
+										placeholder="e.g. ₹5,000"
+									/>
+								</div>
+								<div>
+									<label
+										style={{
+											display: "block",
+											fontSize: 14,
+											marginBottom: 4,
+										}}
+									>
+										Description
+									</label>
+									<textarea
+										name="description"
+										value={newScheme.description}
+										onChange={handleAddChange}
+										style={{
+											width: "100%",
+											padding: "8px 12px",
+											borderRadius: 4,
+											border: "1px solid #ccc",
+										}}
+										placeholder="Description"
+										rows={2}
+									/>
 								</div>
 							</div>
-							<div className="flex gap-2 justify-end mt-4">
+							<div
+								style={{
+									display: "flex",
+									gap: 8,
+									justifyContent: "center",
+									marginTop: 16,
+								}}
+							>
 								<button
-									className="px-4 py-1 rounded bg-[#7a1335] hover:bg-[#a31d4b] text-white"
+									style={{
+										padding: "8px 16px",
+										borderRadius: 4,
+										background: "#7a1335",
+										color: "#fff",
+										fontWeight: 600,
+										border: "none",
+										cursor: "pointer",
+									}}
 									onClick={handleAddScheme}
 								>
 									{editIdx !== null ? "Save" : "Add"}
 								</button>
 								<button
-									className="px-4 py-1 rounded bg-gray-300 hover:bg-gray-400 text-gray-800"
+									style={{
+										padding: "8px 16px",
+										borderRadius: 4,
+										background: "#e5e7eb",
+										color: "#374151",
+										border: "none",
+										cursor: "pointer",
+									}}
 									onClick={() => {
 										setShowAdd(false);
 										setNewScheme(emptyScheme);
@@ -256,3 +373,4 @@ const PlantScheme = () => {
 };
 
 export default PlantScheme;
+							

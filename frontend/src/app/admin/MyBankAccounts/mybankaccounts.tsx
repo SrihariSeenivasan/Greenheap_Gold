@@ -78,50 +78,42 @@ const MyBankAccounts = () => {
                 <th className="px-4 py-2 text-[#7a1335]">Bank</th>
                 <th className="px-4 py-2 text-[#7a1335]">Account</th>
                 <th className="px-4 py-2 text-[#7a1335]">IFSC</th>
-                <th className="px-4 py-2 text-[#7a1335]">Status</th>
                 <th className="px-4 py-2 text-[#7a1335]">Description</th>
-                <th className="px-4 py-2 text-[#7a1335]">Actions</th>
+                <th className="px-4 py-2 text-[#7a1335]">Status</th>
               </tr>
             </thead>
             <tbody>
               {accounts.map((acc, idx) => (
-                
                 <tr key={acc.id} className="border-b last:border-b-0">
                   {/* Left: Bank, Account */}
                   <td className="px-4 py-3">{acc.bank}</td>
                   <td className="px-4 py-3">{acc.account}</td>
-                  {/* Right: IFSC, Status */}
+                  {/* IFSC */}
                   <td className="px-4 py-3">{acc.ifsc}</td>
-                  <td className="px-4 py-3">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      acc.status === "Active"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-gray-200 text-gray-700"
-                    }`}>
-                      {acc.status}
-                    </span>
-                  </td>
+                  {/* Description */}
                   <td className="px-4 py-3 text-gray-600">{acc.description}</td>
-                  <td className="px-4 py-3 space-x-2">
-                    <div className="flex flex-row gap-3 mt-6">
-                    <button
-                      className={`px-3 py-1 rounded text-xs font-semibold transition ${
+                  {/* Status as dropdown */}
+                  <td className="px-4 py-3">
+                    <select
+                      value={acc.status}
+                      onChange={e =>
+                        setAccounts(prev =>
+                          prev.map(a =>
+                            a.id === acc.id
+                              ? { ...a, status: e.target.value }
+                              : a
+                          )
+                        )
+                      }
+                      className={`px-3 py-1 rounded-full text-xs font-semibold border-0 focus:ring-2 focus:ring-purple-500 ${
                         acc.status === "Active"
-                          ? "bg-gray-300 hover:bg-gray-400 text-gray-800"
-                          : "bg-green-500 hover:bg-green-600 text-white"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-gray-200 text-gray-700"
                       }`}
-                      onClick={() => handleStatusToggle(acc.id)}
                     >
-                      {acc.status === "Active" ? "Deactivate" : "Activate"}
-                    </button>
-                    <button
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs"
-                      onClick={() => handleEdit(idx)}
-                    >
-                      Edit
-                    </button>
-                    </div>
-                    {/* ...existing code for Remove if needed... */}
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
                   </td>
                 </tr>
               ))}
@@ -241,3 +233,4 @@ const MyBankAccounts = () => {
 };
 
 export default MyBankAccounts;
+          
