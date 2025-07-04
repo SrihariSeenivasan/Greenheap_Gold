@@ -1,4 +1,5 @@
 import { FaArrowRight, FaChartLine, FaCoins, FaCreditCard, FaGem, FaHourglassHalf, FaPiggyBank, FaShoppingCart, FaStar, FaTrophy, FaUsers, FaWallet } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const summary = [
   { label: "Total Gold Purchased", value: "₹0", subValue: "0g", icon: <FaCoins className="w-6 h-6" />, highlight: true },
@@ -9,6 +10,8 @@ const summary = [
 ];
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4 lg:p-8">
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100">
@@ -96,21 +99,24 @@ export default function Dashboard() {
               title: "Gold Purchase", 
               desc: "Buy gold at market rates", 
               buttonText: "Trade",
-              accent: "from-[#7a1335] to-[#a01b42]"
+              accent: "from-[#7a1335] to-[#a01b42]",
+              onClick: () => navigate("/bgoldpurchase")
             },
             { 
               icon: FaPiggyBank, 
               title: "SIP Portfolio", 
               desc: "Invest regularly in gold", 
               buttonText: "Create SIP",
-              accent: "from-purple-700 to-purple-900"
+              accent: "from-purple-700 to-purple-900",
+              onClick: () => navigate("/bsipmanagement")
             },
             { 
               icon: FaCreditCard, 
               title: "Wallet Suite", 
               desc: "Manage your funds", 
               buttonText: "Wallet",
-              accent: "from-emerald-700 to-emerald-900"
+              accent: "from-emerald-700 to-emerald-900",
+              onClick: () => navigate("/bwallet")
             }
           ].map((action, idx) => (
             <div 
@@ -125,7 +131,10 @@ export default function Dashboard() {
                   <h3 className="text-lg font-semibold text-[#7a1335]">{action.title}</h3>
                   <p className="text-gray-600 text-sm">{action.desc}</p>
                 </div>
-                <button className={`inline-flex items-center space-x-2 bg-gradient-to-r ${action.accent} text-white font-medium px-4 py-2 rounded-lg shadow hover:shadow-lg`}>
+                <button
+                  className={`inline-flex items-center space-x-2 bg-gradient-to-r ${action.accent} text-white font-medium px-4 py-2 rounded-lg shadow hover:shadow-lg`}
+                  onClick={action.onClick}
+                >
                   <span>{action.buttonText}</span>
                   <FaArrowRight className="w-4 h-4" />
                 </button>
