@@ -1,0 +1,33 @@
+.img_wrapper {
+  position: relative;
+}
+
+.img_responsive {
+  width: 100%;
+  height: auto;
+}
+
+.img_overlay {
+  position: absolute;
+  top: 45%;
+  bottom: 0;
+  left: 0;
+  right: 46%;
+  text-align: center;
+}
+
+.img_overlay:before {
+  content: " ";
+  display: block;
+  /* adjust 'height' to position overlay content vertically */
+  height: 50%;
+}
+
+.explore_btn {
+  background: transparent;
+  border: 1px solid;
+}
+
+.home_scheme_section {
+  margin-top: 10%;
+}

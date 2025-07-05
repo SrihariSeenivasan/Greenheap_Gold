@@ -56,7 +56,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="/terms-and-condition"
+                  href="terms"
                   className="text-dark text-decoration-none"
                 >
                   Terms and Conditions
@@ -64,15 +64,16 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="/privacy-policy"
+                  href="privacy"
                   className="text-dark text-decoration-none"
                 >
                   Privacy Policy
+
                 </a>
               </li>
               <li>
                 <a
-                  href="/refund-cancellation"
+                  href="refund"
                   className="text-dark text-decoration-none"
                 >
                   Refund & Cancellation Policy
@@ -80,7 +81,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="/contact-us"
+                  href="/contactus"
                   className="text-dark text-decoration-none"
                 >
                   Contact Us
@@ -100,30 +101,39 @@ const Footer = () => {
               Contact Us
             </div>
             <div className="mt-3" style={{ fontSize: "1.05rem" }}>
-              <div className="mb-2">
-                <i
-                  className="fa fa-map-marker me-2"
-                  style={{ color: "#7a1335" }}
-                ></i>
-                No. 1/PL922, 66th Street, 11th Sector,
-                <br />
-                Kalaignar Karunanidhi Nagar,
-                <br />
-                Tamil Nadu, Chennai, India.
+              <div className="mb-2" style={{ display: "flex", alignItems: "flex-start" }}>
+                <img
+                  src="/home/Location.png"
+                  alt="Location"
+                  style={{ width: 22, height: 22, marginRight: 8, marginTop: -2 }}
+                />
+                <span>
+                  No. 1/PL922, 66th Street, 11th Sector,
+                  <br />
+                  Kalaignar Karunanidhi Nagar,
+                  <br />
+                  Tamil Nadu, Chennai, India.
+                </span>
               </div>
-              <div className="mb-2">
-                <i
-                  className="fa fa-envelope-o me-2"
-                  style={{ color: "#7a1335" }}
-                ></i>
-                spprtgreenheapdigigold@gmail.com
+              <div className="mb-2" style={{ display: "flex", alignItems: "center" }}>
+                <img
+                  src="/home/Mail_1.png" 
+                  alt="Mail"
+                  style={{ width: 22, height: 22, marginRight: 8 }}
+                />
+                <span>
+                  spprtgreenheapdigigold@gmail.com
+                </span>
               </div>
-              <div>
-                <i
-                  className="fa fa-phone-square me-2"
-                  style={{ color: "#7a1335" }}
-                ></i>
-                +91 81900 59995
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <img
+                  src="/home/call 1.png"
+                  alt="Phone"
+                  style={{ width: 22, height: 22, marginRight: 8 }}
+                />
+                <span>
+                  +91 81900 59995
+                </span>
               </div>
             </div>
           </div>
@@ -144,64 +154,88 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  background: "#7a1335",
                   borderRadius: "50%",
                   width: 40,
                   height: 40,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  background: "#991313",
+                
+                  padding: 0,
                 }}
               >
-                <i className="fa fa-facebook text-white fs-5"></i>
+                <img src="/home/Facebook.png" alt="Facebook" style={{ width: 28, height: 28 }} />
               </a>
               <a
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  background: "#7a1335",
                   borderRadius: "50%",
                   width: 40,
                   height: 40,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  background: "#991313",
+                  padding: 0,
                 }}
               >
-                <i className="fa fa-instagram text-white fs-5"></i>
+                <img src="/home/insta.png" alt="Instagram" style={{ width: 28, height: 28 }} />
               </a>
               <a
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  background: "#7a1335",
                   borderRadius: "50%",
                   width: 40,
                   height: 40,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  background: "#991313",
+                  
+                  padding: 0,
                 }}
               >
-                <i className="fa fa-linkedin text-white fs-5"></i>
+                <img src="/home/X.png" alt="X" style={{ width: 28, height: 28 }} />
               </a>
               <a
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  background: "#7a1335",
                   borderRadius: "50%",
                   width: 40,
                   height: 40,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  background: "#991313",
+                
+                  padding: 0,
                 }}
               >
-                <i className="fa fa-youtube-play text-white fs-5"></i>
+                <img src="/home/Youtube.png" alt="YouTube" style={{ width: 28, height: 28 }} />
+              </a>
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  borderRadius: "50%",
+                  width: 40,
+                  height: 40,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "#991313",
+                  padding: 0,
+                }}
+              >
+                <img src="/home/Linkedin.png" alt="LinkedIn" style={{ width: 28, height: 28 }} />
               </a>
             </div>
             <div className="d-flex gap-2 mt-2">
