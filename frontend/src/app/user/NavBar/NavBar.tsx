@@ -144,7 +144,7 @@ const NavBar = () => {
 					alignItems: "center", 
 					gap: isMobile ? 4 : 8,
 					flexShrink: 0
-				}}>
+				 }}>
 					<a href="#" style={{ marginRight: isMobile ? 0 : 2 }}>
 						<img 
 							src="/home/Facebook.png" 
@@ -302,7 +302,7 @@ const NavBar = () => {
 									marginBottom: 0,
 								}}
 							>
-								<span style={{ fontSize: "18px" }}>🛍️</span>
+								<span style={{ fontSize: "18px" }}></span>
 								All Categories
 								<ChevronDown
 									size={16}
@@ -367,21 +367,21 @@ const NavBar = () => {
 										{[
 											{
 												name: "Gold",
-												icon: "🥇",
+												icon: "",
 												color: "#FFD700",
 												bgColor: "rgba(255, 215, 0, 0.1)",
 												subcategories: ["Men", "Women", "Kids", "Unisex"]
 											},
 											{
 												name: "Silver",
-												icon: "🥈",
+												icon: "",
 												color: "#C0C0C0",
 												bgColor: "rgba(192, 192, 192, 0.1)",
 												subcategories: ["Men", "Women", "Kids", "Unisex"]
 											},
 											{
 												name: "Platinum",
-												icon: "⭐",
+												icon: "",
 												color: "#E5E4E2",
 												bgColor: "rgba(229, 228, 226, 0.1)",
 												subcategories: ["Men", "Women", "Kids", "Unisex"]
@@ -455,7 +455,7 @@ const NavBar = () => {
 															onClick={() => setHovered(null)}
 														>
 															<span style={{ fontSize: "16px" }}>
-																{sub === "Men" ? "👨" : sub === "Women" ? "👩" : sub === "Kids" ? "👶" : "👥"}
+																{sub === "Men" ? "" : sub === "Women" ? "" : sub === "Kids" ? "" : ""}
 															</span>
 															{sub}
 														</a>

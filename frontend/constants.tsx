@@ -199,3 +199,8 @@ export const pricebreakup = [
     finalvalue: "₹11805"
   }
 ];
+export const faqs = [
+  { q: "How do I earn commission?", a: "Share your referral link. When someone buys gold or starts a SIP, you earn commission." },
+  { q: "How does referral tracking work?", a: "We use cookies and user accounts to track referrals for up to 30 days." },
+  { q: "What are the commission slabs?", a: "Commission rates vary by product and are shown in your dashboard." },
+];

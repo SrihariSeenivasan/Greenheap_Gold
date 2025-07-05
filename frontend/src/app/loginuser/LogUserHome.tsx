@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Carousel from "../components/custom/Carousel";
 import style from "./style.module.css";
+import { useNavigate } from "react-router-dom"; 
 
 // Helper hook for scroll animation
 function useScrollFadeIn(direction: "left" | "right" | "up" | "down" = "up", duration = 700, delay = 0) {
@@ -61,6 +62,7 @@ function useScrollFadeIn(direction: "left" | "right" | "up" | "down" = "up", dur
 }
 
 const LUserHome = () => {
+  const navigate = useNavigate();
   // refs for scroll animation
   const schemeRef = useScrollFadeIn("up", 700, 0);
   const bannerRef = useScrollFadeIn("right", 700, 100);
@@ -253,7 +255,9 @@ const LUserHome = () => {
                 boxShadow: "0 2px 8px #c4912e33",
                 cursor: "pointer",
                 transition: "background 0.2s",
+                
               }}
+            onClick={() => navigate("/userplantscheme")}
             >
               Buy scheme
               <span
@@ -534,6 +538,7 @@ const LUserHome = () => {
             transition: "background 0.18s, transform 0.18s",
             outline: "none",
           }}
+          onClick={() => navigate("/userspiplan")}
           onMouseOver={e => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.04)"; }}
           onMouseOut={e => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)"; }}
         >
@@ -866,6 +871,7 @@ const LUserHome = () => {
                 transition: "background 0.2s",
                 letterSpacing: 0.5,
               }}
+              onClick={() => navigate("/lbuyornaments")}
             >
               Buy Gold
               <span style={{ fontSize: 24, marginLeft: 10, display: "flex", alignItems: "center" }}>

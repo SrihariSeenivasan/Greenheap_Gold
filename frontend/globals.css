@@ -2,6 +2,8 @@ body {
   --bg-color: white;
   background: var(--bg-color);
   font-family: "DM Sans", Arial, sans-serif;
+  cursor: url("https://cdn.jsdelivr.net/gh/saadpasta/developerFavicon@master/cursor/hand.cur"),
+    auto;
 }
 
 .bg-color {

@@ -1,5 +1,4 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { MessageCircle } from "lucide-react";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import "../../../globals.css";
@@ -14,7 +13,9 @@ interface UserLayoutProps {
 const LogUserLayout: React.FC<UserLayoutProps> = () => {
   return (
     <div >
-      <NavBar />
+      <div style={{ marginBottom: "180px" }}>
+        <NavBar />
+      </div>
       <main className="flex-1 overflow-x-hidden overflow-y-auto bg-neutral-100 p-4 md:p-6 lg:p-8">
           <Outlet />
            {/* Floating WhatsApp Button */}
@@ -82,4 +83,4 @@ const LogUserLayout: React.FC<UserLayoutProps> = () => {
   );
 };
 
-export default LogUserLayout; 
+export default LogUserLayout;

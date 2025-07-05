@@ -126,47 +126,83 @@ const LNavBar = () => {
 				<div style={{ 
 					display: "flex", 
 					alignItems: "center", 
-					gap: isMobile ? "8px" : "12px"
-				}}>
-					{[
-						{ name: "Facebook", icon: "📘" },
-						{ name: "Instagram", icon: "📷" },
-						{ name: "Twitter", icon: "🐦" },
-						{ name: "YouTube", icon: "📺" },
-						{ name: "LinkedIn", icon: "💼" }
-					].map((social, index) => (
-						<button
-							key={index}
-							style={{
-								background: "rgba(255, 255, 255, 0.1)",
-								border: "1px solid rgba(255, 255, 255, 0.2)",
-								borderRadius: "50%",
-								width: isMobile ? "32px" : "36px",
-								height: isMobile ? "32px" : "36px",
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "center",
-								cursor: "pointer",
-								transition: "all 0.3s ease",
-								fontSize: isMobile ? "14px" : "16px",
-								color: "#fff",
-								backdropFilter: "blur(10px)"
-							}}
-							onMouseEnter={e => {
-								e.currentTarget.style.background = "rgba(255, 255, 255, 0.2)";
-								e.currentTarget.style.transform = "scale(1.1)";
-								e.currentTarget.style.boxShadow = "0 4px 12px rgba(255, 255, 255, 0.3)";
-							}}
-							onMouseLeave={e => {
-								e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)";
-								e.currentTarget.style.transform = "scale(1)";
-								e.currentTarget.style.boxShadow = "none";
-							}}
-							aria-label={social.name}
-						>
-							{social.icon}
-						</button>
-					))}
+					gap: isMobile ? 4 : 8,
+					flexShrink: 0
+				 }}>
+					<a href="#" style={{ marginRight: isMobile ? 0 : 2 }}>
+						<img 
+							src="/home/Facebook.png" 
+							alt="Facebook" 
+							style={{ 
+								height: isMobile ? 20 : 26, 
+								width: isMobile ? 20 : 26, 
+								background: "transparent", 
+								padding: 3, 
+								display: "block", 
+								transition: "transform 0.15s" 
+							}} 
+						/>
+					</a>
+					<a href="#" style={{ marginRight: isMobile ? 0 : 2 }}>
+						<img 
+							src="/home/insta.png" 
+							alt="Instagram" 
+							style={{ 
+								height: isMobile ? 20 : 26, 
+								width: isMobile ? 20 : 26, 
+								background: "transparent", 
+								padding: 3, 
+								display: "block", 
+								transition: "transform 0.15s" 
+							}} 
+						/>
+					</a>
+					<a href="#" style={{ marginRight: isMobile ? 0 : 2 }}>
+						<img 
+							src="/home/X.png" 
+							alt="X" 
+							style={{ 
+								height: isMobile ? 20 : 26, 
+								width: isMobile ? 20 : 26, 
+								background: "transparent", 
+								padding: 3, 
+								display: "block", 
+								transition: "transform 0.15s" 
+							}} 
+						/>
+					</a>
+					{!isMobile && (
+						<>
+							<a href="#" style={{ marginRight: 2 }}>
+								<img 
+									src="/home/Youtube.png" 
+									alt="YouTube" 
+									style={{ 
+										height: 26, 
+										width: 26, 
+										background: "transparent", 
+										padding: 3, 
+										display: "block", 
+										transition: "transform 0.15s" 
+									}} 
+								/>
+							</a>
+							<a href="#">
+								<img 
+									src="/home/Linkedin.png" 
+									alt="LinkedIn" 
+									style={{ 
+										height: 26, 
+										width: 26, 
+										background: "transparent", 
+										padding: 3, 
+										display: "block", 
+										transition: "transform 0.15s" 
+									}} 
+								/>
+							</a>
+						</>
+					)}
 				</div>
 			</div>
 			
@@ -252,7 +288,7 @@ const LNavBar = () => {
 									marginBottom: "8px",
 								}}
 							>
-								<span style={{ fontSize: "17px" }}>🛍️</span>
+								<span style={{ fontSize: "17px" }}></span>
 								<span style={{ fontSize: "15px" }}>All Categories</span>
 								<ChevronDown
 									size={16}
@@ -317,21 +353,21 @@ const LNavBar = () => {
 										{[
 											{
 												name: "Gold",
-												icon: "🥇",
+												icon: "",
 												color: "#FFD700",
 												bgColor: "rgba(255, 215, 0, 0.1)",
 												subcategories: ["Men", "Women", "Kids", "Unisex"]
 											},
 											{
 												name: "Silver",
-												icon: "🥈",
+												icon: "",
 												color: "#C0C0C0",
 												bgColor: "rgba(192, 192, 192, 0.1)",
 												subcategories: ["Men", "Women", "Kids", "Unisex"]
 											},
 											{
 												name: "Platinum",
-												icon: "⭐",
+												icon: "",
 												color: "#E5E4E2",
 												bgColor: "rgba(229, 228, 226, 0.1)",
 												subcategories: ["Men", "Women", "Kids", "Unisex"]
@@ -388,7 +424,7 @@ const LNavBar = () => {
 															onClick={() => setHovered(null)}
 														>
 															<span style={{ fontSize: "14px" }}>
-																{sub === "Men" ? "👨" : sub === "Women" ? "👩" : sub === "Kids" ? "👶" : "👥"}
+																{sub === "Men" ? "" : sub === "Women" ? "" : sub === "Kids" ? "" : ""}
 															</span>
 															{sub}
 														</a>
@@ -442,7 +478,7 @@ const LNavBar = () => {
 									marginBottom: 0,
 								}}
 							>
-								<span style={{ fontSize: "18px" }}>🛍️</span>
+								<span style={{ fontSize: "18px" }}></span>
 								All Categories
 								<ChevronDown
 									size={16}
@@ -507,21 +543,21 @@ const LNavBar = () => {
 										{[
 											{
 												name: "Gold",
-												icon: "🥇",
+												icon: "",
 												color: "#FFD700",
 												bgColor: "rgba(255, 215, 0, 0.1)",
 												subcategories: ["Men", "Women", "Kids", "Unisex"]
 											},
 											{
 												name: "Silver",
-												icon: "🥈",
+												icon: "",
 												color: "#C0C0C0",
 												bgColor: "rgba(192, 192, 192, 0.1)",
 												subcategories: ["Men", "Women", "Kids", "Unisex"]
 											},
 											{
 												name: "Platinum",
-												icon: "⭐",
+												icon: "",
 												color: "#E5E4E2",
 												bgColor: "rgba(229, 228, 226, 0.1)",
 												subcategories: ["Men", "Women", "Kids", "Unisex"]
@@ -595,7 +631,7 @@ const LNavBar = () => {
 															onClick={() => setHovered(null)}
 														>
 															<span style={{ fontSize: "16px" }}>
-																{sub === "Men" ? "👨" : sub === "Women" ? "👩" : sub === "Kids" ? "👶" : "👥"}
+																{sub === "Men" ? "" : sub === "Women" ? "" : sub === "Kids" ? "" : ""}
 															</span>
 															{sub}
 														</a>

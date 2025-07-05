@@ -11,13 +11,13 @@ interface UserLayoutProps {
 
 const UserLayout: React.FC<UserLayoutProps> = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex ">
       <NavBar />
-      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-neutral-100 p-1 sm:p-2 md:p-3 lg:p-4 xl:p-5">
-        <div className="max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto text-xs sm:text-sm">
+      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-neutral-100 p-4 md:p-6 lg:p-8">
+    
           <Outlet />
-        </div>
-        {/* Floating WhatsApp Button */}
+         
+         {/* Floating WhatsApp Button */}
           <div
             style={{
               position: "fixed",
