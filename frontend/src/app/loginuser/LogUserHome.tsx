@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Carousel from "../components/custom/Carousel";
 import style from "./style.module.css";
 import { useNavigate } from "react-router-dom"; 
+import { schemes } from "../../../constants";
 
 // Helper hook for scroll animation
 function useScrollFadeIn(direction: "left" | "right" | "up" | "down" = "up", duration = 700, delay = 0) {
@@ -77,7 +78,7 @@ const LUserHome = () => {
   const NAVBAR_TOTAL_HEIGHT = 44 + 48; // 44px top bar + ~48px nav bar
 
   return (
-    <div style={{ paddingTop: 102 }}>
+    <div >
       <div style={{ position: "relative", zIndex: 1 }}>
         <Carousel />
         <div className="d-flex   justify-content-center ">
@@ -199,28 +200,30 @@ const LUserHome = () => {
         </div>
       </div>
       <section
-        className={`mb-5 mt-6 pt-6 ${style.home_scheme_section}`}
-        ref={bannerRef}
+      className={`mb-5 mt-6 pt-6 ${style.home_scheme_section}`}
+      ref={bannerRef}
+    >
+      <h3
+        className="text-center text-black"
+        style={{
+          fontSize: "2rem",
+          fontWeight: 700,
+          marginTop: "60px",
+          marginBottom: "24px",
+          position: "relative",
+          zIndex: 2,
+        }}
       >
-        <h3
-          className="text-center text-black"
-          style={{
-            fontSize: "2rem",
-            fontWeight: 700,
-            marginTop: "60px",
-            marginBottom: "24px",
-            position: "relative",
-            zIndex: 2,
-          }}
-        >
-          Quick overview of schemes
-        </h3>
-        <div
-          className="w-100 d-flex flex-column flex-md-row justify-content-center align-items-stretch gap-4 mt-4"
-          style={{ maxWidth: 1200, margin: "0 auto" }}
-        >
-          {/* Only images, no text */}
+        Quick overview of schemes
+      </h3>
+
+      <div
+        className="w-100 d-flex flex-column flex-md-row justify-content-center align-items-stretch gap-4 mt-4"
+        style={{ maxWidth: 1200, margin: "0 auto" }}
+      >
+        {schemes.map((scheme) => (
           <div
+            key={scheme.id}
             className="bg-white d-flex align-items-center justify-content-center position-relative"
             style={{
               borderRadius: 18,
@@ -233,8 +236,8 @@ const LUserHome = () => {
             }}
           >
             <img
-              src="/assets/chit_plant.png"
-              alt="Chit Jewel Savings Plan"
+              src={scheme.image}
+              alt={scheme.title}
               style={{ width: "100%", height: "100%", objectFit: "contain" }}
             />
             <button
@@ -255,9 +258,8 @@ const LUserHome = () => {
                 boxShadow: "0 2px 8px #c4912e33",
                 cursor: "pointer",
                 transition: "background 0.2s",
-                
               }}
-            onClick={() => navigate("/userplantscheme")}
+              onClick={() => navigate(scheme.link)}
             >
               Buy scheme
               <span
@@ -286,136 +288,9 @@ const LUserHome = () => {
               </span>
             </button>
           </div>
-          <div
-            className="bg-white d-flex align-items-center justify-content-center position-relative"
-            style={{
-              borderRadius: 18,
-              maxWidth: 400,
-              minWidth: 220,
-              height: 500,
-              overflow: "hidden",
-              boxShadow: "0 4px 24px #e6d7b7",
-              border: "10px solid #bf7e1a",
-            }}
-          >
-            <img
-              src="/assets/sip_plant.png"
-              alt="Digi Gold SIP Plan"
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            />
-            <button
-              style={{
-                position: "absolute",
-                left: 14,
-                bottom: 10,
-                background: "#8a2342",
-                color: "#fff",
-                border: "none",
-                borderRadius: 40,
-                padding: "10px 28px 10px 22px",
-                fontWeight: 500,
-                fontSize: 18,
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                boxShadow: "0 2px 8px #c4912e33",
-                cursor: "pointer",
-                transition: "background 0.2s",
-              }}
-            >
-              Buy scheme
-              <span
-                style={{
-                  fontSize: 22,
-                  marginLeft: 8,
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <svg
-                  width="26"
-                  height="22"
-                  viewBox="0 0 26 22"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15.5 4L22 11M22 11L15.5 18M22 11H4"
-                    stroke="white"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-            </button>
-          </div>
-          <div
-            className="bg-white d-flex align-items-center justify-content-center position-relative"
-            style={{
-              borderRadius: 18,
-              maxWidth: 400,
-              minWidth: 220,
-              height: 500,
-              overflow: "hidden",
-              boxShadow: "0 4px 24px #e6d7b7",
-              border: "10px solid #bf7e1a",
-            }}
-          >
-            <img
-              src="/assets/gold_plant.png"
-              alt="Gold Plant Scheme"
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            />
-            <button
-              style={{
-                position: "absolute",
-                left: 14,
-                bottom: 10,
-                background: "#8a2342",
-                color: "#fff",
-                border: "none",
-                borderRadius: 40,
-                padding: "10px 28px 10px 22px",
-                fontWeight: 500,
-                fontSize: 18,
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                boxShadow: "0 2px 8px #c4912e33",
-                cursor: "pointer",
-                transition: "background 0.2s",
-              }}
-            >
-              Buy scheme
-              <span
-                style={{
-                  fontSize: 22,
-                  marginLeft: 8,
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <svg
-                  width="26"
-                  height="22"
-                  viewBox="0 0 26 22"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15.5 4L22 11M22 11L15.5 18M22 11H4"
-                    stroke="white"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-            </button>
-          </div>
-        </div>
-      </section>
+        ))}
+      </div>
+    </section>
       
 
       {/* Discover Our Jewel Collection Banner */}

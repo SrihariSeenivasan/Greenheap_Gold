@@ -65,7 +65,7 @@ const LBuyOrnamentsPage = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#fafbfc', minHeight: '100vh', fontFamily: "'Inter', sans-serif", paddingTop: '120px' }}>
+    <div style={{ backgroundColor: '#fafbfc', minHeight: '100vh', fontFamily: "'Inter', sans-serif" }}>
       {/* Modern Hero Section */}
       <div style={{
         background: `linear-gradient(135deg, 
