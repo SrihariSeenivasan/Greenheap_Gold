@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { faqs } from "../../../constants";
+import { B2B_PRIMARY } from "../b2b/theme";
 
 const PartnerSupport = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -19,11 +20,12 @@ const PartnerSupport = () => {
           <input className="w-full border rounded px-3 py-2" placeholder="Subject" />
           <textarea className="w-full border rounded px-3 py-2" placeholder="Describe your issue..." rows={4} />
           <button
-            type="submit"
-            className="py-2 px-4 rounded text-white font-semibold"
-          >
-            Raise Ticket
-          </button>
+                      type="submit"
+                      className="py-2 px-4 rounded text-white font-semibold"
+                      style={{ background: B2B_PRIMARY }}
+                    >
+                      Raise Ticket
+                    </button>
         </form>
         {showPopup && (
           <div className="fixed left-1/2 top-8 z-50 -translate-x-1/2">
