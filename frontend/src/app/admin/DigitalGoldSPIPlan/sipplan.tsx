@@ -21,6 +21,12 @@ const SIPPlan = () => {
   const [showError, setShowError] = useState(false);
   const [editIdx, setEditIdx] = useState<number | null>(null);
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(spiPlans.length / itemsPerPage);
+  const paginatedPlans = spiPlans.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   const handleAddChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -89,7 +95,7 @@ const SIPPlan = () => {
               </tr>
             </thead>
             <tbody>
-              {spiPlans.map((plan) => (
+              {paginatedPlans.map((plan) => (
                 <tr key={plan.id} className="border-b last:border-b-0">
                   <td className="px-4 py-3 align-middle">{plan.name}</td>
                   <td className="px-4 py-3 align-middle">{plan.tenure}</td>
@@ -128,6 +134,26 @@ const SIPPlan = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        {/* Pagination Controls */}
+        <div className="flex justify-center items-center gap-2 mt-4">
+          <button
+            className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          <span className="text-sm text-gray-700">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
         </div>
         <button
           className="mt-4 sm:mt-6 bg-[#7a1335] hover:bg-[#a31d4b] text-white font-semibold py-2 px-6 rounded transition w-full sm:w-auto"

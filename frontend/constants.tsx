@@ -267,3 +267,23 @@ export const mockResources = [
     downloadCount: 134
   }
 ];
+export const mockCampaigns = [
+  {
+    id: 1,
+    name: 'SIP Booster June',
+    description: 'Refer 5 SIPs, get ₹500 extra',
+    startDate: '2024-06-01',
+    endDate: '2024-06-30',
+    multiplier: '2x',
+    status: 'Active'
+  },
+  {
+    id: 2,
+    name: 'Gold Fest',
+    description: 'Sell 50g gold, get ₹1,000 bonus',
+    startDate: '2024-06-10',
+    endDate: '2024-06-20',
+    multiplier: '1.5x',
+    status: 'Active'
+  }
+];

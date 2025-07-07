@@ -209,6 +209,13 @@ const ManageOrnaments = () => {
         setBreakupForm(emptyBreakup);
         setEditingBreakupIdx(null);
     }
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const paginatedProducts = products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white p-2 sm:p-8">
       <h1 className="text-2xl sm:text-3xl font-bold text-[#7a1335] mb-4 sm:mb-8">Manage Ornaments</h1>
@@ -553,7 +560,7 @@ const ManageOrnaments = () => {
       </div>
       {/* Product List */}
       <div className="grid gap-4 sm:gap-8">
-        {products.map((product, idx) => (
+        {paginatedProducts.map((product, idx) => (
           <div key={idx} className="bg-white rounded-xl shadow-lg p-4 sm:p-6 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             {/* First Card: Image, Title, Price */}
             <div className="flex flex-col items-center border-r md:border-r-2 border-[#fbeaf0] pr-0 md:pr-6">
@@ -616,6 +623,56 @@ const ManageOrnaments = () => {
             </div>
           </div>
         ))}
+      </div>
+      {/* Pagination Controls */}
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "2rem", gap: "0.5rem" }}>
+        <button
+          onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+          disabled={currentPage === 1}
+          style={{
+            padding: "0.5rem 1rem",
+            background: "#7a1335",
+            color: "#fff",
+            borderRadius: "0.5rem",
+            border: "none",
+            cursor: currentPage === 1 ? "not-allowed" : "pointer",
+            opacity: currentPage === 1 ? 0.5 : 1
+          }}
+        >
+          Prev
+        </button>
+        {[...Array(totalPages)].map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentPage(i + 1)}
+            style={{
+              padding: "0.5rem 1rem",
+              background: currentPage === i + 1 ? "#a31d4b" : "#fbeaf0",
+              color: currentPage === i + 1 ? "#fff" : "#7a1335",
+              borderRadius: "0.5rem",
+              border: "none",
+              cursor: "pointer",
+              fontWeight: currentPage === i + 1 ? "bold" : "normal"
+            }}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+          disabled={currentPage === totalPages}
+          style={{
+            padding: "0.5rem 1rem",
+            background: "#7a1335",
+            color: "#fff",
+            borderRadius: "0.5rem",
+            border: "none",
+            cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+            opacity: currentPage === totalPages ? 0.5 : 1
+          }}
+        >
+          Next
+        </button>
       </div>
       {/* Popups */}
      
