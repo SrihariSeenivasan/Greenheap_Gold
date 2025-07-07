@@ -17,7 +17,7 @@ import Dashboard from "./src/app/b2b/dashboard/Dashboard";
 import GoldPurchase from "./src/app/b2b/goldpurchase/GoldPurchase";
 import Login from "./src/app/b2b/login/Login";
 import Logout from "./src/app/b2b/logout/Logout";
-import B2BManageOrnaments from "./src/app/b2b/manageornaments/ManageOrnaments";
+import B2BManageOrnaments from "./src/app/b2b/manageornaments/manageornaments.tsx";
 import MarketingResources from "./src/app/b2b/marketingresources/MarketingResources";
 import Notifications from "./src/app/b2b/notifications/Notifications";
 import OrderHistory from "./src/app/b2b/orderhistory/OrderHistory";
