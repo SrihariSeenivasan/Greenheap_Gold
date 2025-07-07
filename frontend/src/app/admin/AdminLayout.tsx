@@ -13,6 +13,7 @@ const menuItems = [
   { label: 'Chit Jewels Saving Plan', icon: '💍', path: '/savingplan' },
   { label: 'Digital Gold SIP Plan', icon: '🥇', path: '/spiplan' },
   { label: 'Gold Plant Scheme', icon: '🌱', path: '/plantscheme' },
+  { label: 'Manage Market Resource', icon: '📊', path: '/resource' },
   { label: 'My Bank Accounts', icon: '🏦', path: '/mybankaccounts' },
   { label: 'Logout', icon: '🚪', path: '/' }
 ];

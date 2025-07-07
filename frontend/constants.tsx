@@ -225,3 +225,45 @@ export const schemes=[
     "link": "/userplantscheme"
   }
 ]
+export const mockResources = [
+  {
+    id: 1,
+    title: 'Co-branded Flyers',
+    description: 'High-quality flyers for your business promotion.',
+    fileName: 'co_branded_flyer.pdf',
+    fileType: 'PDF',
+    uploadDate: '2024-01-15',
+    status: 'active' as 'active',
+    downloadCount: 156
+  },
+  {
+    id: 2,
+    title: 'SIP Brochures',
+    description: 'Brochures to explain SIP benefits to your clients.',
+    fileName: 'sip_brochure.pdf',
+    fileType: 'PDF',
+    uploadDate: '2024-01-10',
+    status: 'active' as 'active',
+    downloadCount: 203
+  },
+  {
+    id: 3,
+    title: 'Branding Kit',
+    description: 'Logos, color codes, and branding guidelines.',
+    fileName: 'branding_kit.zip',
+    fileType: 'ZIP',
+    uploadDate: '2024-01-05',
+    status: 'active' as 'active',
+    downloadCount: 89
+  },
+  {
+    id: 4,
+    title: 'Social Post Templates',
+    description: 'Ready-to-use social media post templates.',
+    fileName: 'social_templates.zip',
+    fileType: 'ZIP',
+    uploadDate: '2024-01-01',
+    status: 'active' as 'active',
+    downloadCount: 134
+  }
+];
