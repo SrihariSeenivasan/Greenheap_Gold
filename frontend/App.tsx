@@ -74,6 +74,7 @@ import LNotification from "./src/app/loginuser/DashboardComponents/Notification.
 import Cart from "./src/app/loginuser/Cart/cart";
 import LRefund from "./src/app/loginuser/Refund/refund.tsx";
 import PayoutRequest from "./src/app/admin/PayoutRequest/payoutrequest";
+import AdminCampaigns from "./src/app/admin/Campaigns/campaigns";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -94,6 +95,8 @@ const AppRoutes: React.FC = () => {
         <Route path="/mybankaccounts" element={ <MyBankAccounts/>}/>
         <Route path="/manageornaments" element={ <ManageOrnaments/>}/>
         <Route path="/manageusers" element={<ManageUsers />} />
+        <Route path="/campaigns" element={<AdminCampaigns />} />
+        
       
       
         </Route>
@@ -163,6 +166,10 @@ const AppRoutes: React.FC = () => {
 
         <Route element={<LogUserLayout/>}>
         {/* <Route path="/loguser" element={ <UserHome />}/> */}
+
+        {/*Login UserDashboard routes */}
+        <Route path="user" element={<LogUserDashboardLayout/>}/>
+
         <Route path="/lnavbar" element={ <LNavBar />}/>
         <Route path="/lfooter" element={ <LFooter />}/>
         <Route path="/lterms" element={ <LTerms />}/>
@@ -196,11 +203,10 @@ const AppRoutes: React.FC = () => {
        
         
 
-        {/*Login UserDashboard routes */}
-        <Route path="user" element={<LogUserDashboardLayout/>}>
+        
          
       
-        </Route >
+       
         
 
         

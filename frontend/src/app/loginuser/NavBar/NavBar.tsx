@@ -872,7 +872,7 @@ const LNavBar = () => {
 										<div style={{ padding: "16px" }}>
 											{[
 												{ icon: User, label: "Dashboard", href: "/user" },
-												{ icon: LogOut, label: "Logout", href: "/logout", danger: true }
+												{ icon: LogOut, label: "Logout", href: "/", danger: true }
 											].map((item, index) => (
 												<a
 													key={index}
