@@ -27,7 +27,7 @@ import Support from "./src/app/b2b/support/Support";
 import Wallet from "./src/app/b2b/wallet/Wallet";
 import PartnerPopup from "./src/app/partner/PartnerPopup";
 import SignupPopup from "./src/app/user/SignupPopup";
-
+import MarketingResourcesUpload from "./src/app/admin/AdminMarketPost/adminmarketpost.tsx";
 import PartnerLayout from "./src/app/partner/PartnerLayout";
 import PartnerCampaigns from "./src/app/partner/partnercampaigns";
 import PartnerCommission from "./src/app/partner/partnercommission";
@@ -86,7 +86,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/commission" element={ <Commission/>}/>
         <Route path="/payoutrequest" element={ <PayoutRequest/>}/>
         <Route path="/kyc" element={ <KYC/>}/>
-       
+        <Route path="/resource" element={ <MarketingResourcesUpload/>}/>
         <Route path="/savingplan" element={ <SavingPlan/>}/>
         <Route path="/spiplan" element={ <SPIPPlan/>}/>
         <Route path="/plantscheme" element={ <PlantScheme/>}/>
