@@ -163,6 +163,10 @@ const AppRoutes: React.FC = () => {
 
         <Route element={<LogUserLayout/>}>
         {/* <Route path="/loguser" element={ <UserHome />}/> */}
+
+        {/*Login UserDashboard routes */}
+        <Route path="user" element={<LogUserDashboardLayout/>}/>
+        
         <Route path="/lnavbar" element={ <LNavBar />}/>
         <Route path="/lfooter" element={ <LFooter />}/>
         <Route path="/lterms" element={ <LTerms />}/>
@@ -196,11 +200,10 @@ const AppRoutes: React.FC = () => {
        
         
 
-        {/*Login UserDashboard routes */}
-        <Route path="user" element={<LogUserDashboardLayout/>}>
+        
          
       
-        </Route >
+       
         
 
         

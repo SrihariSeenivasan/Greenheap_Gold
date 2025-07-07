@@ -280,7 +280,7 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
             <button
               onClick={() => {
                 // handle login logic here
-                navigate("/LUserHome");
+                navigate("/user");
 
                 
               }}
