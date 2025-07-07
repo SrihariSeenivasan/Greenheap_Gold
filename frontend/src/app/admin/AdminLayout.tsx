@@ -14,7 +14,7 @@ const menuItems = [
   { label: 'Digital Gold SIP Plan', icon: '🥇', path: '/spiplan' },
   { label: 'Gold Plant Scheme', icon: '🌱', path: '/plantscheme' },
   { label: 'Manage Market Resource', icon: '📊', path: '/resource' },
-  { label: 'Campaigns', icon: '📊', path: '/campaigns' },
+  { label: 'Campaigns', icon: '📋', path: '/campaigns' },
   { label: 'My Bank Accounts', icon: '🏦', path: '/mybankaccounts' },
   { label: 'Logout', icon: '🚪', path: '/' }
 ];
