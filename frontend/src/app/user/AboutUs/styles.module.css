@@ -1,0 +1,61 @@
+.how_it_started_cotainer {
+  border: 0.1rem solid white;
+  border-radius: 3rem 0rem;
+}
+
+.our_mission_section {
+  width: 40%;
+  padding: 2rem;
+}
+
+.our_mission_content_section {
+  width: 60%;
+  padding: 2rem;
+}
+
+.founder_bg {
+  background-image: linear-gradient(135deg, #87889f 0%, #1e1f47 100%);
+  border-radius: 2rem;
+  padding: 5rem;
+  background-size: 100% 100%;
+}
+
+.about_us_founder_content_wrapper {
+  width: 80%;
+  padding-right: 5%;
+}
+
+.about_us_founder_img_container {
+  border: 1rem solid;
+  width: 100%;
+  border-radius: 0.5rem;
+}
+
+.about_us_founder_img {
+  width: 20%;
+}
+
+@media (max-width: 768px) {
+  .founder_bg {
+    padding: 1rem 1rem !important;
+    text-align: center;
+  }
+  .our_mission_section {
+    width: 100% !important;
+    padding: 1rem !important;
+  }
+  .our_mission_content_section {
+    width: 100% !important;
+    padding: 1rem !important;
+  }
+  .about_us_founder_img {
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 5%;
+    margin-top: 5%;
+  }
+  .about_us_founder_content_wrapper {
+    width: 100%;
+    padding-right: 0;
+  }
+}
