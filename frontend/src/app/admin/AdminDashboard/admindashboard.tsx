@@ -33,6 +33,11 @@ const FILTERS = [
 const AdminDashboard = () => {
   const [activityPage, setActivityPage] = useState(1);
   const [activityFilter, setActivityFilter] = useState("all");
+  const [goldPrice, setGoldPrice] = useState("6500");
+  const [silverPrice, setSilverPrice] = useState("75");
+  const [editPrice, setEditPrice] = useState<false | "gold" | "silver">(false);
+  const [tempGold, setTempGold] = useState(goldPrice);
+  const [tempSilver, setTempSilver] = useState(silverPrice);
   const pageSize = 6;
 
   // Filtering logic
@@ -100,6 +105,134 @@ const AdminDashboard = () => {
             </div>
           </div>
         ))}
+        {/* Gold Price Card */}
+        <div className="group relative bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 hover:border-gray-200 overflow-hidden flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-3 rounded-xl bg-[#7a1335] shadow-lg">
+              <Award className="w-6 h-6 text-white" />
+            </div>
+            {!editPrice && (
+              <button
+                className="text-[#7a1335] hover:underline text-xs font-medium"
+                onClick={() => {
+                  setTempGold(goldPrice);
+                  setEditPrice("gold");
+                }}
+              >
+                Edit
+              </button>
+            )}
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-bold text-[#7a1335]">Gold Price</h3>
+            {editPrice === "gold" ? (
+              <form
+                className="space-y-2"
+                onSubmit={e => {
+                  e.preventDefault();
+                  setGoldPrice(tempGold);
+                  setEditPrice(false);
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <label className="text-sm text-gray-700 w-24">Gold (₹/g):</label>
+                  <input
+                    type="number"
+                    value={tempGold}
+                    onChange={e => setTempGold(e.target.value)}
+                    className="border border-gray-300 rounded px-2 py-1 w-24 focus:ring-2 focus:ring-[#7a1335] outline-none"
+                  />
+                </div>
+                <div className="flex gap-2 pt-2">
+                  <button
+                    type="submit"
+                    className="bg-[#7a1335] text-white px-3 py-1 rounded font-medium text-sm hover:bg-[#a31d4b] transition"
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-gray-200 text-gray-700 px-3 py-1 rounded font-medium text-sm"
+                    onClick={() => setEditPrice(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-700 w-24">Gold (₹/g):</span>
+                  <span className="font-bold text-lg text-[#7a1335]">{goldPrice}</span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        {/* Silver Price Card */}
+        <div className="group relative bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 hover:border-gray-200 overflow-hidden flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-3 rounded-xl bg-[#7a1335] shadow-lg">
+              <Award className="w-6 h-6 text-white" />
+            </div>
+            {!editPrice && (
+              <button
+                className="text-[#7a1335] hover:underline text-xs font-medium"
+                onClick={() => {
+                  setTempSilver(silverPrice);
+                  setEditPrice("silver");
+                }}
+              >
+                Edit
+              </button>
+            )}
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-bold text-[#7a1335]">Silver Price</h3>
+            {editPrice === "silver" ? (
+              <form
+                className="space-y-2"
+                onSubmit={e => {
+                  e.preventDefault();
+                  setSilverPrice(tempSilver);
+                  setEditPrice(false);
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <label className="text-sm text-gray-700 w-24">Silver (₹/g):</label>
+                  <input
+                    type="number"
+                    value={tempSilver}
+                    onChange={e => setTempSilver(e.target.value)}
+                    className="border border-gray-300 rounded px-2 py-1 w-24 focus:ring-2 focus:ring-[#7a1335] outline-none"
+                  />
+                </div>
+                <div className="flex gap-2 pt-2">
+                  <button
+                    type="submit"
+                    className="bg-[#7a1335] text-white px-3 py-1 rounded font-medium text-sm hover:bg-[#a31d4b] transition"
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-gray-200 text-gray-700 px-3 py-1 rounded font-medium text-sm"
+                    onClick={() => setEditPrice(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-700 w-24">Silver (₹/g):</span>
+                  <span className="font-bold text-lg text-[#7a1335]">{silverPrice}</span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Activity Section */}
