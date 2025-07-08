@@ -77,6 +77,7 @@ import PayoutRequest from "./src/app/admin/PayoutRequest/payoutrequest";
 import AdminCampaigns from "./src/app/admin/Campaigns/campaigns";
 import GoldOrders from "./src/app/admin/GoldOrderManage/goldorder";
 import AOrderHistory from "./src/app/admin/OrderHistory/orderhistory";
+import FAQManagement from "./src/app/admin/FAQ/faq";
 
 
 const AppRoutes: React.FC = () => {
@@ -101,6 +102,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/campaigns" element={<AdminCampaigns />} />
         <Route path="/goldorders" element={<GoldOrders />} />
         <Route path="/orderhistory" element={<AOrderHistory />} />
+        <Route path="/faq" element={<FAQManagement />} />
 
 
         </Route>
