@@ -1,8 +1,6 @@
+import React, { useEffect, useRef, useState } from "react";
 import Carousel from "../components/custom/Carousel";
-import CustomButton from "../components/custom/CustomButton";
-import CustomImage from "../components/custom/Image";
 import style from "./style.module.css";
-import React, { useState, useRef, useEffect } from "react";
 
 // Helper hook for scroll animation
 function useScrollFadeIn(direction: "left" | "right" | "up" | "down" = "up", duration = 700, delay = 0) {
@@ -106,7 +104,7 @@ const UserHome = () => {
                     <span style={{ color: "#991313", fontSize: 18, marginRight: 8 }}>
                       <i className="fa fa-dot-circle-o" style={{ color: "#991313", fontSize: 18 }}></i>
                     </span>
-                    <span style={{ fontWeight: 500, color: "#222", fontSize: 18 }}>
+                    <span style={{ fontWeight: 500, color: "#7a1335", fontSize: 18 }}>
                       Live Buy Price (Gold)
                     </span>
                     <span
@@ -125,7 +123,7 @@ const UserHome = () => {
                     </span>
                   </div>
                   <div className="d-flex align-items-end mb-1">
-                    <span style={{ fontWeight: 700, fontSize: 28, color: "#222" }}>8000/gm</span>
+                    <span style={{ fontWeight: 700, fontSize: 28, color: "#7a1335" }}>8000/gm</span>
                     <span style={{ color: "#888", fontSize: 15, marginLeft: 12, marginBottom: 2 }}>
                       +3% GST applicable
                     </span>
@@ -137,7 +135,7 @@ const UserHome = () => {
                     <span style={{ color: "#991313", fontSize: 18, marginRight: 8 }}>
                       <i className="fa fa-dot-circle-o" style={{ color: "#991313", fontSize: 18 }}></i>
                     </span>
-                    <span style={{ fontWeight: 500, color: "#222", fontSize: 18 }}>
+                    <span style={{ fontWeight: 500, color: "#7a1335", fontSize: 18 }}>
                       Live Buy Price (Gold)
                     </span>
                     <span
@@ -156,7 +154,7 @@ const UserHome = () => {
                     </span>
                   </div>
                   <div className="d-flex align-items-end mb-1">
-                    <span style={{ fontWeight: 700, fontSize: 28, color: "#222" }}>8705/gm</span>
+                    <span style={{ fontWeight: 700, fontSize: 28, color: "#7a1335" }}>8705/gm</span>
                     <span style={{ color: "#888", fontSize: 15, marginLeft: 12, marginBottom: 2 }}>
                       +3% GST applicable
                     </span>
@@ -168,7 +166,7 @@ const UserHome = () => {
                     <span style={{ color: "#991313", fontSize: 18, marginRight: 8 }}>
                       <i className="fa fa-dot-circle-o" style={{ color: "#991313", fontSize: 18 }}></i>
                     </span>
-                    <span style={{ fontWeight: 500, color: "#222", fontSize: 18 }}>
+                    <span style={{ fontWeight: 500, color: "#7a1335", fontSize: 18 }}>
                       Live Buy Price (Silver)
                     </span>
                     <span
@@ -187,7 +185,7 @@ const UserHome = () => {
                     </span>
                   </div>
                   <div className="d-flex align-items-end mb-1">
-                    <span style={{ fontWeight: 700, fontSize: 28, color: "#222" }}>107/gm</span>
+                    <span style={{ fontWeight: 700, fontSize: 28, color: "#7a1335" }}>107/gm</span>
                     <span style={{ color: "#888", fontSize: 15, marginLeft: 12, marginBottom: 2 }}>
                       +3% GST applicable
                     </span>
@@ -203,14 +201,15 @@ const UserHome = () => {
         ref={bannerRef}
       >
         <h3
-          className="text-center text-black"
+          className="text-center"
           style={{
             fontSize: "2rem",
             fontWeight: 700,
-            marginTop: "60px",
+            marginTop: window.innerWidth < 768 ? "80px" : "120px",
             marginBottom: "24px",
             position: "relative",
             zIndex: 2,
+            color: "#bf7e1a",
           }}
         >
           Quick overview of schemes
@@ -447,7 +446,7 @@ const UserHome = () => {
       >
         <h3 style={{
           textAlign: "center",
-          color: "#222",
+          color: "#7a1335",
           fontWeight: 700,
           fontSize: 28,
           marginBottom: 32,
@@ -498,7 +497,7 @@ const UserHome = () => {
             <div style={{
               fontWeight: 700,
               fontSize: 32,
-              color: "#111",
+              color: "#7a1335",
               marginBottom: 2,
               lineHeight: 1.1,
               letterSpacing: 0,
@@ -507,7 +506,7 @@ const UserHome = () => {
             </div>
             <div style={{
               fontSize: 20,
-              color: "#222",
+              color: "#7a1335",
               fontWeight: 400,
               marginTop: 2,
               lineHeight: 1.3,
@@ -519,7 +518,7 @@ const UserHome = () => {
         {/* Button on the right */}
         <button
           style={{
-            background: "#111",
+            background: "linear-gradient(90deg, #bf7e1a 0%, #8a2342 100%)",
             color: "#fff",
             border: "none",
             borderRadius: 32,
@@ -604,7 +603,7 @@ const UserHome = () => {
                 textAlign: "left",
                 fontWeight: 700,
                 fontSize: 34,
-                color: "#fff", // changed to white for contrast
+                color: "#bf7e1a",
                 marginBottom: 18,
                 fontFamily: "inherit",
                 letterSpacing: 0.5,
@@ -656,7 +655,7 @@ const UserHome = () => {
                 >
                   Guaranteed 24K Gold
                 </div>
-                <div style={{ color: "#444", fontSize: 15, marginBottom: 8 }}>
+                <div style={{ color: "#7a1335", fontSize: 15, marginBottom: 8 }}>
                   100% purity, certified and insured. No risk of adulteration or fraud.
                 </div>
                 <span style={{
@@ -704,7 +703,7 @@ const UserHome = () => {
                 >
                   Sell Anytime, Anywhere
                 </div>
-                <div style={{ color: "#444", fontSize: 15, marginBottom: 8 }}>
+                <div style={{ color: "#7a1335", fontSize: 15, marginBottom: 8 }}>
                   24x7 liquidity, instant sale and redemption. No need to visit a store.
                 </div>
                 <span style={{
@@ -752,7 +751,7 @@ const UserHome = () => {
                 >
                   Earn Income on Gold
                 </div>
-                <div style={{ color: "#444", fontSize: 15, marginBottom: 8 }}>
+                <div style={{ color: "#7a1335", fontSize: 15, marginBottom: 8 }}>
                   Get rewards, cashback, and interest on your digital gold savings.
                 </div>
                 <span style={{
@@ -821,7 +820,7 @@ const UserHome = () => {
               style={{
                 fontWeight: 700,
                 fontSize: 28,
-                color: "#8a2342",
+                color: "#7a1335",
                 marginBottom: 12,
                 fontFamily: "inherit",
                 letterSpacing: 0.5,
@@ -831,7 +830,7 @@ const UserHome = () => {
             </div>
             <div
               style={{
-                color: "#222",
+                color: "#7a1335",
                 fontSize: 18,
                 marginBottom: 10,
                 fontWeight: 500,
@@ -841,7 +840,7 @@ const UserHome = () => {
             </div>
             <div
               style={{
-                color: "#444",
+                color: "#7a1335",
                 fontSize: 16,
                 marginBottom: 22,
                 lineHeight: 1.6,
@@ -930,7 +929,7 @@ const UserHome = () => {
           style={{
             maxWidth: 900,
             margin: "0 auto",
-            color: "#222",
+            color: "#7a1335",
           }}
         >
           <div
@@ -1152,7 +1151,7 @@ function ClientFeedbackCarousel() {
           />
         ))}
       </div>
-    </div>
+  </div>
   );
 }
 

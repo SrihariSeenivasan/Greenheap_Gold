@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { schemes } from "../../../constants";
 import Carousel from "../components/custom/Carousel";
 import style from "./style.module.css";
-import { useNavigate } from "react-router-dom"; 
-import { schemes } from "../../../constants";
 
 // Helper hook for scroll animation
 function useScrollFadeIn(direction: "left" | "right" | "up" | "down" = "up", duration = 700, delay = 0) {
@@ -107,7 +107,7 @@ const LUserHome = () => {
                     <span style={{ color: "#991313", fontSize: 18, marginRight: 8 }}>
                       <i className="fa fa-dot-circle-o" style={{ color: "#991313", fontSize: 18 }}></i>
                     </span>
-                    <span style={{ fontWeight: 500, color: "#222", fontSize: 18 }}>
+                    <span style={{ fontWeight: 500, color: "#7a1335", fontSize: 18 }}>
                       Live Buy Price (Gold)
                     </span>
                     <span
@@ -126,7 +126,7 @@ const LUserHome = () => {
                     </span>
                   </div>
                   <div className="d-flex align-items-end mb-1">
-                    <span style={{ fontWeight: 700, fontSize: 28, color: "#222" }}>8000/gm</span>
+                    <span style={{ fontWeight: 700, fontSize: 28, color: "#7a1335" }}>8000/gm</span>
                     <span style={{ color: "#888", fontSize: 15, marginLeft: 12, marginBottom: 2 }}>
                       +3% GST applicable
                     </span>
@@ -138,7 +138,7 @@ const LUserHome = () => {
                     <span style={{ color: "#991313", fontSize: 18, marginRight: 8 }}>
                       <i className="fa fa-dot-circle-o" style={{ color: "#991313", fontSize: 18 }}></i>
                     </span>
-                    <span style={{ fontWeight: 500, color: "#222", fontSize: 18 }}>
+                    <span style={{ fontWeight: 500, color: "#7a1335", fontSize: 18 }}>
                       Live Buy Price (Gold)
                     </span>
                     <span
@@ -157,7 +157,7 @@ const LUserHome = () => {
                     </span>
                   </div>
                   <div className="d-flex align-items-end mb-1">
-                    <span style={{ fontWeight: 700, fontSize: 28, color: "#222" }}>8705/gm</span>
+                    <span style={{ fontWeight: 700, fontSize: 28, color: "#7a1335" }}>8705/gm</span>
                     <span style={{ color: "#888", fontSize: 15, marginLeft: 12, marginBottom: 2 }}>
                       +3% GST applicable
                     </span>
@@ -169,7 +169,7 @@ const LUserHome = () => {
                     <span style={{ color: "#991313", fontSize: 18, marginRight: 8 }}>
                       <i className="fa fa-dot-circle-o" style={{ color: "#991313", fontSize: 18 }}></i>
                     </span>
-                    <span style={{ fontWeight: 500, color: "#222", fontSize: 18 }}>
+                    <span style={{ fontWeight: 500, color: "#7a1335", fontSize: 18 }}>
                       Live Buy Price (Silver)
                     </span>
                     <span
@@ -188,7 +188,7 @@ const LUserHome = () => {
                     </span>
                   </div>
                   <div className="d-flex align-items-end mb-1">
-                    <span style={{ fontWeight: 700, fontSize: 28, color: "#222" }}>107/gm</span>
+                    <span style={{ fontWeight: 700, fontSize: 28, color: "#7a1335" }}>107/gm</span>
                     <span style={{ color: "#888", fontSize: 15, marginLeft: 12, marginBottom: 2 }}>
                       +3% GST applicable
                     </span>
@@ -204,7 +204,7 @@ const LUserHome = () => {
       ref={bannerRef}
     >
       <h3
-        className="text-center text-black"
+        className="text-center"
         style={{
           fontSize: "2rem",
           fontWeight: 700,
@@ -212,6 +212,7 @@ const LUserHome = () => {
           marginBottom: "24px",
           position: "relative",
           zIndex: 2,
+          color: "#bf7e1a",
         }}
       >
         Quick overview of schemes
@@ -325,7 +326,7 @@ const LUserHome = () => {
       >
         <h3 style={{
           textAlign: "center",
-          color: "#222",
+          color: "#7a1335",
           fontWeight: 700,
           fontSize: 28,
           marginBottom: 32,
@@ -340,7 +341,6 @@ const LUserHome = () => {
         </h3>
         <ClientFeedbackCarousel />
       </section>
-
       {/* Grow your wealth smarter */}
       <div
         ref={wealthRef}
@@ -376,7 +376,7 @@ const LUserHome = () => {
             <div style={{
               fontWeight: 700,
               fontSize: 32,
-              color: "#111",
+              color: "#7a1335",
               marginBottom: 2,
               lineHeight: 1.1,
               letterSpacing: 0,
@@ -385,7 +385,7 @@ const LUserHome = () => {
             </div>
             <div style={{
               fontSize: 20,
-              color: "#222",
+              color: "#7a1335",
               fontWeight: 400,
               marginTop: 2,
               lineHeight: 1.3,
@@ -397,7 +397,7 @@ const LUserHome = () => {
         {/* Button on the right */}
         <button
           style={{
-            background: "#111",
+            background: "linear-gradient(90deg, #bf7e1a 0%, #8a2342 100%)",
             color: "#fff",
             border: "none",
             borderRadius: 32,
@@ -483,7 +483,7 @@ const LUserHome = () => {
                 textAlign: "left",
                 fontWeight: 700,
                 fontSize: 34,
-                color: "#fff", // changed to white for contrast
+                color: "#bf7e1a",
                 marginBottom: 18,
                 fontFamily: "inherit",
                 letterSpacing: 0.5,
@@ -535,7 +535,7 @@ const LUserHome = () => {
                 >
                   Guaranteed 24K Gold
                 </div>
-                <div style={{ color: "#444", fontSize: 15, marginBottom: 8 }}>
+                <div style={{ color: "#7a1335", fontSize: 15, marginBottom: 8 }}>
                   100% purity, certified and insured. No risk of adulteration or fraud.
                 </div>
                 <span style={{
@@ -583,7 +583,7 @@ const LUserHome = () => {
                 >
                   Sell Anytime, Anywhere
                 </div>
-                <div style={{ color: "#444", fontSize: 15, marginBottom: 8 }}>
+                <div style={{ color: "#7a1335", fontSize: 15, marginBottom: 8 }}>
                   24x7 liquidity, instant sale and redemption. No need to visit a store.
                 </div>
                 <span style={{
@@ -631,7 +631,7 @@ const LUserHome = () => {
                 >
                   Earn Income on Gold
                 </div>
-                <div style={{ color: "#444", fontSize: 15, marginBottom: 8 }}>
+                <div style={{ color: "#7a1335", fontSize: 15, marginBottom: 8 }}>
                   Get rewards, cashback, and interest on your digital gold savings.
                 </div>
                 <span style={{
@@ -673,7 +673,6 @@ const LUserHome = () => {
           </div>
         </div>
       </section>
-
       {/* Convert digital to physical gold/silver */}
       <section
         ref={convertRef}
@@ -700,7 +699,7 @@ const LUserHome = () => {
               style={{
                 fontWeight: 700,
                 fontSize: 28,
-                color: "#8a2342",
+                color: "#7a1335",
                 marginBottom: 12,
                 fontFamily: "inherit",
                 letterSpacing: 0.5,
@@ -710,7 +709,7 @@ const LUserHome = () => {
             </div>
             <div
               style={{
-                color: "#222",
+                color: "#7a1335",
                 fontSize: 18,
                 marginBottom: 10,
                 fontWeight: 500,
@@ -720,7 +719,7 @@ const LUserHome = () => {
             </div>
             <div
               style={{
-                color: "#444",
+                color: "#7a1335",
                 fontSize: 16,
                 marginBottom: 22,
                 lineHeight: 1.6,
@@ -796,7 +795,6 @@ const LUserHome = () => {
           </div>
         </div>
       </section>
-
       {/* FAQ Section */}
       <section
         ref={faqRef}
@@ -810,7 +808,7 @@ const LUserHome = () => {
           style={{
             maxWidth: 900,
             margin: "0 auto",
-            color: "#222",
+            color: "#7a1335",
           }}
         >
           <div

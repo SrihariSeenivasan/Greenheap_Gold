@@ -12,6 +12,7 @@ type Resource = {
   uploadDate: string;
   status: 'active' | 'inactive';
   downloadCount: number;
+  fileUrl?: string; // Add fileUrl for preview
 };
 
 const MarketingResourcesUpload = () => {
@@ -27,15 +28,23 @@ const MarketingResourcesUpload = () => {
     description: string;
     file: File | null;
     status: 'active' | 'inactive';
+    fileUrl?: string;
   }>({
     title: '',
     description: '',
     file: null,
-    status: 'active'
+    status: 'active',
+    fileUrl: undefined
   });
 
   // Add ref for file input to reset after upload
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(resources.length / itemsPerPage);
+  const paginatedResources = resources.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -53,13 +62,23 @@ const MarketingResourcesUpload = () => {
     setDragActive(false);
 
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      setNewResource({ ...newResource, file: e.dataTransfer.files[0] });
+      const file = e.dataTransfer.files[0];
+      let fileUrl: string | undefined = undefined;
+      if (file.type === "application/pdf") {
+        fileUrl = URL.createObjectURL(file);
+      }
+      setNewResource({ ...newResource, file, fileUrl });
     }
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setNewResource({ ...newResource, file: e.target.files[0] });
+      const file = e.target.files[0];
+      let fileUrl: string | undefined = undefined;
+      if (file.type === "application/pdf") {
+        fileUrl = URL.createObjectURL(file);
+      }
+      setNewResource({ ...newResource, file, fileUrl });
     }
   };
 
@@ -81,11 +100,12 @@ const MarketingResourcesUpload = () => {
         fileType: newResource.file!.name.split('.').pop()?.toUpperCase() || '',
         uploadDate: new Date().toISOString().split('T')[0],
         status: newResource.status,
-        downloadCount: 0
+        downloadCount: 0,
+        fileUrl: newResource.fileUrl
       };
 
       setResources([...resources, resource]);
-      setNewResource({ title: '', description: '', file: null, status: 'active' });
+      setNewResource({ title: '', description: '', file: null, status: 'active', fileUrl: undefined });
       setShowUploadModal(false);
       setIsUploading(false);
       // Reset file input value
@@ -203,11 +223,12 @@ const MarketingResourcesUpload = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Upload Date</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Downloads</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preview</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {resources.map((resource) => (
+                {paginatedResources.map((resource) => (
                   <tr key={resource.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
@@ -237,6 +258,17 @@ const MarketingResourcesUpload = () => {
                         {resource.status}
                       </button>
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {/* PDF/Doc Preview */}
+                      {resource.fileUrl && resource.fileType === "PDF" && (
+                        <a href={resource.fileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                          View PDF
+                        </a>
+                      )}
+                      {resource.fileUrl && resource.fileType !== "PDF" && (
+                        <span className="text-gray-400">No Preview</span>
+                      )}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
                         <button
@@ -255,15 +287,41 @@ const MarketingResourcesUpload = () => {
                     </td>
                   </tr>
                 ))}
+                {paginatedResources.length === 0 && (
+                  <tr>
+                    <td colSpan={7} className="text-center py-8 text-gray-500">
+                      No resources found.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
+          </div>
+          {/* Pagination Controls */}
+          <div className="flex justify-center items-center gap-2 mt-4 mb-4">
+            <button
+              className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+            >
+              Prev
+            </button>
+            <span className="text-sm text-gray-700">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
           </div>
         </div>
 
         {/* Upload Modal */}
         {showUploadModal && (
           <div
-            // className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
             style={{
               position: 'fixed',
               inset: 0,
@@ -275,7 +333,6 @@ const MarketingResourcesUpload = () => {
             }}
           >
             <div
-              // className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4"
               style={{
                 background: '#fff',
                 borderRadius: '1rem',
@@ -287,7 +344,6 @@ const MarketingResourcesUpload = () => {
               }}
             >
               <div
-                // className="flex items-center justify-between p-6 border-b border-gray-200"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -297,30 +353,21 @@ const MarketingResourcesUpload = () => {
                 }}
               >
                 <h3
-                  // className="text-lg font-semibold text-gray-900"
                   style={{ fontSize: '1.125rem', fontWeight: 600, color: '#111827' }}
                 >
                   Upload New Resource
                 </h3>
                 <button
                   onClick={() => setShowUploadModal(false)}
-                  // className="text-gray-400 hover:text-gray-600"
                   style={{ color: '#9ca3af', background: 'none', border: 'none', cursor: 'pointer' }}
                 >
                   <X size={24} />
                 </button>
               </div>
-              <div
-                // className="p-6"
-                style={{ padding: '1.5rem' }}
-              >
-                <div
-                  // className="space-y-4"
-                  style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
-                >
+              <div style={{ padding: '1.5rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   <div>
                     <label
-                      // className="block text-sm font-medium text-gray-700 mb-2"
                       style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, color: '#374151', marginBottom: '0.5rem' }}
                     >
                       Title
@@ -329,7 +376,6 @@ const MarketingResourcesUpload = () => {
                       type="text"
                       value={newResource.title}
                       onChange={(e) => setNewResource({...newResource, title: e.target.value})}
-                      // className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                       style={{
                         width: '100%',
                         padding: '0.5rem 0.75rem',
@@ -342,7 +388,6 @@ const MarketingResourcesUpload = () => {
                   </div>
                   <div>
                     <label
-                      // className="block text-sm font-medium text-gray-700 mb-2"
                       style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, color: '#374151', marginBottom: '0.5rem' }}
                     >
                       Description
@@ -350,7 +395,6 @@ const MarketingResourcesUpload = () => {
                     <textarea
                       value={newResource.description}
                       onChange={(e) => setNewResource({...newResource, description: e.target.value})}
-                      // className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                       rows={3}
                       placeholder="Enter resource description"
                       style={{
@@ -364,15 +408,11 @@ const MarketingResourcesUpload = () => {
                   </div>
                   <div>
                     <label
-                      // className="block text-sm font-medium text-gray-700 mb-2"
                       style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, color: '#374151', marginBottom: '0.5rem' }}
                     >
-                      File
+                      File (PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX)
                     </label>
                     <div
-                      // className={`border-2 border-dashed rounded-lg p-6 text-center ${
-                      //   dragActive ? 'border-purple-500 bg-purple-50' : 'border-gray-300'
-                      // }`}
                       style={{
                         border: `2px dashed ${dragActive ? '#a78bfa' : '#d1d5db'}`,
                         borderRadius: '0.75rem',
@@ -391,6 +431,7 @@ const MarketingResourcesUpload = () => {
                       </p>
                       <input
                         type="file"
+                        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
                         onChange={handleFileSelect}
                         style={{ display: 'none' }}
                         id="file-upload"
@@ -398,7 +439,6 @@ const MarketingResourcesUpload = () => {
                       />
                       <label
                         htmlFor="file-upload"
-                        // className="mt-2 inline-block px-4 py-2 bg-purple-600 text-white rounded-lg cursor-pointer hover:bg-purple-700"
                         style={{
                           marginTop: '0.5rem',
                           display: 'inline-block',
@@ -411,12 +451,23 @@ const MarketingResourcesUpload = () => {
                       >
                         Browse Files
                       </label>
+                      {/* PDF Preview */}
+                      {newResource.file && newResource.file.type === "application/pdf" && newResource.fileUrl && (
+                        <div style={{ marginTop: 16 }}>
+                          <iframe
+                            src={newResource.fileUrl}
+                            title="PDF Preview"
+                            width="100%"
+                            height="200"
+                            style={{ border: "1px solid #eee", borderRadius: 8 }}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
               <div
-                // className="flex justify-end space-x-3 p-6 border-t border-gray-200"
                 style={{
                   display: 'flex',
                   justifyContent: 'flex-end',
@@ -427,7 +478,6 @@ const MarketingResourcesUpload = () => {
               >
                 <button
                   onClick={() => setShowUploadModal(false)}
-                  // className="px-4 py-2 text-gray-600 hover:text-gray-800"
                   style={{
                     padding: '0.5rem 1rem',
                     color: '#4b5563',
@@ -441,7 +491,6 @@ const MarketingResourcesUpload = () => {
                 <button
                   onClick={handleUpload}
                   disabled={isUploading}
-                  // className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50"
                   style={{
                     padding: '0.5rem 1.5rem',
                     background: '#a78bfa',

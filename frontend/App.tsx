@@ -75,6 +75,9 @@ import Cart from "./src/app/loginuser/Cart/cart";
 import LRefund from "./src/app/loginuser/Refund/refund.tsx";
 import PayoutRequest from "./src/app/admin/PayoutRequest/payoutrequest";
 import AdminCampaigns from "./src/app/admin/Campaigns/campaigns";
+import GoldOrders from "./src/app/admin/GoldOrderManage/goldorder";
+import AOrderHistory from "./src/app/admin/OrderHistory/orderhistory";
+
 
 const AppRoutes: React.FC = () => {
   return (
@@ -96,9 +99,10 @@ const AppRoutes: React.FC = () => {
         <Route path="/manageornaments" element={ <ManageOrnaments/>}/>
         <Route path="/manageusers" element={<ManageUsers />} />
         <Route path="/campaigns" element={<AdminCampaigns />} />
-        
-      
-      
+        <Route path="/goldorders" element={<GoldOrders />} />
+        <Route path="/orderhistory" element={<AOrderHistory />} />
+
+
         </Route>
 
         {/* B2B routes */}
