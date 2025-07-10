@@ -80,11 +80,8 @@ const authSlice = createSlice({
       })
       .addCase(verifyOtpAndRegister.fulfilled, (state, action) => {
         state.status = 'succeeded';
-      
         state.currentUser = action.payload.user;
         state.token = action.payload.token;
-        localStorage.setItem('currentUser', JSON.stringify(action.payload.user));
-        localStorage.setItem('authToken', action.payload.token);
       })
       .addCase(verifyOtpAndRegister.rejected, (state, action) => {
         state.status = 'failed';

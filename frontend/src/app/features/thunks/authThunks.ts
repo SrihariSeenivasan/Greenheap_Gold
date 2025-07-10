@@ -43,15 +43,17 @@ export const sendRegistrationOtp = createAsyncThunk<ApiResponse, RegistrationDat
   'auth/sendRegistrationOtp',
   async (userData, { rejectWithValue }) => {
     try {
-    
-      const nameParts = userData.name.split(' ');
-      const firstName = nameParts[0] || '';
-      const lastName = nameParts.slice(1).join(' ') || firstName;
-
       const response = await axios.post<ApiResponse>(`${API_BASE_URL}/register`, {
-        firstName,
-        lastName,
+        fullName: userData.fullName,
+        gender: userData.gender,
+        dob: userData.dob,
         email: userData.email,
+        mobile: userData.mobile,
+        countryCode: userData.countryCode,
+        city: userData.city,
+        town: userData.town,
+        state: userData.state,
+        country: userData.country,
         password: userData.password,
         role: "USER",
       });
@@ -72,15 +74,18 @@ export const verifyOtpAndRegister = createAsyncThunk<LoginResponse, Verification
   'auth/verifyOtpAndRegister',
   async (verificationData, { rejectWithValue }) => {
     try {
-      const nameParts = verificationData.name.split(' ');
-      const firstName = nameParts[0] || '';
-      const lastName = nameParts.slice(1).join(' ') || firstName;
-
-      const response = await axios.post<LoginResponse>(`${API_BASE_URL}/verify-otp`, {
+       const response = await axios.post<any>(`${API_BASE_URL}/verify-otp`, {
         identifier: verificationData.email,
         otp: verificationData.otp,
-        firstName,
-        lastName,
+        fullName: verificationData.fullName,
+        gender: verificationData.gender,
+        dob: verificationData.dob,
+        mobile: verificationData.mobile,
+        countryCode: verificationData.countryCode,
+        city: verificationData.city,
+        town: verificationData.town,
+        state: verificationData.state,
+        country: verificationData.country,
         password: verificationData.password,
         role: "USER",
       });

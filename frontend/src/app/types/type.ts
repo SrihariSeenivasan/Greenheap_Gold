@@ -19,16 +19,21 @@ export interface LoginCredentials {
 }
 
 export interface RegistrationData {
-  name: string;      
+  fullName: string;
+  gender: string;
+  dob: string;
   email: string;
+  mobile: string;
+  countryCode: string;
+  city: string;
+  town: string;
+  state: string;
+  country: string;
   password: string;
 }
 
-export interface VerificationData {
-  name: string;      
-  email: string;
-  password: string;
-  otp: string;       
+export interface VerificationData extends RegistrationData {
+  otp: string;
 }
 
 export interface ResendOtpData {
@@ -43,4 +48,34 @@ export interface ApiResponse {
 export interface LoginResponse extends ApiResponse {
   token: string;
   user: User;
+}
+
+export interface Ornament {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  subCategory: string;
+  gender: 'Male' | 'Female' | 'Unisex';
+  description: string;
+  description1?: string;
+  description2?: string;
+  description3?: string;
+  material: string;
+  purity: string;
+  quality: string;
+  details: string;
+  mainImage: string;
+  subImages: string[];
+}
+
+export interface AdminState {
+  ornaments: Ornament[];
+  currentOrnament: Ornament | null;
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string | null;
+  currentPage: number;
+  totalPages: number;
+  totalElements: number;
+  pageSize: number;
 }

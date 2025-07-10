@@ -124,8 +124,19 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
     setValidationError(null);
     dispatch(clearAuthError());
 
-    dispatch(sendRegistrationOtp({ name, email: signupEmail, password: signupPassword }))
-      .then(result => {
+     dispatch(sendRegistrationOtp({
+      fullName: name,
+      gender: signupGender,
+      dob: signupDOB,
+      email: signupEmail,
+      mobile: phone,
+      countryCode: signupCountryCode,
+      city: signupCity,
+      town: signupTown,
+      state: signupState,
+      country: signupCountry,
+      password: signupPassword,
+    })).then(result => {
         if (sendRegistrationOtp.fulfilled.match(result)) {
           setStep("otp");
         }
@@ -142,11 +153,19 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
     dispatch(clearAuthError());
 
     try {
-      await dispatch(verifyOtpAndRegister({
-        name,
+       await dispatch(verifyOtpAndRegister({
         email: signupEmail,
+        otp: fullOtp,
+        fullName: name,
+        gender: signupGender,
+        dob: signupDOB,
+        mobile: phone,
+        countryCode: signupCountryCode,
+        city: signupCity,
+        town: signupTown,
+        state: signupState,
+        country: signupCountry,
         password: signupPassword,
-        otp: fullOtp
       })).unwrap();
       onClose();
       switchMode("login");
