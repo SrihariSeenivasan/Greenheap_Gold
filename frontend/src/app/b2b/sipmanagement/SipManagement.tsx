@@ -17,6 +17,8 @@ const initialSips = [
     planName: "Gold Saver",
     status: "Active",
     commission: "₹500",
+    mobile: "9876543210",
+    email: "rahul@example.com",
   },
 ];
 
@@ -30,6 +32,8 @@ export default function SipManagement() {
     plan: "monthly",
     customPlan: "",
     planName: "",
+    mobile: "",
+    email: "",
   });
   const [editIdx, setEditIdx] = useState<number | null>(null);
 
@@ -49,6 +53,8 @@ export default function SipManagement() {
               duration: Number(form.duration),
               plan: form.plan === "custom" && form.customPlan ? form.customPlan : form.plan,
               planName: form.planName,
+              mobile: form.mobile,
+              email: form.email,
             }
           : sip
       ));
@@ -64,10 +70,22 @@ export default function SipManagement() {
           status: "Active",
           plan: form.plan === "custom" && form.customPlan ? form.customPlan : form.plan,
           planName: form.planName,
+          mobile: form.mobile,
+          email: form.email,
         },
       ]);
     }
-    setForm({ name: "", startDate: "", amount: "", duration: "", plan: "monthly", customPlan: "", planName: "" });
+    setForm({
+      name: "",
+      startDate: "",
+      amount: "",
+      duration: "",
+      plan: "monthly",
+      customPlan: "",
+      planName: "",
+      mobile: "",
+      email: "",
+    });
   };
 
   const handleEdit = (idx: number) => {
@@ -81,6 +99,8 @@ export default function SipManagement() {
       plan: SIP_PLANS.some(p => p.value === sip.plan) ? sip.plan : "custom",
       customPlan: SIP_PLANS.some(p => p.value === sip.plan) ? "" : sip.plan,
       planName: sip.planName || "",
+      mobile: sip.mobile || "",
+      email: sip.email || "",
     });
   };
 
@@ -128,6 +148,24 @@ export default function SipManagement() {
             onChange={handleChange}
             required
           />
+          <input
+            className="border rounded px-3 py-2"
+            type="tel"
+            placeholder="Mobile Number"
+            name="mobile"
+            value={form.mobile}
+            onChange={handleChange}
+            required
+          />
+          <input
+            className="border rounded px-3 py-2"
+            type="email"
+            placeholder="Email ID"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
           <select
             className="border rounded px-3 py-2"
             name="plan"
@@ -166,6 +204,7 @@ export default function SipManagement() {
             {editIdx !== null ? "Update SIP" : "Add SIP"}
           </button>
         </form>
+
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead>
@@ -174,6 +213,8 @@ export default function SipManagement() {
                 <th className="px-2 py-1">Start Date</th>
                 <th className="px-2 py-1">Amount</th>
                 <th className="px-2 py-1">Duration</th>
+                <th className="px-2 py-1">Mobile</th>
+                <th className="px-2 py-1">Email</th>
                 <th className="px-2 py-1">Plan</th>
                 <th className="px-2 py-1">Plan Name</th>
                 <th className="px-2 py-1">Status</th>
@@ -190,6 +231,8 @@ export default function SipManagement() {
                   <td className="px-2 py-1">{sip.startDate}</td>
                   <td className="px-2 py-1">{sip.amount}</td>
                   <td className="px-2 py-1">{sip.duration}</td>
+                  <td className="px-2 py-1">{sip.mobile}</td>
+                  <td className="px-2 py-1">{sip.email}</td>
                   <td className="px-2 py-1 capitalize">{sip.plan}</td>
                   <td className="px-2 py-1">{sip.planName}</td>
                   <td className="px-2 py-1">{sip.status}</td>
@@ -221,7 +264,7 @@ export default function SipManagement() {
               ))}
               {sips.length === 0 && (
                 <tr>
-                  <td colSpan={11} className="text-center text-gray-400 py-4">No SIPs found.</td>
+                  <td colSpan={13} className="text-center text-gray-400 py-4">No SIPs found.</td>
                 </tr>
               )}
             </tbody>

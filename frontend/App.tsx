@@ -85,6 +85,7 @@ import LGoldSIPPlans from "./src/app/loginuser/GoldSIP/goldSIP.tsx";
 import GoldSIPPlans from "./src/app/user/GoldSIP/goldSIP.tsx";
 import LGoldPlantSchemes from "./src/app/loginuser/GoldSchemes/goldschemes.tsx";
 import GoldPlantSchemes from "./src/app/user/GoldSchemes/goldschemes.tsx";
+import BCommission from "./src/app/b2b/commission/Commission";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -123,7 +124,7 @@ const AppRoutes: React.FC = () => {
         <Route path="bsellornament" element={<B2BManageOrnaments />} />
         <Route path="bsipmanagement" element={<SipManagement />} />
         <Route path="bborder-history" element={<OrderHistory />} />
-        <Route path="bcommission" element={<Commission />} />
+        <Route path="bcommission" element={<BCommission />} />
         <Route path="bwallet" element={<Wallet />} />
         <Route path="bmarketing-resources" element={<MarketingResources />} />
         <Route path="bsupport" element={<Support />} />
