@@ -55,6 +55,11 @@ export const sendRegistrationOtp = createAsyncThunk<ApiResponse, RegistrationDat
         password: userData.password,
         role: "USER",
       });
+
+      if (!response.data.success) {
+        return rejectWithValue(response.data.message);
+      }
+
       return response.data;
     } catch (error) {
       return rejectWithValue(getErrorMessage(error));
@@ -79,6 +84,9 @@ export const verifyOtpAndRegister = createAsyncThunk<LoginResponse, Verification
         password: verificationData.password,
         role: "USER",
       });
+      if (!response.data.success) {
+        return rejectWithValue(response.data.message);
+      }
       return response.data;
     } catch (error) {
       return rejectWithValue(getErrorMessage(error));

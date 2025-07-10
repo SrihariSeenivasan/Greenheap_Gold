@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from "../../store"; // Adjust path to your store
+import { AppDispatch, RootState } from "../../store";
 import { 
   loginUser, 
   sendRegistrationOtp, 
   verifyOtpAndRegister, 
   resendOtp 
-} from "../features/thunks/authThunks"; // Adjust path to your thunks
+} from "../features/thunks/authThunks";
 import { clearAuthError } from "../features/slices/authSlice";
 
 interface SignupPopupProps {
@@ -53,13 +53,11 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
   }, [currentUser, status, navigate, onClose]);
 
   useEffect(() => {
-    // Hide body scrollbar when open
     if (open) {
       document.body.style.overflow = "hidden";
     }
     return () => {
       document.body.style.overflow = "";
-      // Clear any previous auth errors when the popup closes
       dispatch(clearAuthError());
     };
   }, [open, dispatch]);
@@ -83,7 +81,6 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
   const switchMode = (newMode: "login" | "signup") => {
     setMode(newMode);
     setStep("form");
-    // Reset all form fields
     setName("");
     setPhone("");
     setOtp(["", "", "", "", "", ""]);
@@ -93,7 +90,6 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
     setSignupEmail("");
     setSignupPassword("");
     setSignupConfirmPassword("");
-    // Clear errors
     dispatch(clearAuthError());
     setValidationError(null);
   };
@@ -105,7 +101,6 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
 
   const handleSignupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Frontend Validation
     if (!name.trim() || !signupGender || !signupDOB || !signupEmail.trim() || !phone.trim() || !signupCity.trim() || !signupTown.trim() || !signupState.trim() || !signupCountry.trim() || !signupPassword || !signupConfirmPassword) {
       setValidationError("Please fill all required fields.");
       return;
@@ -129,7 +124,6 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
     setValidationError(null);
     dispatch(clearAuthError());
 
-    // Dispatch action to get OTP
     dispatch(sendRegistrationOtp({ name, email: signupEmail, password: signupPassword }))
       .then(result => {
         if (sendRegistrationOtp.fulfilled.match(result)) {
@@ -138,26 +132,31 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
       });
   };
   
-  const handleVerifyOtp = () => {
+   const handleVerifyOtp = async () => {
     const fullOtp = otp.join('');
     if (fullOtp.length !== 6) {
-        setValidationError("Please enter the complete 6-digit OTP.");
-        return;
+      setValidationError("Please enter the complete 6-digit OTP.");
+      return;
     }
     setValidationError(null);
     dispatch(clearAuthError());
-    
-    dispatch(verifyOtpAndRegister({
+
+    try {
+      await dispatch(verifyOtpAndRegister({
         name,
         email: signupEmail,
         password: signupPassword,
         otp: fullOtp
-    }));
+      })).unwrap();
+      onClose();
+      switchMode("login");
+    } catch (error) {
+      setValidationError(error as string);
+    }
   };
   
   const handleResendOtp = () => {
       dispatch(resendOtp({ email: signupEmail }));
-      // Optionally show a confirmation message
   };
 
   const handleClose = () => {

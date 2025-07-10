@@ -1,6 +1,12 @@
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import CustomImage from "../../components/custom/Image";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store";
+import { useRef } from "react";
+import { logoutUser } from "../../features/slices/authSlice";
+import { Link } from "react-router-dom";
+
 
 export const MENU = [
 	{ name: "Home", link: "/" },
@@ -14,6 +20,27 @@ const NavBar = () => {
 	const [hovered, setHovered] = useState<string | null>(null);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isMobile, setIsMobile] = useState(false);
+	const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+	const { currentUser } = useSelector((state: RootState) => state.auth);
+	const dispatch = useDispatch<AppDispatch>();
+
+
+	const userMenuRef = useRef<HTMLDivElement>(null);
+
+	// Add this useEffect to handle clicking outside the menu
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+				setIsUserMenuOpen(false);
+			}
+		};
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
+
 
 	// Check screen size and update mobile state
 	useEffect(() => {
@@ -36,6 +63,11 @@ const NavBar = () => {
 	const handleMenuItemClick = (menuName: string) => {
 		setSelected(menuName);
 		setIsMobileMenuOpen(false); // Close mobile menu when item is clicked
+	};
+
+	const handleLogout = () => {
+		dispatch(logoutUser());
+		setIsUserMenuOpen(false);
 	};
 
 	return (
@@ -63,36 +95,36 @@ const NavBar = () => {
 					zIndex: 1100,
 				}}
 			>
-				<div style={{ 
-					display: "flex", 
-					alignItems: "center", 
+				<div style={{
+					display: "flex",
+					alignItems: "center",
 					gap: isMobile ? 8 : 20,
 					flexWrap: "wrap",
 					flex: 1
 				}}>
-					<span style={{ 
-						color: "#fff", 
-						display: "flex", 
-						alignItems: "center", 
+					<span style={{
+						color: "#fff",
+						display: "flex",
+						alignItems: "center",
 						gap: 4,
 						minWidth: 0
 					}}>
-						<img 
-							src="/home/call.png" 
-							alt="Phone" 
-							style={{ 
-								height: isMobile ? 20 : 26, 
-								width: isMobile ? 20 : 26, 
-								background: "transparent", 
-								padding: 3, 
-								marginRight: isMobile ? 4 : 7, 
+						<img
+							src="/home/call.png"
+							alt="Phone"
+							style={{
+								height: isMobile ? 20 : 26,
+								width: isMobile ? 20 : 26,
+								background: "transparent",
+								padding: 3,
+								marginRight: isMobile ? 4 : 7,
 								display: "block",
 								flexShrink: 0
-							}} 
+							}}
 						/>
-						<span style={{ 
-							fontWeight: 600, 
-							fontSize: isMobile ? 12 : 15, 
+						<span style={{
+							fontWeight: 600,
+							fontSize: isMobile ? 12 : 15,
 							letterSpacing: 0.2,
 							whiteSpace: "nowrap",
 							overflow: "hidden",
@@ -112,22 +144,22 @@ const NavBar = () => {
 							minWidth: 0,
 							overflow: "hidden"
 						}}>
-							<img 
-								src="/home/Mail.png" 
-								alt="Mail" 
-								style={{ 
-									height: 26, 
-									width: 26, 
-									background: "transparent", 
-									padding: 3, 
-									marginRight: 7, 
+							<img
+								src="/home/Mail.png"
+								alt="Mail"
+								style={{
+									height: 26,
+									width: 26,
+									background: "transparent",
+									padding: 3,
+									marginRight: 7,
 									display: "block",
 									flexShrink: 0
-								}} 
+								}}
 							/>
-							<span style={{ 
-								fontWeight: 600, 
-								fontSize: 15, 
+							<span style={{
+								fontWeight: 600,
+								fontSize: 15,
 								letterSpacing: 0.2,
 								overflow: "hidden",
 								textOverflow: "ellipsis",
@@ -138,82 +170,82 @@ const NavBar = () => {
 						</span>
 					)}
 				</div>
-				<div style={{ 
-					display: "flex", 
-					alignItems: "center", 
+				<div style={{
+					display: "flex",
+					alignItems: "center",
 					gap: isMobile ? 4 : 8,
 					flexShrink: 0
-				 }}>
+				}}>
 					<a href="#" style={{ marginRight: isMobile ? 0 : 2 }}>
-						<img 
-							src="/home/Facebook.png" 
-							alt="Facebook" 
-							style={{ 
-								height: isMobile ? 20 : 26, 
-								width: isMobile ? 20 : 26, 
-								background: "transparent", 
-								padding: 3, 
-								display: "block", 
-								transition: "transform 0.15s" 
-							}} 
+						<img
+							src="/home/Facebook.png"
+							alt="Facebook"
+							style={{
+								height: isMobile ? 20 : 26,
+								width: isMobile ? 20 : 26,
+								background: "transparent",
+								padding: 3,
+								display: "block",
+								transition: "transform 0.15s"
+							}}
 						/>
 					</a>
 					<a href="#" style={{ marginRight: isMobile ? 0 : 2 }}>
-						<img 
-							src="/home/insta.png" 
-							alt="Instagram" 
-							style={{ 
-								height: isMobile ? 20 : 26, 
-								width: isMobile ? 20 : 26, 
-								background: "transparent", 
-								padding: 3, 
-								display: "block", 
-								transition: "transform 0.15s" 
-							}} 
+						<img
+							src="/home/insta.png"
+							alt="Instagram"
+							style={{
+								height: isMobile ? 20 : 26,
+								width: isMobile ? 20 : 26,
+								background: "transparent",
+								padding: 3,
+								display: "block",
+								transition: "transform 0.15s"
+							}}
 						/>
 					</a>
 					<a href="#" style={{ marginRight: isMobile ? 0 : 2 }}>
-						<img 
-							src="/home/X.png" 
-							alt="X" 
-							style={{ 
-								height: isMobile ? 20 : 26, 
-								width: isMobile ? 20 : 26, 
-								background: "transparent", 
-								padding: 3, 
-								display: "block", 
-								transition: "transform 0.15s" 
-							}} 
+						<img
+							src="/home/X.png"
+							alt="X"
+							style={{
+								height: isMobile ? 20 : 26,
+								width: isMobile ? 20 : 26,
+								background: "transparent",
+								padding: 3,
+								display: "block",
+								transition: "transform 0.15s"
+							}}
 						/>
 					</a>
 					{!isMobile && (
 						<>
 							<a href="#" style={{ marginRight: 2 }}>
-								<img 
-									src="/home/Youtube.png" 
-									alt="YouTube" 
-									style={{ 
-										height: 26, 
-										width: 26, 
-										background: "transparent", 
-										padding: 3, 
-										display: "block", 
-										transition: "transform 0.15s" 
-									}} 
+								<img
+									src="/home/Youtube.png"
+									alt="YouTube"
+									style={{
+										height: 26,
+										width: 26,
+										background: "transparent",
+										padding: 3,
+										display: "block",
+										transition: "transform 0.15s"
+									}}
 								/>
 							</a>
 							<a href="#">
-								<img 
-									src="/home/Linkedin.png" 
-									alt="LinkedIn" 
-									style={{ 
-										height: 26, 
-										width: 26, 
-										background: "transparent", 
-										padding: 3, 
-										display: "block", 
-										transition: "transform 0.15s" 
-									}} 
+								<img
+									src="/home/Linkedin.png"
+									alt="LinkedIn"
+									style={{
+										height: 26,
+										width: 26,
+										background: "transparent",
+										padding: 3,
+										display: "block",
+										transition: "transform 0.15s"
+									}}
 								/>
 							</a>
 						</>
@@ -260,7 +292,7 @@ const NavBar = () => {
 							width={isMobile ? "60px" : "80px"}
 						/>
 					</a>
-{/* Desktop All Category */}
+					{/* Desktop All Category */}
 					{!isMobile && (
 						<div
 							style={{
@@ -572,59 +604,100 @@ const NavBar = () => {
 							}}></span>
 						</button>
 					)}
-					
+
 
 					{/* Desktop Right actions */}
-					{!isMobile && (
-						<div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-							<a
-								href="/PartnerPopup"
-								style={{
-									background: hovered === "Become a partner / Login" ? "#8a2342" : "#7a1335",
-									color: "#fff",
-									borderRadius: 10,
-									padding: "7px 14px",
-									fontWeight: 500,
-									fontSize: 13,
-									display: "flex",
-									alignItems: "center",
-									gap: 7,
-									textDecoration: "none",
-									boxShadow: "none",
-									transition: "background 0.18s, border 0.18s",
-									whiteSpace: "nowrap",
-									border: hovered === "Become a partner / Login" ? "1.5px solid #8a2342" : "1.5px solid transparent",
-									cursor: "pointer"
-								}}
-								onMouseEnter={() => setHovered("Become a partner / Login")}
-								onMouseLeave={() => setHovered(null)}
-							>
-								<i className="fa fa-handshake-o" style={{ fontSize: 14 }} />
-								Become a partner / Login
-							</a>
-							<a
-								href="SignupPopup"
-								style={{
-									color: "#8a2342",
-									fontWeight: 700,
-									fontSize: 15,
-									textDecoration: "none",
-									marginLeft: 5,
-									whiteSpace: "nowrap",
-									padding: "7px 16px",
-									borderRadius: 10,
-									transition: "border 0.18s, color 0.18s, background 0.18s",
-									background: "transparent",
-									border: hovered === "User Login / Signup" ? "1.5px solid #8a2342" : "1.5px solid transparent",
-									cursor: "pointer"
-								}}
-								onMouseEnter={() => setHovered("User Login / Signup")}
-								onMouseLeave={() => setHovered(null)}
-							>
-								User Login / Signup
-							</a>
-						</div>
-					)}
+					<div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+						{currentUser ? (
+							<div style={{ position: "relative" }} ref={userMenuRef}>
+								<button
+									onClick={() => setIsUserMenuOpen(prev => !prev)}
+									style={{
+										display: 'flex',
+										height: '40px',
+										width: '40px',
+										alignItems: 'center',
+										justifyContent: 'center',
+										borderRadius: '9999px',
+										background: '#e5e7eb',
+										color: '#6a0822',
+										transition: 'all 0.2s',
+										border: 'none',
+										cursor: 'pointer'
+									}}
+								>
+									<User size={20} />
+								</button>
+								{isUserMenuOpen && (
+									<div style={{
+										position: 'absolute',
+										top: '100%',
+										right: 0,
+										marginTop: '8px',
+										width: '12rem',
+										borderRadius: '0.5rem',
+										border: '1px solid #e5e7eb',
+										backgroundColor: '#ffffff',
+										boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+										zIndex: 2000
+									}}>
+										<div style={{ padding: '0.5rem' }}>
+											<Link to="/user" style={{ textDecoration: 'none', display: 'block', width: '100%', borderRadius: '0.25rem', padding: '0.5rem 1rem', textAlign: 'left', fontSize: '0.875rem', color: '#374151' }}>
+												My Account
+											</Link>
+											<button onClick={handleLogout} style={{ display: 'block', width: '100%', borderRadius: '0.25rem', padding: '0.5rem 1rem', textAlign: 'left', fontSize: '0.875rem', color: '#374151', background: 'none', border: 'none', cursor: 'pointer' }}>
+												Logout
+											</button>
+										</div>
+									</div>
+								)}
+							</div>
+						) : (
+							<>
+								<a
+									href="/PartnerPopup"
+									style={{
+										background: hovered === "Become a partner / Login" ? "#8a2342" : "#7a1335",
+										color: "#fff",
+										borderRadius: 10,
+										padding: "7px 14px",
+										fontWeight: 500,
+										fontSize: 13,
+										display: "flex",
+										alignItems: "center",
+										gap: 7,
+										textDecoration: "none",
+										whiteSpace: "nowrap",
+										cursor: "pointer"
+									}}
+									onMouseEnter={() => setHovered("Become a partner / Login")}
+									onMouseLeave={() => setHovered(null)}
+								>
+									Become a partner / Login
+								</a>
+								<a
+									href="SignupPopup"
+									style={{
+										color: "#8a2342",
+										fontWeight: 700,
+										fontSize: 15,
+										textDecoration: "none",
+										marginLeft: 5,
+										whiteSpace: "nowrap",
+										padding: "7px 16px",
+										borderRadius: 10,
+										background: "transparent",
+										border: "1.5px solid transparent",
+										cursor: "pointer"
+									}}
+									onMouseEnter={() => setHovered("User Login / Signup")}
+									onMouseLeave={() => setHovered(null)}
+								>
+									User Login / Signup
+								</a>
+							</>
+						)}
+					</div>
 				</div>
 
 				{/* Mobile Menu Dropdown */}
@@ -686,61 +759,18 @@ const NavBar = () => {
 							</ul>
 
 							{/* Mobile Action Buttons */}
-							<div style={{ 
-								marginTop: "1rem", 
-								paddingTop: "1rem", 
-								borderTop: "1px solid #eee",
-								display: "flex",
-								flexDirection: "column",
-								gap: "0.5rem"
-							}}>
-								<a
-									href="/PartnerPopup"
-									style={{
-										background: "#7a1335",
-										color: "#fff",
-										borderRadius: 8,
-										padding: "12px 16px",
-										fontWeight: 500,
-										fontSize: 14,
-										textDecoration: "none",
-										textAlign: "center",
-										transition: "background 0.18s",
-										cursor: "pointer"
-									}}
-									onTouchStart={(e) => {
-										e.currentTarget.style.background = "#8a2342";
-									}}
-									onTouchEnd={(e) => {
-										e.currentTarget.style.background = "#7a1335";
-									}}
-								>
-									Become a partner / Login
-								</a>
-								<a
-									href="SignupPopup"
-									style={{
-										color: "#8a2342",
-										fontWeight: 700,
-										fontSize: 14,
-										textDecoration: "none",
-										textAlign: "center",
-										padding: "12px 16px",
-										borderRadius: 8,
-										transition: "all 0.18s",
-										background: "transparent",
-										border: "1.5px solid #8a2342",
-										cursor: "pointer"
-									}}
-									onTouchStart={(e) => {
-										e.currentTarget.style.background = "#f9e9c7";
-									}}
-									onTouchEnd={(e) => {
-										e.currentTarget.style.background = "transparent";
-									}}
-								>
-									User Login / Signup
-								</a>
+							<div className="mt-4 flex flex-col gap-2 border-t pt-4">
+								{currentUser ? (
+									<>
+										<Link to="/user" className="w-full rounded-lg bg-gray-100 px-4 py-3 text-center font-bold text-[#8a2342]">My Account</Link>
+										<button onClick={handleLogout} className="w-full rounded-lg border border-[#8a2342] px-4 py-3 text-center font-bold text-[#8a2342]">Logout</button>
+									</>
+								) : (
+									<>
+										<a href="/PartnerPopup" className="w-full rounded-lg bg-[#7a1335] px-4 py-3 text-center font-medium text-white">Become a partner / Login</a>
+										<a href="/SignupPopup" className="w-full rounded-lg border border-[#8a2342] px-4 py-3 text-center font-bold text-[#8a2342]">User Login / Signup</a>
+									</>
+								)}
 							</div>
 						</div>
 					</div>
