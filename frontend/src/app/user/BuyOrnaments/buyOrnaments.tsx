@@ -72,6 +72,20 @@ const BuyOrnamentsPage = () => {
         {
           name: "Unisex",
           items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles", "Cufflinks", "Tie"]
+        },
+        // New Gold Coin subcategory for Indian Gold
+        {
+          name: "Gold Coin",
+          items: [
+            {
+              name: "22k Gold Coin",
+              items: ["1g", "2g", "5g", "10g"]
+            },
+            {
+              name: "24k Gold Coin",
+              items: ["1g", "2g", "5g", "10g"]
+            }
+          ]
         }
       ]
     },
@@ -93,6 +107,20 @@ const BuyOrnamentsPage = () => {
         {
           name: "Unisex",
           items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles", "Cufflinks", "Tie"]
+        },
+        // New Gold Coin subcategory for Dubai Gold
+        {
+          name: "Gold Coin",
+          items: [
+            {
+              name: "22k Gold Coin",
+              items: ["1g", "2g", "5g", "10g"]
+            },
+            {
+              name: "24k Gold Coin",
+              items: ["1g", "2g", "5g", "10g"]
+            }
+          ]
         }
       ]
     }
@@ -176,27 +204,59 @@ const BuyOrnamentsPage = () => {
   const [itemDropdownOpen, setItemDropdownOpen] = useState(false);
   const [itemCategory, setItemCategory] = useState<string>("");
 
+  // Dropdown open/close state for each level
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownMain, setDropdownMain] = useState<string>("All");
+  const [dropdownSub, setDropdownSub] = useState<string>("");
+  const [dropdownItem, setDropdownItem] = useState<string>("");
+
   // Helper: get subcategories for selected main
   const getSubCategories = () => {
-    const found = CATEGORY_TREE.find(cat => cat.name === mainCategory);
+    const found = CATEGORY_TREE.find(cat => cat.name === dropdownMain);
     return found && found.children ? found.children : [];
   };
 
-  // Helper: get items for selected subcategory
+  // Helper: get items for selected subcategory (support nested gold coin structure)
   const getItems = () => {
     const subs = getSubCategories();
-    const found = subs.find((s: any) => s.name === subCategory);
-    return found && found.items ? found.items : [];
+    const found = subs.find((s: any) => s.name === dropdownSub);
+    // If Gold Coin, flatten to show 22k/24k options
+    if (
+      found &&
+      found.name === "Gold Coin" &&
+      Array.isArray(found.items) &&
+      found.items.every((item: any) => typeof item === "object" && "name" in item && "items" in item)
+    ) {
+      return (found.items as { name: string; items: string[] }[]).map((item) => item.name);
+    }
+    return found && Array.isArray(found.items) ? found.items : [];
   };
 
-  // Filter products based on main/sub/item selection
+  // Helper: get gram variations for gold coin
+  const getGramVariations = () => {
+    const subs = getSubCategories();
+    const goldCoinSub = subs.find((s: any) => s.name === "Gold Coin");
+    if (
+      goldCoinSub &&
+      Array.isArray(goldCoinSub.items) &&
+      goldCoinSub.items.every((item: any) => typeof item === "object" && "name" in item && "items" in item)
+    ) {
+      const coinType = (goldCoinSub.items as { name: string; items: string[] }[]).find(
+        (i) => i.name === dropdownItem
+      );
+      return coinType && Array.isArray(coinType.items) ? coinType.items : [];
+    }
+    return [];
+  };
+
+  // Filter products based on dropdown selection
   const filteredProductsDropdown =
-    mainCategory === "All"
+    dropdownMain === "All"
       ? products
       : products.filter(product =>
-          product.category === mainCategory &&
-          (subCategory ? product.details === subCategory : true) &&
-          (itemCategory ? product.details === itemCategory : true)
+          product.category === dropdownMain &&
+          (dropdownSub ? product.details === dropdownSub : true) &&
+          (dropdownItem ? product.details === dropdownItem : true)
         );
 
   const finalFilteredProducts = searchTerm.trim()
@@ -207,7 +267,7 @@ const BuyOrnamentsPage = () => {
     : filteredProductsDropdown;
 
   return (
-    <div style={{ backgroundColor: '#fafbfc', minHeight: '100vh', fontFamily: "'Inter', sans-serif"}}>
+    <div style={{ backgroundColor: '#fafbfc', minHeight: '100vh', fontFamily: "'Inter', sans-serif" }}>
       {/* Modern Hero Section */}
       <div style={{
         background: `linear-gradient(135deg, 
@@ -359,47 +419,179 @@ const BuyOrnamentsPage = () => {
           gap: 24,
           flexWrap: 'wrap'
         }}>
-          {/* Left: Multi-level Dropdown */}
-          <div style={{ minWidth: 220, position: 'relative', display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {/* Main Category Dropdown */}
-            <div style={{ position: 'relative' }}>
-              <button
-                style={{
-                  fontWeight: 700,
-                  fontSize: 16,
-                  color: "#7a1335",
-                  background: "none",
-                  border: "1px solid #eee",
-                  borderRadius: 8,
-                  padding: "10px 24px",
-                  cursor: "pointer",
-                  width: "100%",
-                  textAlign: "left"
-                }}
-                onClick={() => setMainDropdownOpen(!mainDropdownOpen)}
-              >
-                {mainCategory}
-              </button>
-              {mainDropdownOpen && (
-                <div style={{
-                  position: "absolute",
-                  top: "110%",
-                  left: 0,
-                  background: "#fff",
-                  border: "1px solid #eee",
-                  borderRadius: 10,
-                  minWidth: 180,
-                  zIndex: 20,
-                  boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
-                  padding: 8
-                }}>
+          {/* Full Dropdown */}
+          <div style={{ minWidth: 220, position: 'relative' }}>
+            <button
+              style={{
+                fontWeight: 700,
+                fontSize: 16,
+                color: "#7a1335",
+                background: "none",
+                border: "1px solid #eee",
+                borderRadius: 8,
+                padding: "10px 24px",
+                cursor: "pointer",
+                width: "100%",
+                textAlign: "left"
+              }}
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              {dropdownMain === "All"
+                ? "Select Category"
+                : dropdownMain +
+                  (dropdownSub ? " / " + dropdownSub : "") +
+                  (dropdownItem ? " / " + dropdownItem : "")}
+            </button>
+            {dropdownOpen && (
+              <div style={{
+                position: "absolute",
+                top: "110%",
+                left: 0,
+                background: "#fff",
+                border: "1px solid #eee",
+                borderRadius: 10,
+                minWidth: 260,
+                zIndex: 30,
+                boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
+                padding: 8
+              }}>
+                {/* Main Categories */}
+                <div>
+                  <div style={{ fontWeight: 600, color: "#7a1335", marginBottom: 8 }}>Main Category</div>
                   {CATEGORY_TREE.map(main => (
-                    <div key={main.name}>
+                    <button
+                      key={main.name}
+                      style={{
+                        fontWeight: dropdownMain === main.name ? 700 : 500,
+                        color: dropdownMain === main.name ? "#7a1335" : "#374151",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "6px 8px",
+                        borderRadius: 6,
+                        backgroundColor: dropdownMain === main.name ? "#f7f2f5" : "transparent"
+                      }}
+                      onClick={() => {
+                        setDropdownMain(main.name);
+                        setDropdownSub("");
+                        setDropdownItem("");
+                      }}
+                    >
+                      {main.name}
+                    </button>
+                  ))}
+                </div>
+                {/* Subcategories */}
+                {dropdownMain !== "All" && (
+                  <div style={{ marginTop: 16 }}>
+                    <div style={{ fontWeight: 600, color: "#7a1335", marginBottom: 8 }}>Subcategory</div>
+                    {getSubCategories().map((sub: any) => (
                       <button
+                        key={sub.name}
                         style={{
-                          fontWeight: 600,
-                          color: "#8a2342",
-                          fontSize: 15,
+                          fontWeight: dropdownSub === sub.name ? 700 : 500,
+                          color: dropdownSub === sub.name ? "#7a1335" : "#374151",
+                          background: "none",
+                          border: "none",
+                          cursor: "pointer",
+                          width: "100%",
+                          textAlign: "left",
+                          padding: "6px 8px",
+                          borderRadius: 6,
+                          backgroundColor: dropdownSub === sub.name ? "#f7f2f5" : "transparent"
+                        }}
+                        onClick={() => {
+                          setDropdownSub(sub.name);
+                          setDropdownItem("");
+                        }}
+                      >
+                        {sub.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {/* Items */}
+                {dropdownMain !== "All" && dropdownSub && (
+                  <div style={{ marginTop: 16 }}>
+                    <div style={{ fontWeight: 600, color: "#7a1335", marginBottom: 8 }}>
+                      {dropdownSub === "Gold Coin" ? "Coin Type" : "Item"}
+                    </div>
+                    {/* If Gold Coin, show 22k/24k, else show normal items */}
+                    {dropdownSub === "Gold Coin"
+                      ? (() => {
+                          // getItems() returns string[] for Gold Coin, but the original items are objects
+                          const subs = getSubCategories();
+                          const found = subs.find((s: any) => s.name === "Gold Coin");
+                          if (
+                            found &&
+                            Array.isArray(found.items) &&
+                            found.items.every((item: any) => typeof item === "object" && "name" in item && "items" in item)
+                          ) {
+                            return (found.items as { name: string; items: string[] }[]).map((item) => (
+                              <button
+                                key={item.name}
+                                style={{
+                                  fontWeight: dropdownItem === item.name ? 700 : 500,
+                                  color: dropdownItem === item.name ? "#7a1335" : "#374151",
+                                  background: "none",
+                                  border: "none",
+                                  cursor: "pointer",
+                                  width: "100%",
+                                  textAlign: "left",
+                                  padding: "6px 8px",
+                                  borderRadius: 6,
+                                  backgroundColor: dropdownItem === item.name ? "#f7f2f5" : "transparent"
+                                }}
+                                onClick={() => {
+                                  setDropdownItem(item.name);
+                                  // Don't close dropdown yet, show gram variations
+                                }}
+                              >
+                                {item.name}
+                              </button>
+                            ));
+                          }
+                          return null;
+                        })()
+                      : getItems()
+                          .filter((item: any) => typeof item === "string")
+                          .map((item: string) => (
+                            <button
+                              key={item}
+                              style={{
+                                fontWeight: dropdownItem === item ? 700 : 500,
+                                color: dropdownItem === item ? "#7a1335" : "#374151",
+                                background: "none",
+                                border: "none",
+                                cursor: "pointer",
+                                width: "100%",
+                                textAlign: "left",
+                                padding: "6px 8px",
+                                borderRadius: 6,
+                                backgroundColor: dropdownItem === item ? "#f7f2f5" : "transparent"
+                              }}
+                              onClick={() => {
+                                setDropdownItem(item);
+                                setDropdownOpen(false);
+                              }}
+                            >
+                              {item}
+                            </button>
+                          ))}
+                  </div>
+                )}
+                {/* Gram variations for Gold Coin */}
+                {dropdownMain !== "All" && dropdownSub === "Gold Coin" && dropdownItem && (
+                  <div style={{ marginTop: 16 }}>
+                    <div style={{ fontWeight: 600, color: "#7a1335", marginBottom: 8 }}>Gram Variation</div>
+                    {getGramVariations().map((gram: string) => (
+                      <button
+                        key={gram}
+                        style={{
+                          fontWeight: 500,
+                          color: "#374151",
                           background: "none",
                           border: "none",
                           cursor: "pointer",
@@ -409,144 +601,18 @@ const BuyOrnamentsPage = () => {
                           borderRadius: 6
                         }}
                         onClick={() => {
-                          setMainCategory(main.name);
-                          setSubCategory("");
-                          setItemCategory("");
-                          setMainDropdownOpen(false);
+                          // You can set a new state for selected gram if needed
+                          setDropdownOpen(false);
                         }}
                       >
-                        {main.name}
+                        {gram}
                       </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            {/* Subcategory Dropdown */}
-            {mainCategory !== "All" && (
-              <div style={{ position: 'relative' }}>
-                <button
-                  style={{
-                    fontWeight: 600,
-                    fontSize: 15,
-                    color: "#8a2342",
-                    background: "none",
-                    border: "1px solid #eee",
-                    borderRadius: 8,
-                    padding: "8px 24px",
-                    cursor: "pointer",
-                    width: "100%",
-                    textAlign: "left"
-                  }}
-                  onClick={() => setSubDropdownOpen(!subDropdownOpen)}
-                >
-                  {subCategory || "Select Subcategory"}
-                </button>
-                {subDropdownOpen && (
-                  <div style={{
-                    position: "absolute",
-                    top: "110%",
-                    left: 0,
-                    background: "#fff",
-                    border: "1px solid #eee",
-                    borderRadius: 10,
-                    minWidth: 180,
-                    zIndex: 21,
-                    boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
-                    padding: 8
-                  }}>
-                    {getSubCategories().map((sub: any) => (
-                      <div key={sub.name}>
-                        <button
-                          style={{
-                            fontWeight: 500,
-                            color: "#7a1335",
-                            fontSize: 14,
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            width: "100%",
-                            textAlign: "left",
-                            padding: "6px 8px",
-                            borderRadius: 6
-                          }}
-                          onClick={() => {
-                            setSubCategory(sub.name);
-                            setItemCategory("");
-                            setSubDropdownOpen(false);
-                          }}
-                        >
-                          {sub.name}
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-            {/* Item Dropdown */}
-            {mainCategory !== "All" && subCategory && (
-              <div style={{ position: 'relative' }}>
-                <button
-                  style={{
-                    fontWeight: 500,
-                    fontSize: 14,
-                    color: "#374151",
-                    background: "none",
-                    border: "1px solid #eee",
-                    borderRadius: 8,
-                    padding: "8px 24px",
-                    cursor: "pointer",
-                    width: "100%",
-                    textAlign: "left"
-                  }}
-                  onClick={() => setItemDropdownOpen(!itemDropdownOpen)}
-                >
-                  {itemCategory || "Select Item"}
-                </button>
-                {itemDropdownOpen && (
-                  <div style={{
-                    position: "absolute",
-                    top: "110%",
-                    left: 0,
-                    background: "#fff",
-                    border: "1px solid #eee",
-                    borderRadius: 10,
-                    minWidth: 180,
-                    zIndex: 22,
-                    boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
-                    padding: 8
-                  }}>
-                    {getItems().map((item: string) => (
-                      <div key={item}>
-                        <button
-                          style={{
-                            fontWeight: 400,
-                            color: "#374151",
-                            fontSize: 13,
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            width: "100%",
-                            textAlign: "left",
-                            padding: "6px 8px",
-                            borderRadius: 6
-                          }}
-                          onClick={() => {
-                            setItemCategory(item);
-                            setItemDropdownOpen(false);
-                          }}
-                        >
-                          {item}
-                        </button>
-                      </div>
                     ))}
                   </div>
                 )}
               </div>
             )}
           </div>
-
           {/* Center: Search Bar */}
           <div style={{
             flex: 1,
@@ -571,7 +637,6 @@ const BuyOrnamentsPage = () => {
               }}
             />
           </div>
-
           {/* Right: Search Button */}
           <div>
             <button
@@ -611,7 +676,7 @@ const BuyOrnamentsPage = () => {
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             gap: '28px'
           }}>
-            {getRandomProducts(10).map((product: any, idx: number) => (
+            {finalFilteredProducts.slice(0, 10).map((product: any, idx: number) => (
               <div
                 key={product.id}
                 onMouseEnter={() => setHoveredCard(idx)}

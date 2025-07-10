@@ -204,27 +204,47 @@ export const faqs = [
   { q: "How does referral tracking work?", a: "We use cookies and user accounts to track referrals for up to 30 days." },
   { q: "What are the commission slabs?", a: "Commission rates vary by product and are shown in your dashboard." },
 ];
-
 export const schemes=[
   {
     "id": "chit",
     "title": "Chit Jewel Savings Plan",
     "image": "/assets/chit_plant.png",
-    "link": "/userplantscheme"
+    "link": "/chit"
   },
   {
     "id": "sip",
     "title": "Digi Gold SIP Plan",
     "image": "/assets/sip_plant.png",
-    "link": "/userplantscheme"
+    "link": "/goldsip"
   },
   {
     "id": "gold",
     "title": "Gold Plant Scheme",
     "image": "/assets/gold_plant.png",
-    "link": "/userplantscheme"
+    "link": "/schemes"
   }
 ]
+export const lschemes=[
+  {
+    "id": "chit",
+    "title": "Chit Jewel Savings Plan",
+    "image": "/assets/chit_plant.png",
+    "link": "/lchit"
+  },
+  {
+    "id": "sip",
+    "title": "Digi Gold SIP Plan",
+    "image": "/assets/sip_plant.png",
+    "link": "/lgoldsip"
+  },
+  {
+    "id": "gold",
+    "title": "Gold Plant Scheme",
+    "image": "/assets/gold_plant.png",
+    "link": "/lschemes"
+  }
+]
+
 export const mockResources = [
   {
     id: 1,

@@ -413,7 +413,7 @@ const LUserHome = () => {
             transition: "background 0.18s, transform 0.18s",
             outline: "none",
           }}
-          onClick={() => navigate("/userspiplan")}
+          onClick={() => navigate("/lgoldsip")}
           onMouseOver={e => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.04)"; }}
           onMouseOut={e => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)"; }}
         >
