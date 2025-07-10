@@ -1,7 +1,9 @@
 export interface User {
-  id: string;
-  name: string;
+  id: number;
   email: string;
+  mobile: string | null;
+  role: 'USER' | 'ADMIN'; 
+  status: 'APPROVED' | 'PENDING' | 'REJECTED';
 }
 
 export interface AuthState {
@@ -11,17 +13,34 @@ export interface AuthState {
   error: string | null;
 }
 
-
-export interface AuthResponse {
-  user: User;
-  token: string;
-}
-
 export interface LoginCredentials {
   email: string;
   password: string;
 }
 
-export interface RegisterData extends LoginCredentials {
-  name: string;
+export interface RegistrationData {
+  name: string;      
+  email: string;
+  password: string;
+}
+
+export interface VerificationData {
+  name: string;      
+  email: string;
+  password: string;
+  otp: string;       
+}
+
+export interface ResendOtpData {
+  email: string;
+}
+
+export interface ApiResponse {
+  success: boolean;
+  message: string;
+}
+
+export interface LoginResponse extends ApiResponse {
+  token: string;
+  user: User;
 }

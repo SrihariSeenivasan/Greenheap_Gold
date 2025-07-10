@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser, registerUser } from '../thunks/authThunks';
+import { 
+  loginUser, 
+  sendRegistrationOtp, 
+  verifyOtpAndRegister, 
+  resendOtp 
+} from '../thunks/authThunks';
 import type { AuthState, User } from '../../types/type';
 
 const getInitialUser = (): User | null => {
@@ -21,17 +26,23 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-
   reducers: {
     logoutUser: (state) => {
       state.currentUser = null;
       state.token = null;
+      state.status = 'idle';
+      state.error = null;
       localStorage.removeItem('currentUser');
       localStorage.removeItem('authToken');
     },
+  
+    clearAuthError: (state) => {
+        state.error = null;
+    }
   },
   extraReducers: (builder) => {
     builder
+    
       .addCase(loginUser.pending, (state) => {
         state.status = 'loading';
         state.error = null;
@@ -41,31 +52,61 @@ const authSlice = createSlice({
         state.currentUser = action.payload.user;
         state.token = action.payload.token;
         localStorage.setItem('currentUser', JSON.stringify(action.payload.user));
-        localStorage.setItem('authToken', action.payload.token ?? '');
+        localStorage.setItem('authToken', action.payload.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string;
       })
 
-      .addCase(registerUser.pending, (state) => {
+    
+      .addCase(sendRegistrationOtp.pending, (state) => {
         state.status = 'loading';
         state.error = null;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(sendRegistrationOtp.fulfilled, (state) => {
         state.status = 'succeeded';
+      
+      })
+      .addCase(sendRegistrationOtp.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload as string;
+      })
+
+    
+      .addCase(verifyOtpAndRegister.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(verifyOtpAndRegister.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+      
         state.currentUser = action.payload.user;
         state.token = action.payload.token;
         localStorage.setItem('currentUser', JSON.stringify(action.payload.user));
-        localStorage.setItem('authToken', action.payload.token ?? '');
+        localStorage.setItem('authToken', action.payload.token);
       })
-      .addCase(registerUser.rejected, (state, action) => {
+      .addCase(verifyOtpAndRegister.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload as string;
+      })
+
+    
+      .addCase(resendOtp.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(resendOtp.fulfilled, (state) => {
+        state.status = 'succeeded';
+      
+      })
+      .addCase(resendOtp.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string;
       });
   },
 });
 
-export const { logoutUser } = authSlice.actions;
+export const { logoutUser, clearAuthError } = authSlice.actions;
 
 export default authSlice.reducer;

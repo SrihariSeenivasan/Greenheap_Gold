@@ -1,79 +1,103 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import type { 
+  LoginCredentials, 
+  RegistrationData, 
+  VerificationData, 
+  LoginResponse,
+  ResendOtpData,
+  ApiResponse 
+} from '../../types/type';
 
-export const loginUser = createAsyncThunk<
-  {
-    token: string | null;
-    user: any; name: string; email: string 
-},       
-  { email: string; password: string },           
-  { rejectValue: string }
->('user/loginUser', async (credentials, thunkAPI) => {
-  try {
-    await new Promise((res) => setTimeout(res, 1000));
+const API_BASE_URL = 'http://localhost:8080/auth';
 
-    if (credentials.email === 'test@example.com' && credentials.password === '1234') {
-      const user = { name: 'Test User', email: credentials.email };
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      return {
-        token: 'mock-token',
-        user,
-        name: user.name,
-        email: user.email
-      };
-    } else {
-      return thunkAPI.rejectWithValue('Invalid credentials');
-    }
-  } catch (err) {
-    return thunkAPI.rejectWithValue('Login failed');
+const getErrorMessage = (error: unknown): string => {
+  if (axios.isAxiosError(error) && error.response?.data?.message) {
+    return error.response.data.message;
   }
-});
-
-export const getCurrentUser = createAsyncThunk<
-  { name: string; email: string },
-  void,                             
-  { rejectValue: string }
->('user/getCurrentUser', async (_, thunkAPI) => {
-  try {
-    const stored = localStorage.getItem('currentUser');
-    if (!stored) {
-      return thunkAPI.rejectWithValue('No user in localStorage');
-    }
-
-    const parsed = JSON.parse(stored);
-    if (!parsed.email || !parsed.name) {
-      return thunkAPI.rejectWithValue('Invalid user data');
-    }
-
-    return parsed;
-  } catch (err) {
-    return thunkAPI.rejectWithValue('Failed to load user');
+  if (error instanceof Error) {
+    return error.message;
   }
-});
+  return 'An unknown error occurred';
+};
 
-export const registerUser = createAsyncThunk<
-  {
-    token: string | null;
-    user: any; name: string; email: string 
-},       
-  { email: string; password: string },           
-  { rejectValue: string }
->('user/registerUser', async (credentials, thunkAPI) => {
-  try {
-    await new Promise((res) => setTimeout(res, 1000));
 
-    if (credentials.email === 'test@example.com' && credentials.password === '1234') {
-      const user = { name: 'Test User', email: credentials.email };
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      return {
-        token: 'mock-token',
-        user,
-        name: user.name,
-        email: user.email
-      };
-    } else {
-      return thunkAPI.rejectWithValue('Invalid credentials');
+export const loginUser = createAsyncThunk<LoginResponse, LoginCredentials>(
+  'auth/login',
+  async (credentials, { rejectWithValue }) => {
+    try {
+    
+      const response = await axios.post<LoginResponse>(`${API_BASE_URL}/login`, {
+        email: credentials.email,
+        password: credentials.password,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(getErrorMessage(error));
     }
-  } catch (err) {
-    return thunkAPI.rejectWithValue('Registration failed');
   }
-});
+);
+
+
+export const sendRegistrationOtp = createAsyncThunk<ApiResponse, RegistrationData>(
+  'auth/sendRegistrationOtp',
+  async (userData, { rejectWithValue }) => {
+    try {
+    
+      const nameParts = userData.name.split(' ');
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || firstName;
+
+      const response = await axios.post<ApiResponse>(`${API_BASE_URL}/register`, {
+        firstName,
+        lastName,
+        email: userData.email,
+        password: userData.password,
+        role: "USER",
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(getErrorMessage(error));
+    }
+  }
+);
+
+
+export const verifyOtpAndRegister = createAsyncThunk<LoginResponse, VerificationData>(
+  'auth/verifyOtpAndRegister',
+  async (verificationData, { rejectWithValue }) => {
+    try {
+      const nameParts = verificationData.name.split(' ');
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || firstName;
+
+      const response = await axios.post<LoginResponse>(`${API_BASE_URL}/verify-otp`, {
+        identifier: verificationData.email,
+        otp: verificationData.otp,
+        firstName,
+        lastName,
+        password: verificationData.password,
+        role: "USER",
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(getErrorMessage(error));
+    }
+  }
+);
+
+
+export const resendOtp = createAsyncThunk<ApiResponse, ResendOtpData>(
+    'auth/resendOtp',
+    async (resendData, { rejectWithValue }) => {
+        try {
+            const response = await axios.post<ApiResponse>(`${API_BASE_URL}/resend-otp`, {
+                identifier: resendData.email,
+                role: 'USER',
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(getErrorMessage(error));
+        }
+    }
+);
