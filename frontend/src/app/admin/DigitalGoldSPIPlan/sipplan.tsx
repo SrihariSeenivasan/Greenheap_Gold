@@ -80,8 +80,9 @@ const SIPPlan = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white flex items-center justify-center p-2 sm:p-6">
-      <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 w-full max-w-full sm:max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-br from-[#fbeaf0] to-white p-2 sm:p-6">
+      {/* Removed card centering, content now starts from top */}
+      <div className="bg-white rounded-xl shadow-lg p-4  mx-auto">
         <h1 className="text-xl sm:text-2xl font-bold text-[#7a1335] mb-4 sm:mb-6">Digital Gold SPI Plans</h1>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg overflow-hidden text-xs sm:text-sm">

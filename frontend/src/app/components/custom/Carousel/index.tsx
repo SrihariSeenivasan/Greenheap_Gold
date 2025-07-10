@@ -15,6 +15,27 @@ const Carousel = () => {
             height="auto"
           />
         </div>
+        <div className="carousel-item" data-bs-interval="1000">
+          <CustomImage
+            src={"/banner/green-heap-gold-banner2.png"}
+            wrapperClss={"d-block w-100"}
+            height="auto"
+          />
+        </div>
+        <div className="carousel-item" data-bs-interval="1000">
+          <CustomImage
+            src={"/banner/green-heap-gold-banner3.png"}
+            wrapperClss={"d-block w-100"}
+            height="auto"
+          />
+        </div>
+        <div className="carousel-item" data-bs-interval="1000">
+          <CustomImage
+            src={"/banner/green-heap-gold-banner4.png"}
+            wrapperClss={"d-block w-100"}
+            height="auto"
+          />
+        </div>
       </div>
       <button
         className="carousel-control-prev"

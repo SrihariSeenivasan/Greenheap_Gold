@@ -75,6 +75,17 @@ import Cart from "./src/app/loginuser/Cart/cart";
 import LRefund from "./src/app/loginuser/Refund/refund.tsx";
 import PayoutRequest from "./src/app/admin/PayoutRequest/payoutrequest";
 import AdminCampaigns from "./src/app/admin/Campaigns/campaigns";
+import GoldOrders from "./src/app/admin/GoldOrderManage/goldorder";
+import AOrderHistory from "./src/app/admin/OrderHistory/orderhistory";
+import FAQManagement from "./src/app/admin/FAQ/faq";
+import B2BRegistration from "./src/app/B2BRegistration/b2bregistration.tsx";
+import LChitJewelsPlans from "./src/app/loginuser/ChitJewels/chitjewels.tsx";
+import ChitJewelsPlans from "./src/app/user/ChitJewels/chitjewels.tsx";
+import LGoldSIPPlans from "./src/app/loginuser/GoldSIP/goldSIP.tsx";
+import GoldSIPPlans from "./src/app/user/GoldSIP/goldSIP.tsx";
+import LGoldPlantSchemes from "./src/app/loginuser/GoldSchemes/goldschemes.tsx";
+import GoldPlantSchemes from "./src/app/user/GoldSchemes/goldschemes.tsx";
+import BCommission from "./src/app/b2b/commission/Commission";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -96,9 +107,11 @@ const AppRoutes: React.FC = () => {
         <Route path="/manageornaments" element={ <ManageOrnaments/>}/>
         <Route path="/manageusers" element={<ManageUsers />} />
         <Route path="/campaigns" element={<AdminCampaigns />} />
-        
-      
-      
+        <Route path="/goldorders" element={<GoldOrders />} />
+        <Route path="/orderhistory" element={<AOrderHistory />} />
+        <Route path="/faq" element={<FAQManagement />} />
+
+
         </Route>
 
         {/* B2B routes */}
@@ -111,7 +124,7 @@ const AppRoutes: React.FC = () => {
         <Route path="bsellornament" element={<B2BManageOrnaments />} />
         <Route path="bsipmanagement" element={<SipManagement />} />
         <Route path="bborder-history" element={<OrderHistory />} />
-        <Route path="bcommission" element={<Commission />} />
+        <Route path="bcommission" element={<BCommission />} />
         <Route path="bwallet" element={<Wallet />} />
         <Route path="bmarketing-resources" element={<MarketingResources />} />
         <Route path="bsupport" element={<Support />} />
@@ -157,6 +170,9 @@ const AppRoutes: React.FC = () => {
         
 
         <Route path="/refund" element={ <Refund />}/>
+        <Route path="/chit" element={ <ChitJewelsPlans />}/>
+        <Route path="/goldsip" element={ <GoldSIPPlans />}/>
+        <Route path="/schemes" element={ <GoldPlantSchemes />}/>
       </Route >
 
       
@@ -184,6 +200,9 @@ const AppRoutes: React.FC = () => {
         <Route path="paymentpopup" element={<PaymentPopup/>}/>
         <Route path="/cart" element={<Cart/>}/>
         <Route path="/lrefund" element={ <LRefund />}/>
+        <Route path="/lchit" element={ <LChitJewelsPlans />}/>
+        <Route path="/lgoldsip" element={ <LGoldSIPPlans />}/>
+        <Route path="/lschemes" element={ <LGoldPlantSchemes />}/>
 
 
         
@@ -196,23 +215,14 @@ const AppRoutes: React.FC = () => {
         <Route path="/userplantscheme" element={ <LGoldPlantScheme />}/>
         <Route path="/usernotification" element={ <LNotification />}/>
         <Route path="/usermybankaccounts" element={ <MyBankAccounts />}/>
-
-
-
-
-       
         
 
         
-         
-      
-       
-        
 
-        
+
 
         </Route >
-             
+             <Route path="/b2bregistration" element={ <B2BRegistration />}/>
           
       </Routes>
     
