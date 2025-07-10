@@ -229,7 +229,7 @@ const LDigitalGoldSIPPlan = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    zIndex: 99999 // Increased z-index to ensure popup is always on top
+                    zIndex: 2147483647 // Use a very high z-index to guarantee popup is always on top
                   }}
                 >
                   <div
