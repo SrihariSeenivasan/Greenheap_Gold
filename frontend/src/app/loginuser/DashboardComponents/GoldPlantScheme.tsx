@@ -1,6 +1,5 @@
 import {
   Award,
-  ChevronRight,
   Shield,
   Sparkles,
   Star,
@@ -77,15 +76,15 @@ const LGoldPlantScheme = () => {
                 <Star className="w-10 h-10 text-white" />
               </div>
               <h2 className="text-2xl font-bold text-gray-800 mb-2">Premium Gold Plant Scheme</h2>
-              <p className="text-gray-600">Start your gold investment journey today</p>
+              <p className="text-gray-600">Your purchased gold investment plan</p>
             </div>
 
             <div className="space-y-4 mb-8">
               {[
-                ['Minimum Investment', '₹1,000'],
-                ['Plan Duration', '6-36 Months'],
+                ['Minimum Investment', '₹1,500'],
+                ['Plan Duration', '12 Months'],
                 ['Expected Returns', '8-12% p.a.'],
-                ['Gold Purity', '24K Certified']
+                ['Gold Purity', '22K Certified']
               ].map(([label, value], i) => (
                 <div
                   key={i}
@@ -96,11 +95,7 @@ const LGoldPlantScheme = () => {
                 </div>
               ))}
             </div>
-
-            <button className="w-full bg-gradient-to-r from-[#7a1335] to-red-700 text-white py-4 rounded-xl font-semibold text-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2" onClick={() => navigate('/paymentpopup')}>
-              Start Investment
-              <ChevronRight className="w-5 h-5" />
-            </button>
+            {/* Removed Start Investment button */}
           </div>
 
           {/* Features */}

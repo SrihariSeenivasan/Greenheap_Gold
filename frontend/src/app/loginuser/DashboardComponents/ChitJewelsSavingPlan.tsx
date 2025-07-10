@@ -60,15 +60,7 @@ const LChitJewelsSavingPlan = () => {
                 <p className="text-sm text-gray-600">Saving Plan Dashboard</p>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <button className="p-2 text-gray-600 hover:text-[#7a1335] hover:bg-gray-100 rounded-lg transition-colors">
-                <Settings className="w-5 h-5" />
-              </button>
-              <button className="bg-[#7a1335] text-white px-4 py-2 rounded-lg hover:bg-[#5a0f28] transition-all duration-300 flex items-center space-x-2">
-                <Plus className="w-4 h-4" />
-                <span>New Plan</span>
-              </button>
-            </div>
+            
           </div>
         </div>
       </div>
