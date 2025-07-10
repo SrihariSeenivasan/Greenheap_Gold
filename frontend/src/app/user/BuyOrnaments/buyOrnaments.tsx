@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 
-import { products } from '../../../../constants'; // Assuming products is an array of product objects
+import { CATEGORY_TREE, products } from '../../../../constants'; // Assuming products is an array of product objects
 
 // Type for CustomImage props (if not already present)
 type CustomImageProps = {
@@ -48,83 +48,6 @@ const BuyOrnamentsPage = () => {
   }[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const navigate = useNavigate();
-
-  const CATEGORY_TREE = [
-    {
-      name: "All",
-      children: []
-    },
-    {
-      name: "Indian Gold",
-      children: [
-        {
-          name: "Men",
-          items: ["Bracelets", "Rings", "Necklaces", "Cufflinks", "Earrings", "Tie"]
-        },
-        {
-          name: "Women",
-          items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles"]
-        },
-        {
-          name: "Kid",
-          items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles"]
-        },
-        {
-          name: "Unisex",
-          items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles", "Cufflinks", "Tie"]
-        },
-        // New Gold Coin subcategory for Indian Gold
-        {
-          name: "Gold Coin",
-          items: [
-            {
-              name: "22k Gold Coin",
-              items: ["1g", "2g", "5g", "10g"]
-            },
-            {
-              name: "24k Gold Coin",
-              items: ["1g", "2g", "5g", "10g"]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: "Dubai Gold",
-      children: [
-        {
-          name: "Men",
-          items: ["Bracelets", "Rings", "Necklaces", "Cufflinks", "Earrings", "Tie"]
-        },
-        {
-          name: "Women",
-          items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles"]
-        },
-        {
-          name: "Kid",
-          items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles"]
-        },
-        {
-          name: "Unisex",
-          items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles", "Cufflinks", "Tie"]
-        },
-        // New Gold Coin subcategory for Dubai Gold
-        {
-          name: "Gold Coin",
-          items: [
-            {
-              name: "22k Gold Coin",
-              items: ["1g", "2g", "5g", "10g"]
-            },
-            {
-              name: "24k Gold Coin",
-              items: ["1g", "2g", "5g", "10g"]
-            }
-          ]
-        }
-      ]
-    }
-  ];
 
   const toggleFilter = (cat: string, sub: string) => {
     setSelectedFilters(prev => {

@@ -29,6 +29,77 @@ const emptyBreakup = {
   finalvalue: ""
 };
 
+const CATEGORY_TREE = [
+  {
+    name: "Indian Gold",
+    children: [
+      {
+        name: "Men",
+        items: ["Bracelets", "Rings", "Necklaces", "Cufflinks", "Earrings", "Tie"]
+      },
+      {
+        name: "Women",
+        items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles"]
+      },
+      {
+        name: "Kid",
+        items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles"]
+      },
+      {
+        name: "Unisex",
+        items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles", "Cufflinks", "Tie"]
+      },
+      {
+        name: "Gold Coin",
+        items: [
+          {
+            name: "22k Gold Coin",
+            items: ["1g", "2g", "5g", "10g"]
+          },
+          {
+            name: "24k Gold Coin",
+            items: ["1g", "2g", "5g", "10g"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    name: "Dubai Gold",
+    children: [
+      {
+        name: "Men",
+        items: ["Bracelets", "Rings", "Necklaces", "Cufflinks", "Earrings", "Tie"]
+      },
+      {
+        name: "Women",
+        items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles"]
+      },
+      {
+        name: "Kid",
+        items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles"]
+      },
+      {
+        name: "Unisex",
+        items: ["Earrings", "Rings", "Necklaces", "Bracelets", "Bangles", "Cufflinks", "Tie"]
+      },
+      {
+        name: "Gold Coin",
+        items: [
+          {
+            name: "22k Gold Coin",
+            items: ["1g", "2g", "5g", "10g"]
+          },
+          {
+            name: "24k Gold Coin",
+            items: ["1g", "2g", "5g", "10g"]
+          }
+        ]
+      }
+    ]
+  }
+];
+
 const ManageOrnaments = () => {
   const [products, setProducts] = useState<any[]>(initialProducts);
   const [editingIdx, setEditingIdx] = useState<number | null>(null);
@@ -42,12 +113,9 @@ const ManageOrnaments = () => {
   const [showPriceBreakupRequired, setShowPriceBreakupRequired] = useState(false);
   const [showProductAdded, setShowProductAdded] = useState(false);
 
-  const genderOptions = [
-    { value: "men", label: "Men" },
-    { value: "women", label: "Women" },
-    { value: "unisex", label: "Unisex" },
-    { value: "kid", label: "Kid" },
-  ];
+  const [mainCategory, setMainCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
+  const [item, setItem] = useState("");
 
   // Product Handlers
   const handleChange = (e: any) => {
@@ -210,6 +278,24 @@ const ManageOrnaments = () => {
         setEditingBreakupIdx(null);
     }
 
+  // Compute subCategoryOptions and itemOptions based on selection
+  const subCategoryOptions = mainCategory
+    ? CATEGORY_TREE.find(cat => cat.name === mainCategory)?.children || []
+    : [];
+  const itemOptions = subCategory
+    ? (() => {
+        const sub = subCategoryOptions.find(sub => sub.name === subCategory);
+        if (!sub) return [];
+        if (sub.name === "Gold Coin") {
+          // Flatten gold coin types and weights
+          return sub.items.flatMap((coin: any) =>
+            coin.items.map((weight: string) => `${coin.name} - ${weight}`)
+          );
+        }
+        return sub.items;
+      })()
+    : [];
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -274,40 +360,58 @@ const ManageOrnaments = () => {
             />
             {/* --- New: Category, Subcategory, Gender Category fields --- */}
             <div className="mb-3 flex flex-col gap-3 bg-[#fbeaf0] p-4 rounded-lg shadow-inner">
-              <input
-                type="text"
-                name="category"
-                placeholder="Category *"
-                value={form.category}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded w-full"
-                required
-              />
-              <input
-                type="text"
-                name="subcategory"
-                placeholder="Sub Category *"
-                value={form.subcategory}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded w-full"
-                required
-              />
+              {/* Main Category */}
               <select
-                name="gendercategory"
-                value={form.gendercategory}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded w-full bg-white text-gray-700"
+                name="mainCategory"
+                value={mainCategory}
+                onChange={e => {
+                  setMainCategory(e.target.value);
+                  setSubCategory("");
+                  setItem("");
+                }}
+                className="px-3 py-2 border rounded w-full"
                 required
               >
-                <option value="" disabled>
-                  Select Gender Category *
-                </option>
-                {genderOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
+                <option value="" disabled>Select Main Category *</option>
+                {CATEGORY_TREE.map(cat => (
+                  <option key={cat.name} value={cat.name}>{cat.name}</option>
                 ))}
               </select>
+
+              {/* Sub-Category */}
+              {subCategoryOptions.length > 0 && (
+                <select
+                  name="subCategory"
+                  value={subCategory}
+                  onChange={e => {
+                    setSubCategory(e.target.value);
+                    setItem("");
+                  }}
+                  className="px-3 py-2 border rounded w-full mt-2"
+                  required
+                >
+                  <option value="" disabled>Select Sub-Category *</option>
+                  {subCategoryOptions.map(sub => (
+                    <option key={sub.name} value={sub.name}>{sub.name}</option>
+                  ))}
+                </select>
+              )}
+
+              {/* Item */}
+              {itemOptions.length > 0 && (
+                <select
+                  name="item"
+                  value={item}
+                  onChange={e => setItem(e.target.value)}
+                  className="px-3 py-2 border rounded w-full mt-2"
+                  required
+                >
+                  <option value="" disabled>Select Item *</option>
+                  {itemOptions.map(opt => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
+              )}
             </div>
             {/* --- End new fields --- */}
           </div>

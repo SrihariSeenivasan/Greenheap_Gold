@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import Carousel from "../components/custom/Carousel";
-import style from "./style.module.css";
 import { useNavigate } from "react-router-dom";
 import { lschemes } from "../../../constants";
+import { faqData, feedbacks } from '../../../constants';
+import Carousel from "../components/custom/Carousel";
+import style from "./style.module.css";
 
 // Helper hook for scroll animation
 function useScrollFadeIn(direction: "left" | "right" | "up" | "down" = "up", duration = 700, delay = 0) {
@@ -845,39 +846,6 @@ const UserHome = () => {
 export default UserHome;
 
 // Add this component at the bottom of the file (outside UserHome)
-const feedbacks = [
-  {
-    img: "/home/admin.png",
-    name: "Admin",
-    location: "Chennai",
-    text: "I had an amazing experience purchasing from Greenheap! The craftsmanship is exquisite, and each piece truly stands out. Their customer service was exceptional, guiding me through every step. I felt valued as a customer and will definitely return for future purchases.",
-  },
-  {
-    img: "/home/user2.png",
-    name: "Yogii M",
-    location: "Hyderabad",
-    text: "Greenheap's digital gold platform is so easy to use. I could invest small amounts and track my savings anytime. The support team is responsive and helpful. Highly recommended for new investors!",
-  },
-  {
-    img: "/home/user3.png",
-    name: "Priya S",
-    location: "Bangalore",
-    text: "The delivery of physical gold was quick and secure. I loved the packaging and the purity certificate. Greenheap is trustworthy and transparent in their process.",
-  },
-  {
-    img: "/home/user4.png",
-    name: "Rahul K",
-    location: "Mumbai",
-    text: "I started a gold SIP with Greenheap and it’s been a great way to build my savings. The app is user-friendly and the rates are competitive. Very happy with my experience.",
-  },
-  {
-    img: "/home/user5.png",
-    name: "Sneha T",
-    location: "Delhi",
-    text: "Excellent service and genuine products. The digital gold feature is a game changer for people who want to invest without any hassle. I recommend Greenheap to all my friends.",
-  },
-];
-
 function ClientFeedbackCarousel() {
   const [page, setPage] = useState(0);
 
@@ -1036,29 +1004,6 @@ function ClientFeedbackCarousel() {
 }
 
 // Add this component at the bottom of the file (outside UserHome)
-const faqData = [
-  {
-    question: "What is digital gold and how does it work?",
-    answer:
-      "Digital gold is an online investment product that allows you to buy, sell, and store gold virtually. Each unit you buy is backed by real physical gold stored securely by the provider.",
-  },
-  {
-    question: "Can I convert my digital gold to physical gold?",
-    answer:
-      "Yes, you can redeem your digital gold for physical gold coins or bars and have them delivered to your doorstep.",
-  },
-  {
-    question: "Is my digital gold safe and insured?",
-    answer:
-      "Yes, your digital gold is stored in secure vaults and is fully insured by the provider.",
-  },
-  {
-    question: "How do I sell my digital gold?",
-    answer:
-      "You can sell your digital gold instantly online at the current market price and receive the amount directly in your account.",
-  },
-];
-
 function FAQList() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
