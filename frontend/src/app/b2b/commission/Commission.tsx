@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { B2B_PRIMARY } from "../theme";
 
-// Example: Replace with real API or props
 interface Purchase {
   month: string;
   type: "jewel" | "gold";
@@ -16,6 +15,7 @@ interface Purchase {
 
 export default function BCommission() {
   const [purchases, setPurchases] = useState<Purchase[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     // Simulate fetching user purchases (replace with real API)
@@ -47,14 +47,41 @@ export default function BCommission() {
 
   const totalCommission = purchases.reduce((sum, p) => sum + p.commission, 0);
 
+  // Filtered results based on search
+  const filteredPurchases = purchases.filter((p) =>
+    p.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.customerEmail.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.customerMobile.includes(searchQuery)
+  );
+
   return (
     <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-xl font-bold mb-4" style={{ color: B2B_PRIMARY }}>Commission / Incentive</h3>
+      <h3 className="text-xl font-bold mb-4" style={{ color: B2B_PRIMARY }}>
+        Commission / Incentive
+      </h3>
+
+      {/* 🔍 Search Input */}
+      <input
+        type="text"
+        placeholder="Search by name, email, or mobile..."
+        className="border rounded px-4 py-2 mb-4 w-full md:w-1/2"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+
       <div className="mb-4">
-        <div className="font-semibold">Current Slab: <span className="text-gray-700">{purchases.length > 0 ? "Active" : "-"}</span></div>
-        <div className="font-semibold">Monthly Earnings: <span className="text-gray-700">₹{totalCommission}</span></div>
-        <div className="font-semibold">Payout Eligible: <span className="text-gray-700">{totalCommission > 0 ? "Yes" : "No"}</span></div>
+        <div className="font-semibold">
+          Current Slab:{" "}
+          <span className="text-gray-700">{purchases.length > 0 ? "Active" : "-"}</span>
+        </div>
+        <div className="font-semibold">
+          Monthly Earnings: <span className="text-gray-700">₹{totalCommission}</span>
+        </div>
+        <div className="font-semibold">
+          Payout Eligible: <span className="text-gray-700">{totalCommission > 0 ? "Yes" : "No"}</span>
+        </div>
       </div>
+
       <div className="overflow-x-auto">
         <table className="min-w-full text-sm">
           <thead>
@@ -71,12 +98,14 @@ export default function BCommission() {
             </tr>
           </thead>
           <tbody>
-            {purchases.length === 0 ? (
+            {filteredPurchases.length === 0 ? (
               <tr>
-                <td className="px-2 py-1" colSpan={9} align="center">No purchases yet</td>
+                <td className="px-2 py-4 text-center text-gray-400" colSpan={9}>
+                  No matching records found
+                </td>
               </tr>
             ) : (
-              purchases.map((p, idx) => (
+              filteredPurchases.map((p, idx) => (
                 <tr key={idx}>
                   <td className="px-2 py-1">{p.month}</td>
                   <td className="px-2 py-1 capitalize">{p.type === "jewel" ? "Jewel" : "Gold Coin"}</td>
@@ -88,7 +117,14 @@ export default function BCommission() {
                   <td className="px-2 py-1">{p.customerEmail}</td>
                   <td className="px-2 py-1">
                     {p.downloadUrl ? (
-                      <a href={p.downloadUrl} className="text-xs underline" target="_blank" rel="noopener noreferrer">Download</a>
+                      <a
+                        href={p.downloadUrl}
+                        className="text-xs underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Download
+                      </a>
                     ) : (
                       "-"
                     )}
