@@ -15,7 +15,10 @@ const emptyProduct = {
   img2: "",
   img3: "",
   img4: "",
-  pricebreakup: [] // <-- add this
+  pricebreakup: [],
+  category: "",
+  subcategory: "",
+  gendercategory: "",
 };
 
 const emptyBreakup = {
@@ -30,9 +33,6 @@ const B2BManageOrnaments = () => {
   const [products, setProducts] = useState<any[]>(initialProducts);
   const [editingIdx, setEditingIdx] = useState<number | null>(null);
   const [form, setForm] = useState<any>(emptyProduct);
-
-  // Remove global pricebreakup state
-  // const [pricebreakup, setPricebreakup] = useState<any[]>(initialPricebreakup);
   const [breakupForm, setBreakupForm] = useState<any>(emptyBreakup);
   const [editingBreakupIdx, setEditingBreakupIdx] = useState<number | null>(null);
 
@@ -41,6 +41,13 @@ const B2BManageOrnaments = () => {
   const [showProductDeleted, setShowProductDeleted] = useState(false);
   const [showPriceBreakupRequired, setShowPriceBreakupRequired] = useState(false);
   const [showProductAdded, setShowProductAdded] = useState(false);
+
+  const genderOptions = [
+    { value: "men", label: "Men" },
+    { value: "women", label: "Women" },
+    { value: "unisex", label: "Unisex" },
+    { value: "kid", label: "Kid" },
+  ];
 
   // Product Handlers
   const handleChange = (e: any) => {
@@ -265,6 +272,44 @@ const B2BManageOrnaments = () => {
               className="mb-3 px-3 py-2 border rounded w-full"
               required
             />
+            {/* --- New: Category, Subcategory, Gender Category fields --- */}
+            <div className="mb-3 flex flex-col gap-3 bg-[#fbeaf0] p-4 rounded-lg shadow-inner">
+              <input
+                type="text"
+                name="category"
+                placeholder="Category *"
+                value={form.category}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded w-full"
+                required
+              />
+              <input
+                type="text"
+                name="subcategory"
+                placeholder="Sub Category *"
+                value={form.subcategory}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded w-full"
+                required
+              />
+              <select
+                name="gendercategory"
+                value={form.gendercategory}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded w-full bg-white text-gray-700"
+                required
+              >
+                <option value="" disabled>
+                  Select Gender Category *
+                </option>
+                {genderOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {/* --- End new fields --- */}
           </div>
           {/* Second Card: Material, Purity, Quality, Description */}
           <div>
