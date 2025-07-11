@@ -9,6 +9,7 @@ type Scheme = {
   minInvest: string;
   status: string;
   description: string;
+  points?: string[]; // 1 required, 2 optional
 };
 
 type FlyerImage = {
@@ -27,6 +28,7 @@ const initialSchemes: Scheme[] = [
     minInvest: "₹5,000",
     status: "Active",
     description: "A special gold plant scheme for 2024 with attractive returns.",
+    points: ["Secure your future with gold", "Hassle-free investment", "Attractive returns guaranteed"],
   },
 ];
 
@@ -37,6 +39,7 @@ const emptyScheme: Scheme = {
   minInvest: "",
   status: "Active",
   description: "",
+  points: ["", "", ""]
 };
 
 const PlantScheme = () => {
@@ -69,7 +72,15 @@ const PlantScheme = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setNewScheme((prev) => ({ ...prev, [name]: value }));
+    if (name.startsWith("point")) {
+      const idx = Number(name.replace("point", ""));
+      setNewScheme((prev) => ({
+        ...prev,
+        points: prev.points ? prev.points.map((p, i) => (i === idx ? value : p)) : [value, "", ""],
+      }));
+    } else {
+      setNewScheme((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleFlyerImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,12 +109,7 @@ const PlantScheme = () => {
   };
 
   const handleAddScheme = () => {
-    if (
-      !newScheme.name ||
-      !newScheme.duration ||
-      !newScheme.minInvest ||
-      !newScheme.description
-    ) {
+    if (!newScheme.name || !newScheme.duration || !newScheme.minInvest || !newScheme.description || !newScheme.points || !newScheme.points[0]) {
       setShowError(true);
       return;
     }
@@ -656,6 +662,34 @@ const PlantScheme = () => {
 									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7a1335] focus:border-transparent"
 									placeholder="Description"
 									rows={3}
+								/>
+							</div>
+							<div>
+								<label className="block text-sm font-medium mb-2">Key Points</label>
+								<input
+									type="text"
+									name="point0"
+									value={newScheme.points?.[0] || ""}
+									onChange={handleAddChange}
+									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7a1335] focus:border-transparent mb-2"
+									placeholder="Important Point (required)"
+									required
+								/>
+								<input
+									type="text"
+									name="point1"
+									value={newScheme.points?.[1] || ""}
+									onChange={handleAddChange}
+									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7a1335] focus:border-transparent mb-2"
+									placeholder="Optional Point 2"
+								/>
+								<input
+									type="text"
+									name="point2"
+									value={newScheme.points?.[2] || ""}
+									onChange={handleAddChange}
+									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7a1335] focus:border-transparent"
+									placeholder="Optional Point 3"
 								/>
 							</div>
 						</div>

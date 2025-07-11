@@ -9,6 +9,7 @@ const initialPlans = [
 		status: "Active",
 		description:
 			"A 12-month chit plan with monthly contributions and attractive returns.",
+		points: ["First point of Plan A", "Optional point 1", "Optional point 2"],
 	},
 	{
 		id: 2,
@@ -18,6 +19,7 @@ const initialPlans = [
 		status: "Closed",
 		description:
 			"A 24-month chit plan for long-term savers with higher rewards.",
+		points: ["First point of Plan B", "Optional point 1", "Optional point 2"],
 	},
 ];
 
@@ -28,6 +30,7 @@ const emptyPlan = {
 	amount: "",
 	status: "Active",
 	description: "",
+	points: ["", "", ""] // 1 required, 2 optional
 };
 
 const SavingPlan = () => {
@@ -52,7 +55,15 @@ const SavingPlan = () => {
 		>
 	) => {
 		const { name, value } = e.target;
-		setNewPlan((prev) => ({ ...prev, [name]: value }));
+		if (name.startsWith("point")) {
+			const idx = Number(name.replace("point", ""));
+			setNewPlan((prev) => ({
+				...prev,
+				points: prev.points.map((p, i) => (i === idx ? value : p)),
+			}));
+		} else {
+			setNewPlan((prev) => ({ ...prev, [name]: value }));
+		}
 	};
 
 	const handleAddPlan = () => {
@@ -60,7 +71,8 @@ const SavingPlan = () => {
 			!newPlan.name ||
 			!newPlan.duration ||
 			!newPlan.amount ||
-			!newPlan.description
+			!newPlan.description ||
+			!newPlan.points[0] // first point required
 		) {
 			setShowError(true);
 			return;
@@ -123,6 +135,7 @@ const SavingPlan = () => {
 								<th className="px-2 sm:px-4 py-2 text-[#7a1335]">Amount</th>
 								<th className="px-2 sm:px-4 py-2 text-[#7a1335]">Description</th>
 								<th className="px-2 sm:px-4 py-2 text-[#7a1335]">Status</th>
+								<th className="px-2 sm:px-4 py-2 text-[#7a1335]">Key Points</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -168,6 +181,15 @@ const SavingPlan = () => {
 												▼
 											</span>
 										</div>
+									</td>
+									<td className="px-4 py-3 text-gray-600 align-middle">
+										{plan.points && plan.points.filter(Boolean).length > 0 && (
+											<ul className="list-disc pl-4">
+												{plan.points.filter(Boolean).map((pt, i) => (
+													<li key={i}>{pt}</li>
+												))}
+											</ul>
+										)}
 									</td>
 								</tr>
 							))}
@@ -341,6 +363,59 @@ const SavingPlan = () => {
 										}}
 										placeholder="Description"
 										rows={2}
+									/>
+								</div>
+								<div>
+									<label
+										style={{
+											display: "block",
+											fontSize: 14,
+											marginBottom: 4,
+										}}
+									>
+										Key Points
+									</label>
+									<input
+										type="text"
+										name="point0"
+										value={newPlan.points[0]}
+										onChange={handleAddChange}
+										style={{
+											width: "100%",
+											padding: "8px 12px",
+											borderRadius: 4,
+											border: "1px solid #ccc",
+											marginBottom: 6,
+										}}
+										placeholder="Important Point (required)"
+										required
+									/>
+									<input
+										type="text"
+										name="point1"
+										value={newPlan.points[1]}
+										onChange={handleAddChange}
+										style={{
+											width: "100%",
+											padding: "8px 12px",
+											borderRadius: 4,
+											border: "1px solid #ccc",
+											marginBottom: 6,
+										}}
+										placeholder="Optional Point 2"
+									/>
+									<input
+										type="text"
+										name="point2"
+										value={newPlan.points[2]}
+										onChange={handleAddChange}
+										style={{
+											width: "100%",
+											padding: "8px 12px",
+											borderRadius: 4,
+											border: "1px solid #ccc",
+										}}
+										placeholder="Optional Point 3"
 									/>
 								</div>
 							</div>
