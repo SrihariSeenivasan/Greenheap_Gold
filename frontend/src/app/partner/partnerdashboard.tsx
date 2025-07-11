@@ -1,62 +1,5 @@
-// Font Awesome icons will be loaded via CDN
 import { useNavigate } from "react-router-dom";
-
-const kpis = [
-  { 
-    label: "Total Clicks", 
-    value: 120, 
-    icon: "fas fa-mouse-pointer", 
-    color: "from-[#7a1335]/20 to-rose-500/20",
-    borderColor: "border-[#7a1335]/30",
-    trend: "+12%"
-  },
-  { 
-    label: "Referred Users", 
-    value: 35, 
-    icon: "fas fa-users", 
-    color: "from-[#7a1335]/20 to-pink-500/20",
-    borderColor: "border-[#7a1335]/30",
-    trend: "+8%"
-  },
-  { 
-    label: "Gold Purchased", 
-    value: "₹2,50,000", 
-    icon: "fas fa-coins", 
-    color: "from-amber-500/20 to-yellow-500/20",
-    borderColor: "border-amber-500/30",
-    trend: "+24%"
-  },
-  { 
-    label: "SIP Plans Started", 
-    value: 12, 
-    icon: "fas fa-credit-card", 
-    color: "from-emerald-500/20 to-green-500/20",
-    borderColor: "border-emerald-500/30",
-    trend: "+6%"
-  },
-  { 
-    label: "Commission Earned", 
-    value: "₹15,000", 
-    icon: "fas fa-dollar-sign", 
-    color: "from-[#7a1335]/20 to-red-500/20",
-    borderColor: "border-[#7a1335]/30",
-    trend: "+18%"
-  },
-  { 
-    label: "Pending Payout", 
-    value: "₹2,000", 
-    icon: "fas fa-clock", 
-    color: "from-orange-500/20 to-amber-500/20",
-    borderColor: "border-orange-500/30",
-    trend: "-5%"
-  },
-];
-
-const quickStats = [
-  { label: "Conversion Rate", value: "29.2%", icon: "fas fa-percentage" },
-  { label: "Avg. Order Value", value: "₹7,143", icon: "fas fa-chart-bar" },
-  { label: "Active Referrals", value: "23", icon: "fas fa-link" },
-];
+import { kpis, quickStats } from '../../../constants';
 
 const PartnerDashboard = () => {
   const navigate = useNavigate();
@@ -140,9 +83,9 @@ const PartnerDashboard = () => {
       {/* Action Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Payout Card */}
-        <div className="bg-white rounded-3xl p-8 border border-gray-200/50 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group" onClick={() => {
-                  // handle login logic here
-                  navigate("/pdashboard");}}>
+        <div className="bg-white rounded-3xl p-8 border border-gray-200/50 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group"
+          onClick={() => navigate("/ppayout")}
+        >
           <div className="flex items-center mb-6">
             <div className="w-14 h-14 bg-[#7a1335]/10 rounded-2xl flex items-center justify-center mr-4 group-hover:bg-[#7a1335]/20 transition-colors">
               <i className="fas fa-wallet text-[#7a1335] text-xl"></i>
@@ -157,18 +100,15 @@ const PartnerDashboard = () => {
               <div className="text-3xl font-bold text-gray-900">₹13,000</div>
               <div className="text-sm text-gray-500">Available balance</div>
             </div>
-            <i className="fas fa-arrow-right text-[#7a1335] group-hover:translate-x-1 transition-transform"></i>
+            <i className="fas fa-arrow-right text-[#7a1335] group-hover:translate-x-1 transition-transform" onClick={e => { e.stopPropagation(); navigate('/ppayout'); }} style={{ cursor: 'pointer' }}></i>
           </div>
         </div>
 
         {/* Referral Card */}
-        <div className="bg-white rounded-3xl p-8 border border-gray-200/50 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group">
-          <div className="flex items-center mb-6"  onClick={() => {
-                  // handle login logic here
-                  navigate("/pdashboard");
-
-                  
-                }}>
+        <div className="bg-white rounded-3xl p-8 border border-gray-200/50 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group"
+          onClick={() => navigate("/preferral")}
+        >
+          <div className="flex items-center mb-6">
             <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mr-4 group-hover:bg-blue-500/20 transition-colors">
               <i className="fas fa-share-alt text-blue-600 text-xl"></i>
             </div>
@@ -182,7 +122,7 @@ const PartnerDashboard = () => {
               <div className="text-3xl font-bold text-gray-900">Generate</div>
               <div className="text-sm text-gray-500">Referral link</div>
             </div>
-            <i className="fas fa-arrow-right text-blue-600 group-hover:translate-x-1 transition-transform"></i>
+            <i className="fas fa-arrow-right text-blue-600 group-hover:translate-x-1 transition-transform" onClick={e => { e.stopPropagation(); navigate('/preferral'); }} style={{ cursor: 'pointer' }}></i>
           </div>
         </div>
       </div>

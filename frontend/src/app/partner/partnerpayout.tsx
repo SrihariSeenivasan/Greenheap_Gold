@@ -1,28 +1,5 @@
 import { useState } from "react";
-
-// Dummy profile bank/UPI details for selection
-const profileBankDetails = [
-	{
-		type: "Bank",
-		label: "HDFC Bank - XXXX1234 (IFSC: HDFC0001234)",
-		value: "bank1",
-	},
-	{
-		type: "Bank",
-		label: "SBI - XXXX5678 (IFSC: SBIN0005678)",
-		value: "bank2",
-	},
-	{
-		type: "UPI",
-		label: "partner@upi",
-		value: "upi1",
-	},
-];
-
-const payoutHistory = [
-	{ date: "2024-06-01", amount: "₹2,000", method: "UPI", status: "Paid" },
-	{ date: "2024-05-20", amount: "₹1,500", method: "Bank", status: "Pending" },
-];
+import { payoutHistory, profileBankDetails } from "../../../constants";
 
 const PartnerPayout = () => {
 	const [amount, setAmount] = useState("");

@@ -7,6 +7,7 @@ interface FAQ {
   answer: string;
   createdAt: string;
   updatedAt: string;
+  type?: 'home' | 'chit' | 'sip' | 'scheme';
 }
 
 const FAQManagement = () => {
@@ -16,6 +17,8 @@ const FAQManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
+  const [faqType, setFaqType] = useState<'home' | 'chit' | 'sip' | 'scheme' | ''>('');
+  const [filterType, setFilterType] = useState<'home' | 'chit' | 'sip' | 'scheme' | 'all'>('all');
   
   // Form states
   const [formData, setFormData] = useState({
@@ -31,31 +34,36 @@ const FAQManagement = () => {
         question: "How do I reset my password?",
         answer: "You can reset your password by clicking on the 'Forgot Password' link on the login page and following the instructions sent to your email.",
         createdAt: "2024-01-15",
-        updatedAt: "2024-01-15"
+        updatedAt: "2024-01-15",
+        type: 'home'
       },
       {
         id: 2,
         question: "What are the system requirements?",
         answer: "Our system works on all modern web browsers including Chrome, Firefox, Safari, and Edge. You need an internet connection and JavaScript enabled.",
         createdAt: "2024-01-16",
-        updatedAt: "2024-01-16"
+        updatedAt: "2024-01-16",
+        type: 'chit'
       },
       {
         id: 3,
         question: "How do I contact support?",
         answer: "You can contact our support team through the help desk, email at support@example.com, or by calling our toll-free number 1-800-HELP.",
         createdAt: "2024-01-17",
-        updatedAt: "2024-01-17"
+        updatedAt: "2024-01-17",
+        type: 'sip'
       }
     ];
     setFaqs(sampleFaqs);
   }, []);
 
-  // Filter FAQs based on search term
-  const filteredFaqs = faqs.filter(faq =>
-    faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter FAQs based on search term and type
+  const filteredFaqs = faqs.filter(faq => {
+    const matchesSearch = faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      faq.answer.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = filterType === 'all' || faq.type === filterType;
+    return matchesSearch && matchesType;
+  });
 
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -64,8 +72,8 @@ const FAQManagement = () => {
   const totalPages = Math.ceil(filteredFaqs.length / itemsPerPage);
 
   const handleSubmit = () => {
-    if (!formData.question.trim() || !formData.answer.trim()) {
-      alert('Please fill in all required fields');
+    if (!formData.question.trim() || !formData.answer.trim() || !faqType) {
+      alert('Please fill in all required fields and select a type');
       return;
     }
     
@@ -73,7 +81,7 @@ const FAQManagement = () => {
       // Update existing FAQ
       setFaqs(faqs.map(faq => 
         faq.id === editingFaq.id 
-          ? { ...faq, ...formData, updatedAt: new Date().toISOString().split('T')[0] }
+          ? { ...faq, ...formData, type: faqType, updatedAt: new Date().toISOString().split('T')[0] }
           : faq
       ));
     } else {
@@ -81,9 +89,10 @@ const FAQManagement = () => {
       const newFaq: FAQ = {
         id: Date.now(),
         ...formData,
+        type: faqType,
         createdAt: new Date().toISOString().split('T')[0],
         updatedAt: new Date().toISOString().split('T')[0]
-      };
+      } as any;
       setFaqs([...faqs, newFaq]);
     }
     
@@ -94,11 +103,13 @@ const FAQManagement = () => {
     setFormData({ question: '', answer: '' });
     setEditingFaq(null);
     setShowModal(false);
+    setFaqType('');
   };
 
   const handleEdit = (faq: FAQ) => {
     setEditingFaq(faq);
     setFormData({ question: faq.question, answer: faq.answer });
+    setFaqType(faq.type || '');
     setShowModal(true);
   };
 
@@ -137,9 +148,22 @@ const FAQManagement = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
+              {/* Filter Dropdown */}
+              <select
+                className="ml-4 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                style={{ borderColor: "#7a1335", boxShadow: "none" }}
+                value={filterType}
+                onChange={e => setFilterType(e.target.value as any)}
+              >
+                <option value="all">All</option>
+                <option value="home">Home</option>
+                <option value="chit">Chit</option>
+                <option value="sip">SIP</option>
+                <option value="scheme">Scheme</option>
+              </select>
             </div>
             <button
-              onClick={() => setShowModal(true)}
+              onClick={() => { setShowModal(true); setFaqType(''); }}
               className="px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
               style={{
                 background: "#7a1335",
@@ -157,6 +181,7 @@ const FAQManagement = () => {
                 <tr className="bg-gray-50">
                   <th className="border border-gray-200 px-4 py-3 text-left font-semibold">Question</th>
                   <th className="border border-gray-200 px-4 py-3 text-left font-semibold">Answer</th>
+                  <th className="border border-gray-200 px-4 py-3 text-left font-semibold">Type</th>
                   <th className="border border-gray-200 px-4 py-3 text-left font-semibold">Last Updated</th>
                   <th className="border border-gray-200 px-4 py-3 text-center font-semibold">Actions</th>
                 </tr>
@@ -169,6 +194,9 @@ const FAQManagement = () => {
                     </td>
                     <td className="border border-gray-200 px-4 py-3 max-w-md">
                       <div className="text-gray-600 truncate">{faq.answer}</div>
+                    </td>
+                    <td className="border border-gray-200 px-4 py-3 text-sm text-gray-700">
+                      {faq.type ? faq.type.charAt(0).toUpperCase() + faq.type.slice(1) : ''}
                     </td>
                     <td className="border border-gray-200 px-4 py-3 text-sm text-gray-500">
                       {faq.updatedAt}
@@ -294,6 +322,24 @@ const FAQManagement = () => {
                   style={{ borderColor: "#7a1335", boxShadow: "none" }}
                   placeholder="Enter your question here..."
                 />
+              </div>
+              
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Type *
+                </label>
+                <select
+                  value={faqType}
+                  onChange={e => setFaqType(e.target.value as any)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                  style={{ borderColor: "#7a1335", boxShadow: "none" }}
+                >
+                  <option value="">Select type</option>
+                  <option value="home">Home</option>
+                  <option value="chit">Chit</option>
+                  <option value="sip">SIP</option>
+                  <option value="scheme">Scheme</option>
+                </select>
               </div>
               
               <div className="mb-6">

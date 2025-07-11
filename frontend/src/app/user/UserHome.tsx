@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { faqData, feedbacks, schemes } from "../../../constants";
 import Carousel from "../components/custom/Carousel";
 import style from "./style.module.css";
-import { useNavigate } from "react-router-dom";
-import { lschemes } from "../../../constants";
 
 // Helper hook for scroll animation
 function useScrollFadeIn(direction: "left" | "right" | "up" | "down" = "up", duration = 700, delay = 0) {
@@ -222,74 +222,82 @@ const UserHome = () => {
         className="w-100 d-flex flex-column flex-md-row justify-content-center align-items-stretch gap-4 mt-4"
         style={{ maxWidth: 1200, margin: "0 auto" }}
       >
-        {lschemes.map((lscheme) => (
-          <div
-            key={lscheme.id}
-            className="bg-white d-flex align-items-center justify-content-center position-relative"
-            style={{
-              borderRadius: 18,
-              maxWidth: 400,
-              minWidth: 220,
-              height: 500,
-              overflow: "hidden",
-              boxShadow: "0 4px 24px #e6d7b7",
-              border: "10px solid #bf7e1a",
-            }}
-          >
-            <img
-              src={lscheme.image}
-              alt={lscheme.title}
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            />
-            <button
+        {schemes.map((scheme) => {
+          // Determine button label based on lscheme.title (fallback if type is not present)
+          let buttonLabel = "Buy scheme";
+          const titleLower = scheme.title.toLowerCase();
+          if (titleLower.includes("chit")) buttonLabel = "Buy Chit";
+          else if (titleLower.includes("sip")) buttonLabel = "Start SIP";
+          else if (titleLower.includes("gold")) buttonLabel = "Buy Gold";
+          return (
+            <div
+              key={scheme.id}
+              className="bg-white d-flex align-items-center justify-content-center position-relative"
               style={{
-                position: "absolute",
-                left: 14,
-                bottom: 10,
-                background: "#8a2342",
-                color: "#fff",
-                border: "none",
-                borderRadius: 40,
-                padding: "10px 28px 10px 22px",
-                fontWeight: 500,
-                fontSize: 18,
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                boxShadow: "0 2px 8px #c4912e33",
-                cursor: "pointer",
-                transition: "background 0.2s",
+                borderRadius: 18,
+                maxWidth: 400,
+                minWidth: 220,
+                height: 500,
+                overflow: "hidden",
+                boxShadow: "0 4px 24px #e6d7b7",
+                border: "10px solid #bf7e1a",
               }}
-              onClick={() => navigate(lscheme.link)}
             >
-              Buy scheme
-              <span
+              <img
+                src={scheme.image}
+                alt={scheme.title}
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              />
+              <button
                 style={{
-                  fontSize: 22,
-                  marginLeft: 8,
+                  position: "absolute",
+                  left: 14,
+                  bottom: 10,
+                  background: "#8a2342",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 40,
+                  padding: "10px 28px 10px 22px",
+                  fontWeight: 500,
+                  fontSize: 18,
                   display: "flex",
                   alignItems: "center",
+                  gap: 10,
+                  boxShadow: "0 2px 8px #c4912e33",
+                  cursor: "pointer",
+                  transition: "background 0.2s",
                 }}
+                onClick={() => navigate(scheme.link)}
               >
-                <svg
-                  width="26"
-                  height="22"
-                  viewBox="0 0 26 22"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                {buttonLabel}
+                <span
+                  style={{
+                    fontSize: 22,
+                    marginLeft: 8,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
                 >
-                  <path
-                    d="M15.5 4L22 11M22 11L15.5 18M22 11H4"
-                    stroke="white"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-            </button>
-          </div>
-        ))}
+                  <svg
+                    width="26"
+                    height="22"
+                    viewBox="0 0 26 22"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15.5 4L22 11M22 11L15.5 18M22 11H4"
+                      stroke="white"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </div>
+          );
+        })}
       </div>
     </section>
 
@@ -845,39 +853,6 @@ const UserHome = () => {
 export default UserHome;
 
 // Add this component at the bottom of the file (outside UserHome)
-const feedbacks = [
-  {
-    img: "/home/admin.png",
-    name: "Admin",
-    location: "Chennai",
-    text: "I had an amazing experience purchasing from Greenheap! The craftsmanship is exquisite, and each piece truly stands out. Their customer service was exceptional, guiding me through every step. I felt valued as a customer and will definitely return for future purchases.",
-  },
-  {
-    img: "/home/user2.png",
-    name: "Yogii M",
-    location: "Hyderabad",
-    text: "Greenheap's digital gold platform is so easy to use. I could invest small amounts and track my savings anytime. The support team is responsive and helpful. Highly recommended for new investors!",
-  },
-  {
-    img: "/home/user3.png",
-    name: "Priya S",
-    location: "Bangalore",
-    text: "The delivery of physical gold was quick and secure. I loved the packaging and the purity certificate. Greenheap is trustworthy and transparent in their process.",
-  },
-  {
-    img: "/home/user4.png",
-    name: "Rahul K",
-    location: "Mumbai",
-    text: "I started a gold SIP with Greenheap and it’s been a great way to build my savings. The app is user-friendly and the rates are competitive. Very happy with my experience.",
-  },
-  {
-    img: "/home/user5.png",
-    name: "Sneha T",
-    location: "Delhi",
-    text: "Excellent service and genuine products. The digital gold feature is a game changer for people who want to invest without any hassle. I recommend Greenheap to all my friends.",
-  },
-];
-
 function ClientFeedbackCarousel() {
   const [page, setPage] = useState(0);
 
@@ -1036,29 +1011,6 @@ function ClientFeedbackCarousel() {
 }
 
 // Add this component at the bottom of the file (outside UserHome)
-const faqData = [
-  {
-    question: "What is digital gold and how does it work?",
-    answer:
-      "Digital gold is an online investment product that allows you to buy, sell, and store gold virtually. Each unit you buy is backed by real physical gold stored securely by the provider.",
-  },
-  {
-    question: "Can I convert my digital gold to physical gold?",
-    answer:
-      "Yes, you can redeem your digital gold for physical gold coins or bars and have them delivered to your doorstep.",
-  },
-  {
-    question: "Is my digital gold safe and insured?",
-    answer:
-      "Yes, your digital gold is stored in secure vaults and is fully insured by the provider.",
-  },
-  {
-    question: "How do I sell my digital gold?",
-    answer:
-      "You can sell your digital gold instantly online at the current market price and receive the amount directly in your account.",
-  },
-];
-
 function FAQList() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
