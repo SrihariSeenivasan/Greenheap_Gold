@@ -9,7 +9,7 @@ const menuItems = [
   { label: "Sell Ornament", icon: "💎", path: "/bsellornament" },
   { label: "SIP Management", icon: "📈", path: "/bsipmanagement" },
   { label: "Order History", icon: "📜", path: "/bborder-history" },
-  { label: "Commission", icon: "%", path: "/bcommission" },
+  // { label: "Commission", icon: "%", path: "/bcommission" },
   { label: "Wallet", icon: "👛", path: "/bwallet" },
   { label: "Marketing Resources", icon: "📢", path: "/bmarketing-resources" },
   { label: "Support", icon: "🛠️", path: "/bsupport" }, 
