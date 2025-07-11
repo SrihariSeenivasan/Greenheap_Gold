@@ -124,7 +124,7 @@ const AppRoutes: React.FC = () => {
         <Route path="bsellornament" element={<B2BManageOrnaments />} />
         <Route path="bsipmanagement" element={<SipManagement />} />
         <Route path="bborder-history" element={<OrderHistory />} />
-        <Route path="bcommission" element={<BCommission />} />
+        {/* <Route path="bcommission" element={<BCommission />} /> */}
         <Route path="bwallet" element={<Wallet />} />
         <Route path="bmarketing-resources" element={<MarketingResources />} />
         <Route path="bsupport" element={<Support />} />
