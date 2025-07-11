@@ -9,7 +9,7 @@ import type {
   ApiResponse 
 } from '../../types/type';
 
-const API_BASE_URL = 'http://localhost:8080/auth';
+const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/auth`;
 
 const getErrorMessage = (error: unknown): string => {
   if (axios.isAxiosError(error) && error.response?.data?.message) {

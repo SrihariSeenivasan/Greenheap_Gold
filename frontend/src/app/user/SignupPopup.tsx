@@ -46,7 +46,10 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
   const [validationError, setValidationError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (currentUser && status === 'succeeded') {
+    if (currentUser?.role === 'ADMIN' && status === 'succeeded') {
+      navigate("/admin");
+      onClose();
+    }else if (currentUser?.role === 'USER' && status === 'succeeded') {
       navigate("/user");
       onClose();
     }
