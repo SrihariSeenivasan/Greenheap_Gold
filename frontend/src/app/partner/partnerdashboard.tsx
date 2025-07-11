@@ -83,9 +83,9 @@ const PartnerDashboard = () => {
       {/* Action Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Payout Card */}
-        <div className="bg-white rounded-3xl p-8 border border-gray-200/50 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group" onClick={() => {
-                  // handle login logic here
-                  navigate("/pdashboard");}}>
+        <div className="bg-white rounded-3xl p-8 border border-gray-200/50 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group"
+          onClick={() => navigate("/ppayout")}
+        >
           <div className="flex items-center mb-6">
             <div className="w-14 h-14 bg-[#7a1335]/10 rounded-2xl flex items-center justify-center mr-4 group-hover:bg-[#7a1335]/20 transition-colors">
               <i className="fas fa-wallet text-[#7a1335] text-xl"></i>
@@ -100,18 +100,15 @@ const PartnerDashboard = () => {
               <div className="text-3xl font-bold text-gray-900">₹13,000</div>
               <div className="text-sm text-gray-500">Available balance</div>
             </div>
-            <i className="fas fa-arrow-right text-[#7a1335] group-hover:translate-x-1 transition-transform"></i>
+            <i className="fas fa-arrow-right text-[#7a1335] group-hover:translate-x-1 transition-transform" onClick={e => { e.stopPropagation(); navigate('/ppayout'); }} style={{ cursor: 'pointer' }}></i>
           </div>
         </div>
 
         {/* Referral Card */}
-        <div className="bg-white rounded-3xl p-8 border border-gray-200/50 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group">
-          <div className="flex items-center mb-6"  onClick={() => {
-                  // handle login logic here
-                  navigate("/pdashboard");
-
-                  
-                }}>
+        <div className="bg-white rounded-3xl p-8 border border-gray-200/50 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group"
+          onClick={() => navigate("/preferral")}
+        >
+          <div className="flex items-center mb-6">
             <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mr-4 group-hover:bg-blue-500/20 transition-colors">
               <i className="fas fa-share-alt text-blue-600 text-xl"></i>
             </div>
@@ -125,7 +122,7 @@ const PartnerDashboard = () => {
               <div className="text-3xl font-bold text-gray-900">Generate</div>
               <div className="text-sm text-gray-500">Referral link</div>
             </div>
-            <i className="fas fa-arrow-right text-blue-600 group-hover:translate-x-1 transition-transform"></i>
+            <i className="fas fa-arrow-right text-blue-600 group-hover:translate-x-1 transition-transform" onClick={e => { e.stopPropagation(); navigate('/preferral'); }} style={{ cursor: 'pointer' }}></i>
           </div>
         </div>
       </div>
