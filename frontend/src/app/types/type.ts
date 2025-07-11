@@ -54,6 +54,7 @@ export interface Ornament {
   id: number;
   name: string;
   price: number;
+  meta: string;
   category: string;
   subCategory: string;
   gender: 'Male' | 'Female' | 'Unisex';
