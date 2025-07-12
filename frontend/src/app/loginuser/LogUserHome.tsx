@@ -222,74 +222,82 @@ const LUserHome = () => {
         className="w-100 d-flex flex-column flex-md-row justify-content-center align-items-stretch gap-4 mt-4"
         style={{ maxWidth: 1200, margin: "0 auto" }}
       >
-        {schemes.map((scheme) => (
-          <div
-            key={scheme.id}
-            className="bg-white d-flex align-items-center justify-content-center position-relative"
-            style={{
-              borderRadius: 18,
-              maxWidth: 400,
-              minWidth: 220,
-              height: 500,
-              overflow: "hidden",
-              boxShadow: "0 4px 24px #e6d7b7",
-              border: "10px solid #bf7e1a",
-            }}
-          >
-            <img
-              src={scheme.image}
-              alt={scheme.title}
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            />
-            <button
+        {schemes.map((scheme) => {
+          // Determine button label based on scheme.title (since 'type' is not present)
+          let buttonLabel = "Buy scheme";
+          const titleLower = scheme.title.toLowerCase();
+          if (titleLower.includes("chit")) buttonLabel = "Buy Chit";
+          else if (titleLower.includes("sip")) buttonLabel = "Start SIP";
+          else if (titleLower.includes("gold")) buttonLabel = "Buy Gold";
+          return (
+            <div
+              key={scheme.id}
+              className="bg-white d-flex align-items-center justify-content-center position-relative"
               style={{
-                position: "absolute",
-                left: 14,
-                bottom: 10,
-                background: "#8a2342",
-                color: "#fff",
-                border: "none",
-                borderRadius: 40,
-                padding: "10px 28px 10px 22px",
-                fontWeight: 500,
-                fontSize: 18,
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                boxShadow: "0 2px 8px #c4912e33",
-                cursor: "pointer",
-                transition: "background 0.2s",
+                borderRadius: 18,
+                maxWidth: 400,
+                minWidth: 220,
+                height: 500,
+                overflow: "hidden",
+                boxShadow: "0 4px 24px #e6d7b7",
+                border: "10px solid #bf7e1a",
               }}
-              onClick={() => navigate(scheme.link)}
             >
-              Buy scheme
-              <span
+              <img
+                src={scheme.image}
+                alt={scheme.title}
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              />
+              <button
                 style={{
-                  fontSize: 22,
-                  marginLeft: 8,
+                  position: "absolute",
+                  left: 14,
+                  bottom: 10,
+                  background: "#8a2342",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 40,
+                  padding: "10px 28px 10px 22px",
+                  fontWeight: 500,
+                  fontSize: 18,
                   display: "flex",
                   alignItems: "center",
+                  gap: 10,
+                  boxShadow: "0 2px 8px #c4912e33",
+                  cursor: "pointer",
+                  transition: "background 0.2s",
                 }}
+                onClick={() => navigate(scheme.link)}
               >
-                <svg
-                  width="26"
-                  height="22"
-                  viewBox="0 0 26 22"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                {buttonLabel}
+                <span
+                  style={{
+                    fontSize: 22,
+                    marginLeft: 8,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
                 >
-                  <path
-                    d="M15.5 4L22 11M22 11L15.5 18M22 11H4"
-                    stroke="white"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-            </button>
-          </div>
-        ))}
+                  <svg
+                    width="26"
+                    height="22"
+                    viewBox="0 0 26 22"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15.5 4L22 11M22 11L15.5 18M22 11H4"
+                      stroke="white"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </div>
+          );
+        })}
       </div>
     </section>
       

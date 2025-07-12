@@ -58,15 +58,15 @@ import LFooter from "./src/app/loginuser/Footer/Footer";
 import LNavBar from "./src/app/loginuser/NavBar/NavBar";
 import LTerms from "./src/app/loginuser/TermsAndCondition/termsandcondition";
 import LogUserLayout from "./src/app/loginuser/LogUserLayout";
-import LogUserDashboardLayout from "./src/app/loginuser/LogUserDashboardLayout";  
+import LogUserDashboardLayout from "./src/app/loginuser/LogUserDashboardLayout";
 import Refund from "./src/app/user/RefundPolicy/refund.tsx";
 import LUserHome from "./src/app/loginuser/LogUserHome";
 import BuyNow from "./src/app/loginuser/BuyNow/buynow";
-import  Wishlist from "./src/app/loginuser/Wishlist/wishlist";
+import Wishlist from "./src/app/loginuser/Wishlist/wishlist";
 import PaymentPopup from "./src/app/components/PopUp/PaymentPopUp/Paymentpopup";
 import LMyDashboard from "./src/app/loginuser/DashboardComponents/MyDashboard.tsx";
 import LMyProfile from "./src/app/loginuser/DashboardComponents/MyProfile.tsx";
-import LKYC from "./src/app/loginuser/DashboardComponents/KYC.tsx"; 
+import LKYC from "./src/app/loginuser/DashboardComponents/KYC.tsx";
 import LChitJewelsSavingPlan from "./src/app/loginuser/DashboardComponents/ChitJewelsSavingPlan.tsx";
 import LGoldPlantScheme from "./src/app/loginuser/DashboardComponents/GoldPlantScheme.tsx";
 import LDigitalGoldSIPPlan from "./src/app/loginuser/DashboardComponents/DigitalGoldSIPPlan.tsx";
@@ -86,45 +86,45 @@ import GoldSIPPlans from "./src/app/user/GoldSIP/goldSIP.tsx";
 import LGoldPlantSchemes from "./src/app/loginuser/GoldSchemes/goldschemes.tsx";
 import GoldPlantSchemes from "./src/app/user/GoldSchemes/goldschemes.tsx";
 import BCommission from "./src/app/b2b/commission/Commission";
+import AdminProtectedRoute from './src/app/protectedRoutes/AdminProtectedRoute';
 
 const AppRoutes: React.FC = () => {
   return (
-      <Routes>
-        {/* Admin routes */}
-        <Route element={<AdminLayout/>}>
-        
-        <Route path="/admin" element={ <AdminDashboard/>}/>
-        <Route path="/adminprofile" element={ <AdminProfile/>}/>
-        <Route path="/commission" element={ <Commission/>}/>
-        <Route path="/payoutrequest" element={ <PayoutRequest/>}/>
-        <Route path="/kyc" element={ <KYC/>}/>
-        <Route path="/resource" element={ <MarketingResourcesUpload/>}/>
-        <Route path="/savingplan" element={ <SavingPlan/>}/>
-        <Route path="/spiplan" element={ <SPIPPlan/>}/>
-        <Route path="/plantscheme" element={ <PlantScheme/>}/>
-        <Route path="/notification" element={ <Notification/>}/>
-        <Route path="/mybankaccounts" element={ <MyBankAccounts/>}/>
-        <Route path="/manageornaments" element={ <ManageOrnaments/>}/>
-        <Route path="/manageusers" element={<ManageUsers />} />
-        <Route path="/campaigns" element={<AdminCampaigns />} />
-        <Route path="/goldorders" element={<GoldOrders />} />
-        <Route path="/orderhistory" element={<AOrderHistory />} />
-        <Route path="/faq" element={<FAQManagement />} />
-
-
+    <Routes>
+      {/* Admin routes */}
+      <Route element={<AdminProtectedRoute />}>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/adminprofile" element={<AdminProfile />} />
+          <Route path="/commission" element={<Commission />} />
+          <Route path="/payoutrequest" element={<PayoutRequest />} />
+          <Route path="/kyc" element={<KYC />} />
+          <Route path="/resource" element={<MarketingResourcesUpload />} />
+          <Route path="/savingplan" element={<SavingPlan />} />
+          <Route path="/spiplan" element={<SPIPPlan />} />
+          <Route path="/plantscheme" element={<PlantScheme />} />
+          <Route path="/notification" element={<Notification />} />
+          <Route path="/mybankaccounts" element={<MyBankAccounts />} />
+          <Route path="/manageornaments" element={<ManageOrnaments />} />
+          <Route path="/manageusers" element={<ManageUsers />} />
+          <Route path="/campaigns" element={<AdminCampaigns />} />
+          <Route path="/goldorders" element={<GoldOrders />} />
+          <Route path="/orderhistory" element={<AOrderHistory />} />
+          <Route path="/faq" element={<FAQManagement />} />
         </Route>
+      </Route>
 
-        {/* B2B routes */}
-        
-       {/* <Route element={<B2BLayout/>}> */}
-        <Route path="/b2b/login" element={<Login />} />
-      <Route  element={<B2BLayout />}>
+      {/* B2B routes */}
+
+      {/* <Route element={<B2BLayout/>}> */}
+      <Route path="/b2b/login" element={<Login />} />
+      <Route element={<B2BLayout />}>
         <Route path="bdashboard" element={<Dashboard />} />
         <Route path="bgoldpurchase" element={<GoldPurchase />} />
         <Route path="bsellornament" element={<B2BManageOrnaments />} />
         <Route path="bsipmanagement" element={<SipManagement />} />
         <Route path="bborder-history" element={<OrderHistory />} />
-        <Route path="bcommission" element={<BCommission />} />
+        {/* <Route path="bcommission" element={<BCommission />} /> */}
         <Route path="bwallet" element={<Wallet />} />
         <Route path="bmarketing-resources" element={<MarketingResources />} />
         <Route path="bsupport" element={<Support />} />
@@ -134,107 +134,100 @@ const AppRoutes: React.FC = () => {
       </Route>
 
       {/* </Route> */}
-      
-    
-        {/* Partner routes */}
 
-        <Route element={<PartnerLayout/>}>
-          <Route path="/pdashboard" element={<PartnerDashboard />} />
-          <Route path="/preferral" element={<PartnerReferral />} />
-          <Route path="/pmarketing" element={<PartnerMarketing />} />
-          <Route path="/pcommission" element={<PartnerCommission />} />
-          <Route path="/ppayout" element={<PartnerPayout />} />
-          <Route path="/pcampaigns" element={<PartnerCampaigns />} />
-          <Route path="/pleaderboard" element={<PartnerLeaderboard />} />
-          <Route path="/psupport" element={<PartnerSupport />} />
-          <Route path="/pprofile" element={<PartnerProfile />} />
-          <Route path="/pnotifications" element={<PartnerNotification />} />
-          
-          
-        </Route>
-        
-      
-        {/*User routes */}
-      <Route element={<UserLayout/>}>
-        <Route path="/" element={ <UserHome />}/>
-        <Route path="/navbar" element={ <NavBar />}/>
-        <Route path="/footer" element={ <Footer />}/>
-        <Route path="/terms" element={ <Terms />}/>
-        <Route path="/contactus" element={ <ContactUsPage />}/>
-        <Route path="/buyornaments" element={ <BuyOrnamentsPage />}/>
+
+      {/* Partner routes */}
+
+      <Route element={<PartnerLayout />}>
+        <Route path="/pdashboard" element={<PartnerDashboard />} />
+        <Route path="/preferral" element={<PartnerReferral />} />
+        <Route path="/pmarketing" element={<PartnerMarketing />} />
+        <Route path="/pcommission" element={<PartnerCommission />} />
+        <Route path="/ppayout" element={<PartnerPayout />} />
+        <Route path="/pcampaigns" element={<PartnerCampaigns />} />
+        <Route path="/pleaderboard" element={<PartnerLeaderboard />} />
+        <Route path="/psupport" element={<PartnerSupport />} />
+        <Route path="/pprofile" element={<PartnerProfile />} />
+        <Route path="/pnotifications" element={<PartnerNotification />} />
+      </Route>
+
+
+      {/*User routes */}
+      <Route element={<UserLayout />}>
+        <Route path="/" element={<UserHome />} />
+        <Route path="/navbar" element={<NavBar />} />
+        <Route path="/footer" element={<Footer />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/contactus" element={<ContactUsPage />} />
+        <Route path="/buyornaments" element={<BuyOrnamentsPage />} />
         <Route path="/buyornaments/:id" element={<JewelryProductPage />} />
-        <Route path="/aboutus" element={ <AboutUsPage />}/>
-        <Route path="/privacy" element={ <PrivacyPlicyPage />}/>
-        <Route path="/partnerpopup" element={ <PartnerPopup open={true} onClose={() => {}} />}/>
-        <Route path="/signuppopup" element={ <SignupPopup open={true} onClose={() => {}} />}/>
-        
+        <Route path="/aboutus" element={<AboutUsPage />} />
+        <Route path="/privacy" element={<PrivacyPlicyPage />} />
+        <Route path="/partnerpopup" element={<PartnerPopup open={true} onClose={() => { }} />} />
+        <Route path="/signuppopup" element={<SignupPopup open={true} onClose={() => { }} />} />
 
-        <Route path="/refund" element={ <Refund />}/>
-        <Route path="/chit" element={ <ChitJewelsPlans />}/>
-        <Route path="/goldsip" element={ <GoldSIPPlans />}/>
-        <Route path="/schemes" element={ <GoldPlantSchemes />}/>
+
+        <Route path="/refund" element={<Refund />} />
+        <Route path="/chit" element={<ChitJewelsPlans />} />
+        <Route path="/goldsip" element={<GoldSIPPlans />} />
+        <Route path="/schemes" element={<GoldPlantSchemes />} />
       </Route >
 
-      
 
 
-        {/*Login User routes */}
 
-        <Route element={<LogUserLayout/>}>
+      {/*Login User routes */}
+
+      <Route element={<LogUserLayout />}>
         {/* <Route path="/loguser" element={ <UserHome />}/> */}
 
         {/*Login UserDashboard routes */}
-        <Route path="user" element={<LogUserDashboardLayout/>}/>
+        <Route path="user" element={<LogUserDashboardLayout />} />
 
-        <Route path="/lnavbar" element={ <LNavBar />}/>
-        <Route path="/lfooter" element={ <LFooter />}/>
-        <Route path="/lterms" element={ <LTerms />}/>
-        <Route path="/lcontactus" element={ <LContactUsPage />}/>
-        <Route path="/lbuyornaments" element={ <LBuyOrnamentsPage />}/>
+        <Route path="/lnavbar" element={<LNavBar />} />
+        <Route path="/lfooter" element={<LFooter />} />
+        <Route path="/lterms" element={<LTerms />} />
+        <Route path="/lcontactus" element={<LContactUsPage />} />
+        <Route path="/lbuyornaments" element={<LBuyOrnamentsPage />} />
         <Route path="/lbuyornaments/:id" element={<LJewelryProductPage />} />
-        <Route path="/laboutus" element={ <LAboutUsPage />}/>
-        <Route path="/lprivacy" element={ <LPrivacyPlicyPage />}/>
-        <Route path="/buynow" element={ <BuyNow />}/>
-        <Route path="/Wishlist" element={<Wishlist/>}/>
-        <Route path="/lUserHome" element={ <LUserHome/>}/>
-        <Route path="paymentpopup" element={<PaymentPopup/>}/>
-        <Route path="/cart" element={<Cart/>}/>
-        <Route path="/lrefund" element={ <LRefund />}/>
-        <Route path="/lchit" element={ <LChitJewelsPlans />}/>
-        <Route path="/lgoldsip" element={ <LGoldSIPPlans />}/>
-        <Route path="/lschemes" element={ <LGoldPlantSchemes />}/>
-
-
-        
-        <Route path="/userdash" element={ <LMyDashboard />}/>
-        <Route path="/userprofile" element={ <LMyProfile />}/>
-        <Route path="/userkyc" element={ <LKYC />}/>
-        <Route path="/userbeneficiaries" element={ <LNavBar />}/>
-        <Route path="/usersavingplan" element={ <LChitJewelsSavingPlan />}/>
-        <Route path="/userspiplan" element={ <LDigitalGoldSIPPlan />}/>
-        <Route path="/userplantscheme" element={ <LGoldPlantScheme />}/>
-        <Route path="/usernotification" element={ <LNotification />}/>
-        <Route path="/usermybankaccounts" element={ <MyBankAccounts />}/>
-        
-
-        
+        <Route path="/laboutus" element={<LAboutUsPage />} />
+        <Route path="/lprivacy" element={<LPrivacyPlicyPage />} />
+        <Route path="/buynow" element={<BuyNow />} />
+        <Route path="/Wishlist" element={<Wishlist />} />
+        <Route path="/lUserHome" element={<LUserHome />} />
+        <Route path="paymentpopup" element={<PaymentPopup />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/lrefund" element={<LRefund />} />
+        <Route path="/lchit" element={<LChitJewelsPlans />} />
+        <Route path="/lgoldsip" element={<LGoldSIPPlans />} />
+        <Route path="/lschemes" element={<LGoldPlantSchemes />} />
 
 
 
-        </Route >
-             <Route path="/b2bregistration" element={ <B2BRegistration />}/>
-          
-      </Routes>
-    
+        <Route path="/userdash" element={<LMyDashboard />} />
+        <Route path="/userprofile" element={<LMyProfile />} />
+        <Route path="/userkyc" element={<LKYC />} />
+        <Route path="/userbeneficiaries" element={<LNavBar />} />
+        <Route path="/usersavingplan" element={<LChitJewelsSavingPlan />} />
+        <Route path="/userspiplan" element={<LDigitalGoldSIPPlan />} />
+        <Route path="/userplantscheme" element={<LGoldPlantScheme />} />
+        <Route path="/usernotification" element={<LNotification />} />
+        <Route path="/usermybankaccounts" element={<MyBankAccounts />} />
+      </Route >
+
+      <Route path="/b2bregistration" element={<B2BRegistration />} />
+
+    </Routes>
+
   );
 }
 
 const App: React.FC = () => {
- 
+
   return (
-        <BrowserRouter>
-            <AppRoutes />
-        </BrowserRouter>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
 
   );
 };
