@@ -208,7 +208,7 @@ const UserHome = () => {
         style={{
           fontSize: "2rem",
           fontWeight: 700,
-          marginTop: "60px",
+          marginTop: "160px",
           marginBottom: "24px",
           position: "relative",
           zIndex: 2,
