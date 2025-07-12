@@ -208,7 +208,7 @@ const LUserHome = () => {
         style={{
           fontSize: "2rem",
           fontWeight: 700,
-          marginTop: "60px",
+          marginTop: "180px",
           marginBottom: "24px",
           position: "relative",
           zIndex: 2,
