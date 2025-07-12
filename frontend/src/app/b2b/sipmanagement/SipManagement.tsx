@@ -19,6 +19,7 @@ const initialSips = [
     commission: "₹500",
     mobile: "9876543210",
     email: "rahul@example.com",
+    password: "",
   },
 ];
 
@@ -35,6 +36,7 @@ export default function SipManagement() {
     planName: "",
     mobile: "",
     email: "",
+    password: "",
   });
   const [editIdx, setEditIdx] = useState<number | null>(null);
 
@@ -56,6 +58,7 @@ export default function SipManagement() {
               planName: form.planName,
               mobile: form.mobile,
               email: form.email,
+              password: form.password,
             }
           : sip
       ));
@@ -73,6 +76,7 @@ export default function SipManagement() {
           planName: form.planName,
           mobile: form.mobile,
           email: form.email,
+          password: form.password,
         },
       ]);
     }
@@ -86,6 +90,7 @@ export default function SipManagement() {
       planName: "",
       mobile: "",
       email: "",
+      password: "",
     });
   };
 
@@ -102,6 +107,7 @@ export default function SipManagement() {
       planName: sip.planName || "",
       mobile: sip.mobile || "",
       email: sip.email || "",
+      password: sip.password || "",
     });
   };
 
@@ -137,6 +143,7 @@ export default function SipManagement() {
           <input className="border rounded px-3 py-2" type="number" placeholder="Duration (months)" name="duration" value={form.duration} onChange={handleChange} required />
           <input className="border rounded px-3 py-2" type="tel" placeholder="Mobile Number" name="mobile" value={form.mobile} onChange={handleChange} required />
           <input className="border rounded px-3 py-2" type="email" placeholder="Email ID" name="email" value={form.email} onChange={handleChange} required />
+          <input className="border rounded px-3 py-2" type="password" placeholder="Password" name="password" value={form.password} onChange={handleChange} required />
           <select className="border rounded px-3 py-2" name="plan" value={form.plan} onChange={handleChange} required>
             {SIP_PLANS.map(plan => <option key={plan.value} value={plan.value}>{plan.label}</option>)}
             <option value="custom">Custom</option>
@@ -161,6 +168,7 @@ export default function SipManagement() {
                 <th className="px-2 py-1">Duration</th>
                 <th className="px-2 py-1">Mobile</th>
                 <th className="px-2 py-1">Email</th>
+                <th className="px-2 py-1">Password</th>
                 <th className="px-2 py-1">Plan</th>
                 <th className="px-2 py-1">Plan Name</th>
                 <th className="px-2 py-1">Status</th>
@@ -179,6 +187,7 @@ export default function SipManagement() {
                   <td className="px-2 py-1">{sip.duration}</td>
                   <td className="px-2 py-1">{sip.mobile}</td>
                   <td className="px-2 py-1">{sip.email}</td>
+                  <td className="px-2 py-1">{sip.password || '-'}</td>
                   <td className="px-2 py-1 capitalize">{sip.plan}</td>
                   <td className="px-2 py-1">{sip.planName}</td>
                   <td className="px-2 py-1">{sip.status}</td>

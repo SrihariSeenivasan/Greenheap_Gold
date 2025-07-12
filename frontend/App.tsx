@@ -89,7 +89,7 @@ import BCommission from "./src/app/b2b/commission/Commission";
 import AdminProtectedRoute from './src/app/protectedRoutes/AdminProtectedRoute';
 import SIPPlanDisclaimer from "./src/app/user/SIPDisclaimer/sipdisclaimer";
 import ShippingPolicy from "./src/app/user/ShippingPolicy/shippingpolicy";
-import LSIPPlanDisclaimer from "./src/app/loginuser/SIPDisclaimer/SIPDisclaimer";
+import LSIPPlanDisclaimer from "./src/app/loginuser/SIPDisclaimer/sipdisclaimer";
 import LShippingPolicy from "./src/app/loginuser/ShippingPolicy/shippingpolicy";
 
 const AppRoutes: React.FC = () => {
