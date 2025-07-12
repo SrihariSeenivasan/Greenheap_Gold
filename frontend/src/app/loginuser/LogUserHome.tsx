@@ -208,7 +208,7 @@ const LUserHome = () => {
         style={{
           fontSize: "2rem",
           fontWeight: 700,
-          marginTop: "60px",
+          marginTop: "180px",
           marginBottom: "24px",
           position: "relative",
           zIndex: 2,
@@ -845,6 +845,22 @@ const LUserHome = () => {
           <FAQList />
         </div>
       </section>
+       <section className="py-12 bg-white text-center">
+  <div className="mb-6">
+    <div className="flex justify-center items-center gap-2">
+      <div className="w-10 h-1 bg-yellow-400 rounded-full"></div>
+      <h2 className="text-2xl font-semibold">Our Trusted Partners</h2>
+      <div className="w-10 h-1 bg-yellow-400 rounded-full"></div>
+    </div>
+  </div>
+  <div className="mt-8 flex justify-center flex-wrap gap-32 px-4">
+    <img src="/assets/amazon.png" alt="Amazon Pay" className="h-20 object-contain" />
+    <img src="/assets/axis.png" alt="Axis Bank" className="h-20 object-contain" />
+    <img src="/assets/cart.png" alt="CaratLane" className="h-20 object-contain" />
+    <img src="/assets/tanis.png" alt="Tanishq" className="h-20 object-contain" />
+    <img src="/assets/phonepe.png" alt="PhonePe" className="h-20 object-contain" />
+  </div>
+</section>
     </div>
   );
 };
