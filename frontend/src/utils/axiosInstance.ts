@@ -21,11 +21,11 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response && error.response.status === 401) {
-      if (typeof window !== "undefined") {
+    if (error.response && error.response.status === 401 ) {
         localStorage.removeItem("authToken");
+        localStorage.removeItem("currentUser");
         window.location.href = "/SignupPopup";
-      }
+      
     }
     
     console.error("Request failed:", error.response?.data || error.message);

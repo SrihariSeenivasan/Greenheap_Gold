@@ -1,35 +1,37 @@
-import { ChevronDown, User } from "lucide-react";
-import { useEffect, useState } from "react";
-import CustomImage from "../../components/custom/Image";
+import { ChevronDown, Facebook, Instagram, Linkedin, X as LucideX, Mail, Phone, User, Youtube } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { CiShoppingCart } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../../store";
-import { useRef } from "react";
+import CustomImage from "../../components/custom/Image";
 import { logoutUser } from "../../features/slices/authSlice";
-import { Link } from "react-router-dom";
-
 
 export const MENU = [
-	{ name: "Home", link: "/" },
-	{ name: "About Us", link: "/aboutus" },
-	{ name: "Buy Ornaments", link: "/buyornaments" },
-	{ name: "Contact Us", link: "/contactus" },
+   { name: "Home", link: "/" },
+   { name: "About Us", link: "/aboutus" },
+   { name: "Buy Ornaments", link: "buyornaments" },
+   { name: "Contact Us", link: "/contactus" },
 ];
 
 const NavBar = () => {
-	const [selected, setSelected] = useState<string | null>(null);
-	const [hovered, setHovered] = useState<string | null>(null);
-	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-	const [isMobile, setIsMobile] = useState(false);
-	const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+   const [selected, setSelected] = useState<string | null>(null);
+   const [hovered, setHovered] = useState<string | null>(null);
+   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+   const [isMobile, setIsMobile] = useState(false);
+   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+   const navigate = useNavigate();
+   const { currentUser } = useSelector((state: RootState) => state.auth);
+   const dispatch = useDispatch<AppDispatch>();
 
-	const { currentUser } = useSelector((state: RootState) => state.auth);
-	const dispatch = useDispatch<AppDispatch>();
+   const cartItems = useSelector((state: RootState) => state.cart.items);
+   const cartLength = cartItems.length;
+   console.log(cartLength, 'cart')
 
+   const userMenuRef = useRef<HTMLDivElement>(null);
 
-	const userMenuRef = useRef<HTMLDivElement>(null);
-
-	// Add this useEffect to handle clicking outside the menu
-	useEffect(() => {
+   // Handle clicking outside the user menu to close it
+   useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
 				setIsUserMenuOpen(false);
@@ -41,12 +43,12 @@ const NavBar = () => {
 		};
 	}, []);
 
-
 	// Check screen size and update mobile state
 	useEffect(() => {
 		const checkScreenSize = () => {
-			setIsMobile(window.innerWidth < 768);
-			if (window.innerWidth >= 768) {
+			const mobile = window.innerWidth < 768;
+			setIsMobile(mobile);
+			if (!mobile) {
 				setIsMobileMenuOpen(false);
 			}
 		};
@@ -68,716 +70,239 @@ const NavBar = () => {
 	const handleLogout = () => {
 		dispatch(logoutUser());
 		setIsUserMenuOpen(false);
+		setIsMobileMenuOpen(false); // Close mobile menu on logout
 	};
 
-	return (
-		<>
-			{/* Maroon top bar with contact and social icons */}
-			<div
-				style={{
-					background: "#6a0822",
-					width: "100%",
-					minHeight: isMobile ? 40 : 44,
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "space-between",
-					padding: isMobile ? "0 4vw" : "0 2vw",
-					borderBottom: "1.5px solid #fff",
-					fontFamily: "'Red Hat Display', 'DM Sans', Arial, sans-serif",
-					fontSize: isMobile ? 14 : 18,
-					fontWeight: 400,
-					letterSpacing: 0.2,
-					boxSizing: "border-box",
-					position: "fixed",
-					top: 0,
-					left: 0,
-					right: 0,
-					zIndex: 1100,
-				}}
-			>
-				<div style={{
-					display: "flex",
-					alignItems: "center",
-					gap: isMobile ? 8 : 20,
-					flexWrap: "wrap",
-					flex: 1
-				}}>
-					<span style={{
-						color: "#fff",
-						display: "flex",
-						alignItems: "center",
-						gap: 4,
-						minWidth: 0
-					}}>
-						<img
-							src="/home/call.png"
-							alt="Phone"
-							style={{
-								height: isMobile ? 20 : 26,
-								width: isMobile ? 20 : 26,
-								background: "transparent",
-								padding: 3,
-								marginRight: isMobile ? 4 : 7,
-								display: "block",
-								flexShrink: 0
-							}}
-						/>
-						<span style={{
-							fontWeight: 600,
-							fontSize: isMobile ? 12 : 15,
-							letterSpacing: 0.2,
-							whiteSpace: "nowrap",
-							overflow: "hidden",
-							textOverflow: "ellipsis"
-						}}>
-							{isMobile ? "+91 81900 59995" : "+91 81900 59995"}
-						</span>
-					</span>
-					{!isMobile && (
-						<span style={{
-							color: "#fff",
-							display: "flex",
-							alignItems: "center",
-							gap: 8,
-							borderLeft: "2px solid #fff",
-							paddingLeft: 16,
-							minWidth: 0,
-							overflow: "hidden"
-						}}>
-							<img
-								src="/home/Mail.png"
-								alt="Mail"
-								style={{
-									height: 26,
-									width: 26,
-									background: "transparent",
-									padding: 3,
-									marginRight: 7,
-									display: "block",
-									flexShrink: 0
-								}}
-							/>
-							<span style={{
-								fontWeight: 600,
-								fontSize: 15,
-								letterSpacing: 0.2,
-								overflow: "hidden",
-								textOverflow: "ellipsis",
-								whiteSpace: "nowrap"
-							}}>
-								spprtgreenheapdigigold@gmail.com
-							</span>
-						</span>
-					)}
-				</div>
-				<div style={{
-					display: "flex",
-					alignItems: "center",
-					gap: isMobile ? 4 : 8,
-					flexShrink: 0
-				}}>
-					<a href="#" style={{ marginRight: isMobile ? 0 : 2 }}>
-						<img
-							src="/home/Facebook.png"
-							alt="Facebook"
-							style={{
-								height: isMobile ? 20 : 26,
-								width: isMobile ? 20 : 26,
-								background: "transparent",
-								padding: 3,
-								display: "block",
-								transition: "transform 0.15s"
-							}}
-						/>
-					</a>
-					<a href="#" style={{ marginRight: isMobile ? 0 : 2 }}>
-						<img
-							src="/home/insta.png"
-							alt="Instagram"
-							style={{
-								height: isMobile ? 20 : 26,
-								width: isMobile ? 20 : 26,
-								background: "transparent",
-								padding: 3,
-								display: "block",
-								transition: "transform 0.15s"
-							}}
-						/>
-					</a>
-					<a href="#" style={{ marginRight: isMobile ? 0 : 2 }}>
-						<img
-							src="/home/X.png"
-							alt="X"
-							style={{
-								height: isMobile ? 20 : 26,
-								width: isMobile ? 20 : 26,
-								background: "transparent",
-								padding: 3,
-								display: "block",
-								transition: "transform 0.15s"
-							}}
-						/>
-					</a>
-					{!isMobile && (
-						<>
-							<a href="#" style={{ marginRight: 2 }}>
-								<img
-									src="/home/Youtube.png"
-									alt="YouTube"
-									style={{
-										height: 26,
-										width: 26,
-										background: "transparent",
-										padding: 3,
-										display: "block",
-										transition: "transform 0.15s"
-									}}
-								/>
-							</a>
-							<a href="#">
-								<img
-									src="/home/Linkedin.png"
-									alt="LinkedIn"
-									style={{
-										height: 26,
-										width: 26,
-										background: "transparent",
-										padding: 3,
-										display: "block",
-										transition: "transform 0.15s"
-									}}
-								/>
-							</a>
-						</>
-					)}
-				</div>
-			</div>
-
-			{/* Main nav */}
-			<nav
-				style={{
-					background: "#fff",
-					width: "100%",
-					boxShadow: "0 2px 8px #f0e3d1",
-					position: "fixed",
-					top: isMobile ? 40 : 44,
-					left: 0,
-					right: 0,
-					zIndex: 1000,
-					overflow: "visible",
-					minHeight: 0,
-					transition: "box-shadow 0.18s",
-				}}
-			>
-				<div
-					style={{
-						maxWidth: 1200,
-						margin: "0 auto",
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "space-between",
-						padding: isMobile ? "0.3rem 4vw" : "0.2rem 2vw",
-						width: "100%",
-						boxSizing: "border-box",
-						fontFamily: "'Red Hat Display', 'DM Sans', Arial, sans-serif",
-						position: "relative"
-					}}
-				>
-					{/* Logo */}
-					<a href="/" style={{ display: "flex", alignItems: "center", minWidth: 50 }}>
-						<CustomImage
-							src={"/logo.png"}
-							wrapperClss={`h-auto ${isMobile ? "w-[60px] min-w-[50px]" : "w-[80px] min-w-[70px]"}`}
-							height="auto"
-							width={isMobile ? "60px" : "80px"}
-						/>
-					</a>
-					{/* Desktop All Category */}
-					{!isMobile && (
-						<div
-							style={{
-								position: "relative",
-								marginLeft: "24px",
-								flex: "0 0 auto",
-								width: "auto",
-								marginTop: 0,
-								display: "flex",
-								justifyContent: "flex-start",
-							}}
-						>
-							<button
-								onClick={() => setHovered(hovered === "categories" ? null : "categories")}
-								onMouseEnter={() => setHovered("categories")}
-								style={{
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center",
-									gap: "8px",
-									width: "auto",
-									padding: "12px 20px",
-									background: hovered === "categories"
-										? "linear-gradient(135deg, #6a0822 0%, #8a2342 100%)"
-										: "rgba(106, 8, 34, 0.1)",
-									color: hovered === "categories" ? "#fff" : "#6a0822",
-									border: "none",
-									borderRadius: "12px",
-									fontWeight: 600,
-									fontSize: "15px",
-									cursor: "pointer",
-									transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-									boxShadow: hovered === "categories"
-										? "0 4px 16px rgba(106, 8, 34, 0.3)"
-										: "0 2px 8px rgba(0, 0, 0, 0.1)",
-									transform: hovered === "categories" ? "translateY(-2px)" : "translateY(0)",
-									whiteSpace: "nowrap",
-									marginBottom: 0,
-								}}
-							>
-								<span style={{ fontSize: "18px" }}></span>
-								All Categories
-								<ChevronDown
-									size={16}
-									style={{
-										transform: hovered === "categories" ? "rotate(180deg)" : "rotate(0deg)",
-										transition: "transform 0.3s ease"
-									}}
-								/>
-							</button>
-							{/* Dropdown for desktop */}
-							{hovered === "categories" && (
-								<div
-									style={{
-										position: "absolute",
-										top: "60px",
-										left: 0,
-										background: "rgba(255, 255, 255, 0.98)",
-										backdropFilter: "blur(20px)",
-										borderRadius: "20px",
-										boxShadow: "0 20px 40px rgba(0, 0, 0, 0.15)",
-										minWidth: "600px",
-										width: "auto",
-										zIndex: 3000,
-										overflow: "hidden",
-										border: "1px solid rgba(255, 255, 255, 0.2)",
-										animation: "slideIn 0.3s ease-out",
-										padding: undefined,
-										maxHeight: undefined,
-										overflowY: undefined,
-									}}
-									onMouseLeave={() => setHovered(null)}
-								>
-									<div style={{
-										background: "linear-gradient(135deg, #6a0822 0%, #8a2342 100%)",
-										padding: "20px 24px",
-										textAlign: "center"
-									}}>
-										<h3 style={{
-											color: "#fff",
-											fontSize: "18px",
-											fontWeight: "600",
-											margin: "0 0 8px 0"
-										}}>
-											Browse by Category
-										</h3>
-										<p style={{
-											color: "rgba(255, 255, 255, 0.8)",
-											fontSize: "14px",
-											margin: 0
-										}}>
-											Discover our premium collection
-										</p>
-									</div>
-									<div
-										style={{
-											padding: "24px",
-											display: "grid",
-											gridTemplateColumns: "1fr 1fr 1fr 1fr",
-											gap: "24px"
-										}}
-									>
-										{[
-											{
-												name: "Gold",
-												icon: "",
-												color: "#FFD700",
-												bgColor: "rgba(255, 215, 0, 0.1)",
-												subcategories: ["Men", "Women", "Kids", "Unisex"]
-											},
-											{
-												name: "Silver",
-												icon: "",
-												color: "#C0C0C0",
-												bgColor: "rgba(192, 192, 192, 0.1)",
-												subcategories: ["Men", "Women", "Kids", "Unisex"]
-											},
-											{
-												name: "Diamond",
-												icon: "",
-												color: "#E5E4E2",
-												bgColor: "rgba(229, 228, 226, 0.1)",
-												subcategories: ["Men", "Women", "Kids", "Unisex"]
-											},
-											{
-												name: "Gold coin",
-												icon: "",
-												color: "#FFD700",
-												bgColor: "rgba(229, 228, 226, 0.1)",
-												subcategories: ["22k coin", "24k coin"]
-											}
-										].map((category, index) => (
-											<div
-												key={category.name}
-												style={{
-													background: category.bgColor,
-													borderRadius: "16px",
-													padding: "20px",
-													border: `1px solid ${category.color}30`,
-													transition: "all 0.3s ease"
-												}}
-												onMouseEnter={e => {
-													e.currentTarget.style.transform = "translateY(-4px)";
-													e.currentTarget.style.boxShadow = `0 8px 24px ${category.color}40`;
-												}}
-												onMouseLeave={e => {
-													e.currentTarget.style.transform = "translateY(0)";
-													e.currentTarget.style.boxShadow = "none";
-												}}
-											>
-												<div style={{
-													display: "flex",
-													alignItems: "center",
-													gap: "12px",
-													marginBottom: "16px"
-												}}>
-													<span style={{ fontSize: "24px" }}>{category.icon}</span>
-													<h4 style={{
-														color: "#374151",
-														fontSize: "16px",
-														fontWeight: "600",
-														margin: 0
-													}}>
-														{category.name}
-													</h4>
-												</div>
-												<div style={{
-													display: "flex",
-													flexDirection: "column",
-													gap: "8px"
-												}}>
-													{category.subcategories.map((sub, subIndex) => (
-														<a
-															key={sub}
-															href={`/category/${category.name.toLowerCase()}/${sub.toLowerCase()}`}
-															style={{
-																display: "flex",
-																alignItems: "center",
-																gap: "8px",
-																padding: "8px 12px",
-																borderRadius: "8px",
-																textDecoration: "none",
-																color: "#6B7280",
-																fontWeight: 500,
-																fontSize: "14px",
-																transition: "all 0.3s ease"
-															}}
-															onMouseEnter={e => {
-																e.currentTarget.style.background = "rgba(106, 8, 34, 0.1)";
-																e.currentTarget.style.color = "#6a0822";
-																e.currentTarget.style.transform = "translateX(4px)";
-															}}
-															onMouseLeave={e => {
-																e.currentTarget.style.background = "transparent";
-																e.currentTarget.style.color = "#6B7280";
-																e.currentTarget.style.transform = "translateX(0)";
-															}}
-															onClick={() => setHovered(null)}
-														>
-															<span style={{ fontSize: "16px" }}>
-																{sub === "Men" ? "" : sub === "Women" ? "" : sub === "Kids" ? "" : ""}
-															</span>
-															{sub}
-														</a>
-													))}
-												</div>
-											</div>
-										))}
-									</div>
-								</div>
-							)}
-						</div>
-					)}
-
-					{/* Desktop Menu */}
-					{!isMobile && (
-						<ul
-							style={{
-								display: "flex",
-								alignItems: "center",
-								gap: 12,
-								margin: 0,
-								padding: 0,
-								listStyle: "none",
-								fontSize: 15,
-								fontWeight: 500,
-								fontFamily: "'Red Hat Display', 'DM Sans', Arial, sans-serif",
-								flexWrap: "wrap"
-							}}
-						>
-							{MENU.map((menuItem) => (
-								<li key={menuItem.name}>
-									<a
-										href={menuItem.link}
-										onClick={() => setSelected(menuItem.name)}
-										onMouseEnter={() => setHovered(menuItem.name)}
-										onMouseLeave={() => setHovered(null)}
-										style={{
-											color:
-												selected === menuItem.name
-													? "#8a2342"
-													: hovered === menuItem.name
-														? "#fff"
-														: "#222",
-											background:
-												selected === menuItem.name
-													? "#f9e9c7"
-													: hovered === menuItem.name
-														? "#7a1335"
-														: "transparent",
-											fontWeight: selected === menuItem.name ? 700 : 500,
-											textDecoration: "none",
-											padding: "4px 14px",
-											transition: "color 0.18s, background 0.18s",
-											borderRadius: 7,
-											whiteSpace: "nowrap",
-											cursor: "pointer",
-											boxShadow: hovered === menuItem.name ? "0 2px 8px #f0e3d1" : "none",
-											outline: hovered === menuItem.name ? "1.5px solid #7a1335" : "none",
-										}}
-									>
-										{hovered === menuItem.name
-											? `${menuItem.name}`
-											: menuItem.name}
-									</a>
-								</li>
-							))}
-						</ul>
-					)}
-
-					{/* Mobile Menu Button */}
-					{isMobile && (
-						<button
-							onClick={toggleMobileMenu}
-							style={{
-								background: "transparent",
-								border: "none",
-								cursor: "pointer",
-								padding: "5px",
-								display: "flex",
-								flexDirection: "column",
-								gap: "3px",
-								alignItems: "center",
-								justifyContent: "center",
-								width: "30px",
-								height: "30px"
-							}}
-						>
-							<span style={{
-								width: "20px",
-								height: "2px",
-								backgroundColor: "#7a1335",
-								transition: "all 0.3s",
-								transform: isMobileMenuOpen ? "rotate(45deg) translate(5px, 5px)" : "none"
-							}}></span>
-							<span style={{
-								width: "20px",
-								height: "2px",
-								backgroundColor: "#7a1335",
-								transition: "all 0.3s",
-								opacity: isMobileMenuOpen ? 0 : 1
-							}}></span>
-							<span style={{
-								width: "20px",
-								height: "2px",
-								backgroundColor: "#7a1335",
-								transition: "all 0.3s",
-								transform: isMobileMenuOpen ? "rotate(-45deg) translate(7px, -6px)" : "none"
-							}}></span>
-						</button>
-					)}
-
-
-					{/* Desktop Right actions */}
-					<div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-						{currentUser ? (
-							<div style={{ position: "relative" }} ref={userMenuRef}>
-								<button
-									onClick={() => setIsUserMenuOpen(prev => !prev)}
-									style={{
-										display: 'flex',
-										height: '40px',
-										width: '40px',
-										alignItems: 'center',
-										justifyContent: 'center',
-										borderRadius: '9999px',
-										background: '#e5e7eb',
-										color: '#6a0822',
-										transition: 'all 0.2s',
-										border: 'none',
-										cursor: 'pointer'
-									}}
-								>
-									<User size={20} />
-								</button>
-								{isUserMenuOpen && (
-									<div style={{
-										position: 'absolute',
-										top: '100%',
-										right: 0,
-										marginTop: '8px',
-										width: '12rem',
-										borderRadius: '0.5rem',
-										border: '1px solid #e5e7eb',
-										backgroundColor: '#ffffff',
-										boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-										zIndex: 2000
-									}}>
-										<div style={{ padding: '0.5rem' }}>
-											<Link to="/user" style={{ textDecoration: 'none', display: 'block', width: '100%', borderRadius: '0.25rem', padding: '0.5rem 1rem', textAlign: 'left', fontSize: '0.875rem', color: '#374151' }}>
-												My Account
-											</Link>
-											<button onClick={handleLogout} style={{ display: 'block', width: '100%', borderRadius: '0.25rem', padding: '0.5rem 1rem', textAlign: 'left', fontSize: '0.875rem', color: '#374151', background: 'none', border: 'none', cursor: 'pointer' }}>
-												Logout
-											</button>
-										</div>
-									</div>
-								)}
-							</div>
-						) : (
-							<>
-								<a
-									href="/PartnerPopup"
-									style={{
-										background: hovered === "Become a partner / Login" ? "#8a2342" : "#7a1335",
-										color: "#fff",
-										borderRadius: 10,
-										padding: "7px 14px",
-										fontWeight: 500,
-										fontSize: 13,
-										display: "flex",
-										alignItems: "center",
-										gap: 7,
-										textDecoration: "none",
-										whiteSpace: "nowrap",
-										cursor: "pointer"
-									}}
-									onMouseEnter={() => setHovered("Become a partner / Login")}
-									onMouseLeave={() => setHovered(null)}
-								>
-									Become a partner / Login
-								</a>
-								<a
-									href="SignupPopup"
-									style={{
-										color: "#8a2342",
-										fontWeight: 700,
-										fontSize: 15,
-										textDecoration: "none",
-										marginLeft: 5,
-										whiteSpace: "nowrap",
-										padding: "7px 16px",
-										borderRadius: 10,
-										background: "transparent",
-										border: "1.5px solid transparent",
-										cursor: "pointer"
-									}}
-									onMouseEnter={() => setHovered("User Login / Signup")}
-									onMouseLeave={() => setHovered(null)}
-								>
-									User Login / Signup
-								</a>
-							</>
-						)}
-					</div>
-				</div>
-
-				{/* Mobile Menu Dropdown */}
-				{isMobile && (
-					<div
-						style={{
-							position: "absolute",
-							top: "100%",
-							left: 0,
-							right: 0,
-							background: "#fff",
-							boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-							transform: isMobileMenuOpen ? "translateY(0)" : "translateY(-100%)",
-							opacity: isMobileMenuOpen ? 1 : 0,
-							visibility: isMobileMenuOpen ? "visible" : "hidden",
-							transition: "all 0.3s ease-in-out",
-							zIndex: 999,
-							maxHeight: isMobileMenuOpen ? "400px" : "0",
-							overflow: "hidden"
-						}}
-					>
-						<div style={{ padding: "1rem 4vw" }}>
-							{/* Mobile Menu Items */}
-							<ul style={{
-								listStyle: "none",
-								margin: 0,
-								padding: 0,
-								fontSize: 16,
-								fontWeight: 500
-							}}>
-								{MENU.map((menuItem) => (
-									<li key={menuItem.name} style={{ marginBottom: "0.5rem" }}>
-										<a
-											href={menuItem.link}
-											onClick={() => handleMenuItemClick(menuItem.name)}
-											style={{
-												color: selected === menuItem.name ? "#8a2342" : "#222",
-												background: selected === menuItem.name ? "#f9e9c7" : "transparent",
-												fontWeight: selected === menuItem.name ? 700 : 500,
-												textDecoration: "none",
-												padding: "12px 16px",
-												display: "block",
-												borderRadius: 8,
-												transition: "all 0.18s",
-												cursor: "pointer",
-												border: "1px solid transparent"
-											}}
-											onTouchStart={(e) => {
-												e.currentTarget.style.background = "#f5f5f5";
-											}}
-											onTouchEnd={(e) => {
-												e.currentTarget.style.background = selected === menuItem.name ? "#f9e9c7" : "transparent";
-											}}
-										>
-											{menuItem.name}
-										</a>
-									</li>
-								))}
-							</ul>
-
-							{/* Mobile Action Buttons */}
-							<div className="mt-4 flex flex-col gap-2 border-t pt-4">
-								{currentUser ? (
-									<>
-										<Link to="/user" className="w-full rounded-lg bg-gray-100 px-4 py-3 text-center font-bold text-[#8a2342]">My Account</Link>
-										<button onClick={handleLogout} className="w-full rounded-lg border border-[#8a2342] px-4 py-3 text-center font-bold text-[#8a2342]">Logout</button>
-									</>
-								) : (
-									<>
-										<a href="/PartnerPopup" className="w-full rounded-lg bg-[#7a1335] px-4 py-3 text-center font-medium text-white">Become a partner / Login</a>
-										<a href="/SignupPopup" className="w-full rounded-lg border border-[#8a2342] px-4 py-3 text-center font-bold text-[#8a2342]">User Login / Signup</a>
-									</>
-								)}
-							</div>
-						</div>
-					</div>
-				)}
-			</nav>
-		</>
-	);
-};
+   return (
+	 <>
+	   {/* Top bar */}
+	   <div className="w-full bg-[#6a0822] border-b border-white flex items-center justify-between fixed top-0 left-0 right-0 z-[1100] h-8 md:h-10 px-2 md:px-6 text-xs md:text-sm">
+		 <div className="flex items-center gap-2 md:gap-5 flex-1 min-w-0">
+		   <span className="flex items-center gap-1 text-white min-w-0">
+			 <Phone className="w-4 h-4 md:w-5 md:h-5 mr-1" />
+			 <span className="font-semibold text-xs md:text-sm truncate">+91 81900 59995</span>
+		   </span>
+		   {!isMobile && (
+			 <span className="flex items-center gap-2 border-l border-white pl-3 min-w-0 text-white">
+			   <Mail className="w-5 h-5 mr-1" />
+			   <span className="font-semibold text-xs md:text-sm truncate">spprtgreenheapdigigold@gmail.com</span>
+			 </span>
+		   )}
+		 </div>
+		 <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
+		   <a href="#" className="text-white"><Facebook className="w-4 h-4 md:w-5 md:h-5" /></a>
+		   <a href="#" className="text-white"><Instagram className="w-4 h-4 md:w-5 md:h-5" /></a>
+		   <a href="#" className="text-white"><LucideX className="w-4 h-4 md:w-5 md:h-5" /></a>
+		   {!isMobile && (
+			 <>
+			   <a href="#" className="text-white"><Youtube className="w-5 h-5" /></a>
+			   <a href="#" className="text-white"><Linkedin className="w-5 h-5" /></a>
+			 </>
+		   )}
+		 </div>
+	   </div>
+	   {/* Main nav, LNavBar style */}
+	   <nav className={`fixed left-0 right-0 z-30 w-full border-b border-red-100/50 transition-all duration-300 ease-in-out top-8 md:top-10 bg-white shadow-md`}> 
+		 <div className="max-w-[1200px] mx-auto flex items-center justify-between px-2 md:px-6 w-full relative h-12">
+		   {/* Logo & All Categories */}
+		   <div className="flex items-center gap-2 md:gap-4 min-w-[50px]">
+			 <a href="/" className="flex items-center min-w-[32px] md:min-w-[40px]">
+			   <CustomImage src={"/logo.png"} wrapperClss="h-auto w-[32px] md:w-[40px] min-w-[32px] md:min-w-[40px]" height="auto" width={isMobile ? "32px" : "40px"} />
+			 </a>
+			 <button
+			   type="button"
+			   onClick={() => setHovered(hovered === "categories" ? null : "categories")}
+			   onMouseEnter={() => setHovered("categories")}
+			   className={`flex items-center gap-1 px-2 py-1 rounded-md font-semibold text-xs text-[#6a0822] bg-white border border-[#6a0822] hover:bg-[#6a0822] hover:text-white transition-all duration-200 focus:outline-none whitespace-nowrap`}
+			 >
+			   All Categories
+			   <ChevronDown size={12} className={`ml-1 transition-transform duration-200 ${hovered === "categories" ? "rotate-180" : "rotate-0"}`} />
+			 </button>
+			 {hovered === "categories" && (
+			   <div
+				 className="absolute left-0 top-12 bg-white rounded-xl shadow-lg border border-gray-200 w-[220px] md:w-[400px] z-50 p-2 md:p-4"
+				 onMouseLeave={() => setHovered(null)}
+			   >
+				 <h3 className="text-xs md:text-base font-semibold text-[#6a0822] mb-1 md:mb-2">Browse by Category</h3>
+				 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+				   {[ 
+					{ name: "Gold", subcategories: ["Men", "Women", "Kids", "Unisex"] },
+					{ name: "Silver", subcategories: ["Men", "Women", "Kids", "Unisex"] },
+					{ name: "Gold coin", subcategories: ["22k coin", "24k coin"] },
+				  ].map((category) => (
+					 <div key={category.name} className="bg-gray-50 rounded-lg p-2 md:p-3 border border-gray-200">
+					   <h4 className="text-xs font-bold text-[#6a0822] mb-1 md:mb-2">{category.name}</h4>
+					   <div className="flex flex-col gap-1">
+						 {category.subcategories.map((sub) => (
+						   <a
+							 key={sub}
+							 href={`/category/${category.name.toLowerCase()}/${sub.toLowerCase()}`}
+							 className="text-xs text-gray-700 hover:text-[#6a0822] hover:underline px-1.5 py-0.5 rounded transition-all"
+							 onClick={() => setHovered(null)}
+						   >
+							 {sub}
+						   </a>
+						 ))}
+					   </div>
+					 </div>
+				   ))}
+				 </div>
+			   </div>
+			 )}
+		   </div>
+		   {/* Main menu and actions */}
+		   <div className="flex flex-1 items-center justify-center">
+			 {/* Main menu */}
+			 {!isMobile && (
+			   <ul className="flex items-center gap-2 md:gap-3 m-0 p-0 list-none text-xs font-medium bg-slate-50/80 rounded-2xl py-1 px-2 backdrop-blur border border-slate-200/80">
+				 {MENU.map((menuItem) => (
+				   <li key={menuItem.name}>
+					 <a
+					   href={menuItem.link}
+					   onClick={() => setSelected(menuItem.name)}
+					   onMouseEnter={() => setHovered(menuItem.name)}
+					   onMouseLeave={() => setHovered(null)}
+					   className={`flex items-center gap-1 px-3 py-1.5 rounded-xl whitespace-nowrap cursor-pointer transition-all duration-300 ${selected === menuItem.name || hovered === menuItem.name ? 'bg-[#6a0822] text-white shadow-lg -translate-y-0.5' : 'bg-transparent text-gray-700'}`}
+					   style={
+						 selected === menuItem.name || hovered === menuItem.name
+						   ? { background: '#6a0822', color: '#fff' }
+						   : {}
+					   }
+					 >
+					   {menuItem.name}
+					 </a>
+				   </li>
+				 ))}
+			   </ul>
+			 )}
+		   </div>
+		   {/* Right-side Actions & Mobile Menu Toggle */}
+		   <div className="flex items-center gap-2 md:gap-3 ml-auto">
+			 {/* Become a partner button always visible */}
+			 <a
+			   href="/PartnerPopup"
+			   className="bg-[#7a1335] text-white rounded px-2 py-1 font-semibold text-xs whitespace-nowrap cursor-pointer transition-colors duration-200 hover:bg-[#8a2342]"
+			 >
+			   Become a partner / Login
+			 </a>
+			 {currentUser && (
+			   <CiShoppingCart className="cursor-pointer hover:text-[#6a0822] bg-slate-50/80 rounded-md p-1" size={24} onClick={() => navigate("/cart")} />
+			 )}
+			 {currentUser ? (
+			   <div className="relative" ref={userMenuRef}>
+				 <button
+				   type="button"
+				   onClick={() => setIsUserMenuOpen(prev => !prev)}
+				   className="flex h-9 w-9 items-center justify-center rounded-full bg-white border-2 border-slate-200 text-[#6a0822] transition-all shadow cursor-pointer relative z-[1001] hover:bg-[#6a0822] hover:text-white"
+				 >
+				   <div className="w-7 h-7 rounded-full bg-slate-200 flex items-center justify-center text-[#6a0822] font-bold text-[13px]">
+					 <User size={18} />
+				   </div>
+				 </button>
+				 {isUserMenuOpen && (
+				   <div className="absolute top-full right-0 mt-2 w-44 rounded-lg border border-gray-200 bg-white shadow-lg z-50 animate-slideIn">
+					 <div className="bg-[#6a0822] p-3 text-center relative rounded-t-lg">
+					   <div className="w-10 h-10 rounded-full bg-slate-200 mx-auto mb-2 flex items-center justify-center text-[18px] border-2 border-white/20">
+						 <User size={20} />
+					   </div>
+					   <h3 className="text-white text-[13px] font-semibold mb-1">{currentUser?.email || ""}</h3>
+					   <p className="text-white/80 text-[11px] m-0">{currentUser?.role || ""} Member</p>
+					 </div>
+					 <div className="p-2">
+					   {currentUser.role === 'USER' && (
+						 <Link to="/user" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2 px-2 py-2 rounded-md text-[12px] font-medium transition-all duration-200 mb-1 text-slate-700 hover:bg-[#6a0822]/10 hover:text-[#6a0822] hover:translate-x-1"><User size={14} />My Account</Link>
+					   )}
+					   {currentUser.role === 'B2B' && (
+						 <Link to="/bdashboard" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2 px-2 py-2 rounded-md text-[12px] font-medium transition-all duration-200 mb-1 text-slate-700 hover:bg-[#6a0822]/10 hover:text-[#6a0822] hover:translate-x-1"><User size={14} />B2B Dashboard</Link>
+					   )}
+					   {currentUser.role === 'PARTNER' && (
+						 <Link to="/pdashboard" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2 px-2 py-2 rounded-md text-[12px] font-medium transition-all duration-200 mb-1 text-slate-700 hover:bg-[#6a0822]/10 hover:text-[#6a0822] hover:translate-x-1"><User size={14} />PARTNER Dashboard</Link>
+					   )}
+					   <button onClick={handleLogout} className="flex items-center gap-2 px-2 py-2 rounded-md text-[12px] font-medium transition-all duration-200 mb-1 text-red-500 hover:bg-red-100 hover:translate-x-1 w-full text-left bg-none border-none cursor-pointer"><LucideX size={14} />Logout</button>
+					 </div>
+				   </div>
+				 )}
+			   </div>
+			 ) : (
+			   <a
+				 href="/SignupPopup"
+				 className="text-[#8a2342] font-bold text-xs px-2 py-1 rounded bg-transparent border border-transparent cursor-pointer"
+			   >
+				 Login / Signup
+			   </a>
+			 )}
+			 {/* Mobile Menu Button */}
+			 {isMobile && (
+			   <button
+				 type="button"
+				 onClick={toggleMobileMenu}
+				 aria-label="Toggle mobile menu"
+				 aria-expanded={isMobileMenuOpen}
+				 className="bg-transparent border-none cursor-pointer p-1 flex flex-col gap-0.5 items-center justify-center w-9 h-9"
+			   >
+				 <span className={`w-6 h-0.5 bg-[#7a1335] transition-all ${isMobileMenuOpen ? "rotate-45 translate-y-1" : ""}`}></span>
+				 <span className={`w-6 h-0.5 bg-[#7a1335] transition-all ${isMobileMenuOpen ? "opacity-0" : ""}`}></span>
+				 <span className={`w-6 h-0.5 bg-[#7a1335] transition-all ${isMobileMenuOpen ? "-rotate-45 -translate-y-1" : ""}`}></span>
+			   </button>
+			 )}
+		   </div>
+		 </div>
+		 {/* Mobile Menu Dropdown, LNavBar style */}
+		 {isMobile && (
+		   <div
+			 style={{
+			   position: "absolute", top: "100%", left: 0, right: 0, background: "#fff",
+			   boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+			   transform: isMobileMenuOpen ? "translateY(0)" : "translateY(-110%)",
+			   opacity: isMobileMenuOpen ? 1 : 0,
+			   visibility: isMobileMenuOpen ? "visible" : "hidden",
+			   transition: "all 0.35s cubic-bezier(0.4, 0, 0.2, 1)", zIndex: 999,
+			   maxHeight: isMobileMenuOpen ? "calc(100vh - 100px)" : "0",
+			   overflowY: "auto"
+			 }}
+		   >
+			 <div style={{ padding: "1rem 4vw" }}>
+			   <ul style={{ listStyle: "none", margin: 0, padding: 0, fontSize: 16, fontWeight: 500 }}>
+				 {MENU.map((menuItem) => (
+				   <li key={menuItem.name} style={{ marginBottom: "0.5rem" }}>
+					 <a
+					   href={menuItem.link}
+					   onClick={() => handleMenuItemClick(menuItem.name)}
+					   style={{
+						 color: selected === menuItem.name ? "#fff" : "#374151",
+						 background: selected === menuItem.name ? "#6a0822" : "rgba(248, 250, 252, 0.8)",
+						 fontWeight: selected === menuItem.name ? 700 : 500,
+						 textDecoration: "none", padding: "12px 16px", display: "block",
+						 borderRadius: 12, transition: "all 0.18s", cursor: "pointer",
+						 border: selected === menuItem.name ? "1px solid #6a0822" : "1px solid rgba(226,232,240,0.8)",
+						 boxShadow: selected === menuItem.name ? "0 4px 16px rgba(106, 8, 34, 0.3)" : "0 2px 8px rgba(0,0,0,0.05)"
+					   }}
+					 >
+					   {menuItem.name}
+					 </a>
+				   </li>
+				 ))}
+			   </ul>
+			   <div className="mt-4 flex flex-col gap-3 border-t pt-4">
+				 {/* Mobile Action Buttons */}
+				 <a href="/PartnerPopup" className="w-full rounded-lg bg-[#7a1335] px-4 py-3 text-center font-medium text-white">Become a partner / Login</a>
+				 {currentUser ? (
+				   <>
+					 <Link to="/user" onClick={() => setIsMobileMenuOpen(false)} className="w-full rounded-lg bg-gray-100 px-4 py-3 text-center font-bold text-[#6a0822]">My Account</Link>
+					 <button onClick={handleLogout} className="w-full rounded-lg border border-[#6a0822] px-4 py-3 text-center font-bold text-[#6a0822]">Logout</button>
+				   </>
+				 ) : (
+				   <>
+					 <a href="/b2bregister" className="w-full rounded-lg border border-[#8a2342] px-4 py-3 text-center font-bold text-[#8a2342]">B2B Register</a>
+					 <a href="/SignupPopup" className="w-full rounded-lg border border-[#6a0822] px-4 py-3 text-center font-bold text-[#6a0822]">User Login / Signup</a>
+				   </>
+				 )}
+			   </div>
+			 </div>
+		   </div>
+		 )}
+	   </nav>
+   </>);
+}
 
 export default NavBar;

@@ -1,534 +1,325 @@
-import { Award, Crown, Eye, Filter, Heart, ShoppingCart, Sparkles, Star } from 'lucide-react';
-import React, { useState } from 'react';
+import { Award, Check, Crown, Eye, Filter, Heart, Loader, ShoppingCart, Sparkles } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import { CATEGORY_TREE } from '../../../../constants';
+import { AppDispatch } from '../../../store';
+import axiosInstance from '../../../utils/axiosInstance';
+import { addToCart } from '../../features/thunks/cartThunks';
+import { Product } from '../../types/type';
 
-
-import { CATEGORY_TREE, products } from '../../../../constants'; // Assuming products is an array of product objects
-
-// Type for CustomImage props (if not already present)
-type CustomImageProps = {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
-  style?: React.CSSProperties;
-  className?: string;
-};
-
-const CustomImage = ({ src, alt, width, height, style, className }: CustomImageProps) => (
-  <img 
-    src={src} 
-    alt={alt} 
-    width={width} 
-    height={height} 
-    style={style}
-    className={className}
-  />
+const CustomImage: React.FC<{ src: string; alt: string; style?: React.CSSProperties; className?: string; }> = ({ src, alt, style, className }) => (
+  <img src={src} alt={alt} style={style} className={className} loading="lazy" />
 );
 
 const BuyOrnamentsPage = () => {
+
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [likedItems, setLikedItems] = useState<Set<number>>(new Set());
-  const [openCategory, setOpenCategory] = useState<string | null>(null);
-  const [openSubCategory, setOpenSubCategory] = useState<string | null>(null);
-  const [openGender, setOpenGender] = useState<string | null>(null);
-  const [selectedFilters, setSelectedFilters] = useState<{ [cat: string]: Set<string> }>({
-    Men: new Set(),
-    Women: new Set(),
-    Kids: new Set(),
-    Unisex: new Set()
-  });
-  const [openMain, setOpenMain] = useState<string | null>(null);
-  const [openSub, setOpenSub] = useState<string | null>(null);
-  const [selectedDropdown, setSelectedDropdown] = useState<{
-    main: string;
-    sub: string;
-    item: string;
-  }[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const navigate = useNavigate();
-
-  const toggleFilter = (cat: string, sub: string) => {
-    setSelectedFilters(prev => {
-      const updated = { ...prev };
-      if (!updated[cat]) updated[cat] = new Set();
-      if (updated[cat].has(sub)) {
-        updated[cat].delete(sub);
-      } else {
-        updated[cat].add(sub);
-      }
-      return { ...updated };
-    });
-  };
-
-  const isAnyFilterSelected = Object.values(selectedFilters).some(set => set.size > 0);
-  const filteredProducts = isAnyFilterSelected
-    ? products.filter(product => {
-        // Use 'details' as subcategory field
-        return Object.entries(selectedFilters).some(([cat, set]) =>
-          product.category === cat && (set.size === 0 || set.has(product.details))
-        );
-      })
-    : products;
-
-  // Add types for parameters
-  const toggleLike = (productId: number, e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    const newLikedItems = new Set(likedItems);
-    if (newLikedItems.has(productId)) {
-      newLikedItems.delete(productId);
-    } else {
-      newLikedItems.add(productId);
-    }
-    setLikedItems(newLikedItems);
-  };
-
-  // If lodash is not available, use this shuffle function:
-  function simpleShuffle<T>(array: T[]): T[] {
-    const arr = [...array];
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-
-  const getRandomProducts = (count: number) => simpleShuffle(products).slice(0, count);
-
-  // If your products do not have a 'subcategory' property, map it from another field, e.g. 'details' or similar.
-  // For demonstration, let's assume 'details' holds the subcategory name.
-  const getCategoryProducts = (cat: string, sub: string) =>
-    products.filter(
-      (p: any) => p.category === cat && p.details === sub // Use 'details' as subcategory
-    ).slice(0, 5);
-
-  // Handle dropdown selection
-  const handleDropdownSelect = (main: string, sub: string, item: string) => {
-    setSelectedDropdown(prev => {
-      const exists = prev.some(sel => sel.main === main && sel.sub === sub && sel.item === item);
-      if (exists) {
-        return prev.filter(sel => !(sel.main === main && sel.sub === sub && sel.item === item));
-      } else {
-        return [...prev, { main, sub, item }];
-      }
-    });
-  };
-
-  // Remove unused openMain/openSub and multi-level dropdown below the search bar
-
-  // --- Replace the Filter/Search Bar Row and remove the old multi-level dropdown below it ---
-
-  // State for dropdowns
-  const [mainDropdownOpen, setMainDropdownOpen] = useState(false);
-  const [mainCategory, setMainCategory] = useState<string>("All");
-  const [subDropdownOpen, setSubDropdownOpen] = useState(false);
-  const [subCategory, setSubCategory] = useState<string>("");
-  const [itemDropdownOpen, setItemDropdownOpen] = useState(false);
-  const [itemCategory, setItemCategory] = useState<string>("");
-
-  // Dropdown open/close state for each level
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownMain, setDropdownMain] = useState<string>("All");
   const [dropdownSub, setDropdownSub] = useState<string>("");
   const [dropdownItem, setDropdownItem] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  // Helper: get subcategories for selected main
-  const getSubCategories = () => {
-    const found = CATEGORY_TREE.find(cat => cat.name === dropdownMain);
-    return found && found.children ? found.children : [];
-  };
+  const [currentPage, setCurrentPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const itemsPerPage = 20;
 
-  // Helper: get items for selected subcategory (support nested gold coin structure)
-  const getItems = () => {
-    const subs = getSubCategories();
-    const found = subs.find((s: any) => s.name === dropdownSub);
-    // If Gold Coin, flatten to show 22k/24k options
-    if (
-      found &&
-      found.name === "Gold Coin" &&
-      Array.isArray(found.items) &&
-      found.items.every((item: any) => typeof item === "object" && "name" in item && "items" in item)
-    ) {
-      return (found.items as { name: string; items: string[] }[]).map((item) => item.name);
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const [isAddingToCart, setIsAddingToCart] = useState<number | null>(null);
+  const [addedToCart, setAddedToCart] = useState<Set<number>>(new Set());
+
+
+  const fetchOrnaments = useCallback(async (pageToFetch: number) => {
+    if (pageToFetch === 0) {
+      setLoading(true);
+    } else {
+      setLoadingMore(true);
     }
-    return found && Array.isArray(found.items) ? found.items : [];
-  };
+    setError(null);
 
-  // Helper: get gram variations for gold coin
-  const getGramVariations = () => {
-    const subs = getSubCategories();
-    const goldCoinSub = subs.find((s: any) => s.name === "Gold Coin");
-    if (
-      goldCoinSub &&
-      Array.isArray(goldCoinSub.items) &&
-      goldCoinSub.items.every((item: any) => typeof item === "object" && "name" in item && "items" in item)
-    ) {
-      const coinType = (goldCoinSub.items as { name: string; items: string[] }[]).find(
-        (i) => i.name === dropdownItem
+    try {
+      const response = await axiosInstance.get<Product[]>(`/admin/ornaments?page=${pageToFetch}&size=${itemsPerPage}`);
+      const newProducts = response.data || [];
+
+      setAllProducts(prev => pageToFetch === 0 ? newProducts : [...prev, ...newProducts]);
+
+      if (newProducts.length < itemsPerPage) {
+        setHasMore(false);
+      }
+      
+      setCurrentPage(pageToFetch + 1);
+
+    } catch (err) {
+      console.error("Failed to fetch ornaments:", err);
+      setError("Could not load ornaments. Please try again later.");
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  }, [itemsPerPage]);
+
+  useEffect(() => {
+    fetchOrnaments(0);
+  }, [fetchOrnaments]);
+
+
+  const filteredProducts = useMemo(() => {
+    let productsToFilter = allProducts;
+
+    if (dropdownMain !== "All") {
+      productsToFilter = productsToFilter.filter(product => {
+        const categoryMatch = product.category === dropdownMain;
+        const subCategoryMatch = dropdownSub ? product.subCategory === dropdownSub : true;
+        const itemMatch = dropdownItem ? product.itemType === dropdownItem : true;
+        return categoryMatch && subCategoryMatch && itemMatch;
+      });
+    }
+
+    if (searchTerm.trim()) {
+      productsToFilter = productsToFilter.filter(product =>
+        product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.itemType?.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      return coinType && Array.isArray(coinType.items) ? coinType.items : [];
     }
-    return [];
+    
+    return productsToFilter;
+  }, [allProducts, dropdownMain, dropdownSub, dropdownItem, searchTerm]);
+  
+  const handleAddToCart = async (product: Product, e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setIsAddingToCart(product.id);
+    try {
+      await dispatch(addToCart({ ornamentId: product.id, quantity: 1 })).unwrap();
+      setAddedToCart(prev => new Set(prev).add(product.id));
+      setTimeout(() => {
+        setAddedToCart(prev => {
+          const updated = new Set(prev);
+          updated.delete(product.id);
+          return updated;
+        });
+      }, 2000);
+    } catch (err) {
+      console.error("Failed to add to cart:", err);
+      alert(`Could not add "${product.name}" to cart. Please try again.`);
+    } finally {
+      setIsAddingToCart(null);
+    }
+  };
+  
+  const getProductWeight = (product: Product) => {
+    const goldComponent = product.priceBreakups?.find(pb => pb.component.toLowerCase().includes('gold'));
+    return goldComponent ? `${goldComponent.weightG}g` : 'N/A';
+  };
+  
+  const toggleLike = (productId: number, e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setLikedItems(prev => {
+        const newSet = new Set(prev);
+        if (newSet.has(productId)) newSet.delete(productId);
+        else newSet.add(productId);
+        return newSet;
+    });
   };
 
-  // Filter products based on dropdown selection
-  const filteredProductsDropdown =
-    dropdownMain === "All"
-      ? products
-      : products.filter(product =>
-          product.category === dropdownMain &&
-          (dropdownSub ? product.details === dropdownSub : true) &&
-          (dropdownItem ? product.details === dropdownItem : true)
-        );
-
-  const finalFilteredProducts = searchTerm.trim()
-    ? filteredProductsDropdown.filter(product =>
-        product.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.details?.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : filteredProductsDropdown;
+  const getSubCategories = () => CATEGORY_TREE.find(cat => cat.name === dropdownMain)?.children || [];
+  const getItems = () => (getSubCategories() as any[]).find(s => s.name === dropdownSub)?.items || [];
 
   return (
-    <div style={{ backgroundColor: '#fafbfc', minHeight: '100vh', fontFamily: "'Inter', sans-serif" }}>
-      {/* Modern Hero Section */}
-      <div style={{
-        background: `linear-gradient(135deg, 
-          rgba(122, 19, 53, 0.95) 0%, 
-          rgba(122, 19, 53, 0.8) 50%, 
-          rgba(122, 19, 53, 0.9) 100%),
-          url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="1000" height="1000" fill="url(%23grain)"/></svg>')`,
-        minHeight: '70vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-        padding: '48px 1rem 0 1rem',
-      }}>
-        {/* Floating geometric shapes */}
-        <div style={{
-          position: 'absolute',
-          top: '10%',
-          left: '10%',
-          width: '120px',
-          height: '120px',
-          background: 'rgba(255, 255, 255, 0.05)',
-          borderRadius: '30px',
-          transform: 'rotate(45deg)',
-          animation: 'float 8s ease-in-out infinite'
-        }} />
-        <div style={{
-          position: 'absolute',
-          bottom: '15%',
-          right: '15%',
-          width: '80px',
-          height: '80px',
-          background: 'rgba(255, 255, 255, 0.03)',
-          borderRadius: '50%',
-          animation: 'float 6s ease-in-out infinite reverse'
-        }} />
-        
-        <div style={{ textAlign: 'center', zIndex: 2, maxWidth: '900px', padding: '0 20px' }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            padding: '12px 24px',
-            borderRadius: '50px',
-            marginBottom: '32px',
-            border: '1px solid rgba(255, 255, 255, 0.2)'
-          }}>
-            <Sparkles size={20} color="#ffffff" style={{ marginRight: '8px' }} />
-            <span style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: '500' }}>
-              Curated Premium Collection
-            </span>
-          </div>
-          
-          <h1 style={{
-            color: '#ffffff',
-            fontSize: 'clamp(2.5rem, 6vw, 4rem)',
-            fontWeight: '800',
-            lineHeight: '1.1',
-            marginBottom: '24px',
-            letterSpacing: '-0.02em'
-          }}>
-            Exquisite Gold
-            <br />
-            <span style={{ 
-              background: 'linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: '300'
-            }}>
-              Ornaments
-            </span>
-          </h1>
-          
-          <p style={{
-            color: 'rgba(255, 255, 255, 0.8)',
-            fontSize: '1.2rem',
-            maxWidth: '600px',
-            margin: '0 auto 48px auto',
-            lineHeight: '1.6'
-          }}>
-            Discover timeless elegance with our handcrafted gold jewelry collection, 
-            where tradition meets contemporary design.
-          </p>
-          
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '48px',
-            flexWrap: 'wrap'
-          }}>
-            {[
-              { icon: Award, text: 'BIS Hallmarked', desc: '916 & 750' },
-              { icon: Crown, text: 'Handcrafted', desc: 'Artisan Made' },
-              { icon: Sparkles, text: 'Lifetime Buy Back', desc: '100% Value' }
-            ].map((item, idx) => (
-              <div key={idx} style={{
-                textAlign: 'center',
-                opacity: '0.9'
-              }}>
-                <div style={{
-                  width: '64px',
-                  height: '64px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                  borderRadius: '20px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 16px auto',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)'
-                }}>
-                  <item.icon size={28} color="#ffffff" />
-                </div>
-                <h3 style={{ 
-                  color: '#ffffff', 
-                  fontSize: '1rem', 
-                  fontWeight: '600', 
-                  margin: '0 0 4px 0' 
-                }}>
-                  {item.text}
-                </h3>
-                <p style={{ 
-                  color: 'rgba(255, 255, 255, 0.7)', 
-                  fontSize: '0.85rem', 
-                  margin: 0 
-                }}>
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
-      {/* --- Filter/Search Bar Row --- */}
-      <div style={{
-        backgroundColor: '#ffffff',
-        padding: '32px 20px',
-        borderBottom: '1px solid #f0f0f3'
-      }}>
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 24,
-          flexWrap: 'wrap'
-        }}>
-          {/* Full Dropdown */}
-          <div style={{ minWidth: 220, position: 'relative' }}>
+    <div className="bg-[#fafbfc] min-h-screen font-inter">
+      {/* Hero Section Carousel */}
+      {(() => {
+        // Carousel data for hero section
+        const heroSlides = [
+          {
+            badge: 'Curated Premium Collection',
+            badgeIcon: <Sparkles size={14} color="#ffffff" className="mr-1" />,
+            heading: 'Exquisite Gold',
+            subheading: 'Ornaments',
+            description: 'Discover timeless elegance with our handcrafted gold jewelry collection, where tradition meets contemporary design.'
+          },
+          {
+            badge: 'Limited Edition',
+            badgeIcon: <Crown size={14} color="#ffffff" className="mr-1" />,
+            heading: 'Royal Collection',
+            subheading: 'Exclusive Designs',
+            description: 'Step into royalty with our limited edition gold pieces, crafted for those who desire exclusivity and grandeur.'
+          },
+          {
+            badge: 'Best Sellers',
+            badgeIcon: <Award size={14} color="#ffffff" className="mr-1" />,
+            heading: 'Timeless Classics',
+            subheading: 'All-Time Favourites',
+            description: 'Our most loved designs, trusted by thousands, perfect for every occasion and every generation.'
+          }
+        ];
+        const [heroIndex, setHeroIndex] = React.useState(0);
+        const heroRef = React.useRef<HTMLDivElement>(null);
+        // Drag/swipe logic
+        React.useEffect(() => {
+          const el = heroRef.current;
+          if (!el) return;
+          let startX = 0;
+          let isDragging = false;
+          let deltaX = 0;
+          let threshold = 60;
+          const onMouseDown = (e: MouseEvent) => {
+            isDragging = true;
+            startX = e.pageX;
+            el.style.cursor = 'grabbing';
+          };
+          const onMouseMove = (e: MouseEvent) => {
+            if (!isDragging) return;
+            deltaX = e.pageX - startX;
+          };
+          const onMouseUp = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            el.style.cursor = 'grab';
+            if (deltaX > threshold && heroIndex > 0) setHeroIndex(heroIndex - 1);
+            else if (deltaX < -threshold && heroIndex < heroSlides.length - 1) setHeroIndex(heroIndex + 1);
+            deltaX = 0;
+          };
+          el.addEventListener('mousedown', onMouseDown);
+          window.addEventListener('mousemove', onMouseMove);
+          window.addEventListener('mouseup', onMouseUp);
+          // Touch events
+          const onTouchStart = (e: TouchEvent) => {
+            isDragging = true;
+            startX = e.touches[0].pageX;
+          };
+          const onTouchMove = (e: TouchEvent) => {
+            if (!isDragging) return;
+            deltaX = e.touches[0].pageX - startX;
+          };
+          const onTouchEnd = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            if (deltaX > threshold && heroIndex > 0) setHeroIndex(heroIndex - 1);
+            else if (deltaX < -threshold && heroIndex < heroSlides.length - 1) setHeroIndex(heroIndex + 1);
+            deltaX = 0;
+          };
+          el.addEventListener('touchstart', onTouchStart);
+          el.addEventListener('touchmove', onTouchMove);
+          el.addEventListener('touchend', onTouchEnd);
+          return () => {
+            el.removeEventListener('mousedown', onMouseDown);
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+            el.removeEventListener('touchstart', onTouchStart);
+            el.removeEventListener('touchmove', onTouchMove);
+            el.removeEventListener('touchend', onTouchEnd);
+          };
+        }, [heroIndex, heroSlides.length]);
+        return (
+          <div className="bg-[#7a1335] min-h-[50vh] flex items-center justify-center relative overflow-hidden pt-6 px-2 select-none" ref={heroRef} style={{cursor:'grab'}}>
+            {/* Left Arrow */}
             <button
-              style={{
-                fontWeight: 700,
-                fontSize: 16,
-                color: "#7a1335",
-                background: "none",
-                border: "1px solid #eee",
-                borderRadius: 8,
-                padding: "10px 24px",
-                cursor: "pointer",
-                width: "100%",
-                textAlign: "left"
-              }}
+              type="button"
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white rounded-full w-9 h-9 flex items-center justify-center border border-white/30 disabled:opacity-40"
+              onClick={() => setHeroIndex(i => Math.max(0, i - 1))}
+              disabled={heroIndex === 0}
+              aria-label="Previous slide"
+            >
+              <svg width="22" height="22" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            {/* Slide Content */}
+            <div className="text-center z-20 max-w-[700px] px-2.5 transition-all duration-500" key={heroIndex}>
+              <div className="inline-flex items-center bg-white/10 backdrop-blur px-3 py-1.5 rounded-full mb-4 border border-white/20">
+                {heroSlides[heroIndex].badgeIcon}
+                <span className="text-white text-[0.7rem] font-medium">{heroSlides[heroIndex].badge}</span>
+              </div>
+              <h1 className="text-white font-extrabold leading-tight mb-3 text-[clamp(1.5rem,4vw,2.2rem)] tracking-tight">
+                {heroSlides[heroIndex].heading}<br />
+                <span className="text-white/70 font-light">{heroSlides[heroIndex].subheading}</span>
+              </h1>
+              <p className="text-white/80 text-sm max-w-[400px] mx-auto mb-6 leading-snug">
+                {heroSlides[heroIndex].description}
+              </p>
+            </div>
+            {/* Right Arrow */}
+            <button
+              type="button"
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white rounded-full w-9 h-9 flex items-center justify-center border border-white/30 disabled:opacity-40"
+              onClick={() => setHeroIndex(i => Math.min(heroSlides.length - 1, i + 1))}
+              disabled={heroIndex === heroSlides.length - 1}
+              aria-label="Next slide"
+            >
+              <svg width="22" height="22" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+            {/* Dots */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+              {heroSlides.map((_, idx) => (
+                <button
+                  key={idx}
+                  className={`w-2.5 h-2.5 rounded-full border border-white/40 ${heroIndex === idx ? 'bg-white' : 'bg-white/30'}`}
+                  onClick={() => setHeroIndex(idx)}
+                  aria-label={`Go to slide ${idx + 1}`}
+                  style={{transition:'background 0.2s'}}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })()}
+
+
+      {/* Sticky Filter/Search Bar - below navbar (assume navbar is h-12, so top-12) */}
+      <div className="bg-white py-4 px-2 border-b border-[#f0f0f3] sticky top-12 z-30">
+        <div className="max-w-[900px] mx-auto flex items-center justify-between gap-3 flex-wrap">
+          {/* Category Dropdown */}
+          <div className="min-w-[140px] relative">
+            <button
+              className="font-semibold text-xs text-[#7a1335] bg-none border border-[#eee] rounded-md px-3 py-1.5 cursor-pointer w-full text-left"
               onClick={() => setDropdownOpen(!dropdownOpen)}
             >
-              {dropdownMain === "All"
-                ? "Select Category"
-                : dropdownMain +
-                  (dropdownSub ? " / " + dropdownSub : "") +
-                  (dropdownItem ? " / " + dropdownItem : "")}
+              {dropdownMain === "All" ? "Select Category" : `${dropdownMain}${dropdownSub ? ` / ${dropdownSub}` : ""}${dropdownItem ? ` / ${dropdownItem}` : ""}`}
             </button>
             {dropdownOpen && (
-              <div style={{
-                position: "absolute",
-                top: "110%",
-                left: 0,
-                background: "#fff",
-                border: "1px solid #eee",
-                borderRadius: 10,
-                minWidth: 260,
-                zIndex: 30,
-                boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
-                padding: 8
-              }}>
-                {/* Main Categories */}
+              <div className="absolute left-0 top-[110%] bg-white border border-[#eee] rounded-xl min-w-[260px] z-30 shadow-lg p-2">
                 <div>
-                  <div style={{ fontWeight: 600, color: "#7a1335", marginBottom: 8 }}>Main Category</div>
+                  <div className="font-semibold text-[#7a1335] mb-2">Main Category</div>
                   {CATEGORY_TREE.map(main => (
                     <button
                       key={main.name}
-                      style={{
-                        fontWeight: dropdownMain === main.name ? 700 : 500,
-                        color: dropdownMain === main.name ? "#7a1335" : "#374151",
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        width: "100%",
-                        textAlign: "left",
-                        padding: "6px 8px",
-                        borderRadius: 6,
-                        backgroundColor: dropdownMain === main.name ? "#f7f2f5" : "transparent"
-                      }}
-                      onClick={() => {
-                        setDropdownMain(main.name);
-                        setDropdownSub("");
-                        setDropdownItem("");
-                      }}
+                      className={`w-full text-left px-2 py-1.5 rounded-md cursor-pointer font-${dropdownMain === main.name ? 'bold' : 'medium'} text-xs ${dropdownMain === main.name ? 'text-[#7a1335] bg-[#f7f2f5]' : 'text-[#374151] bg-transparent'}`}
+                      onClick={() => { setDropdownMain(main.name); setDropdownSub(""); setDropdownItem(""); }}
                     >
                       {main.name}
                     </button>
                   ))}
                 </div>
-                {/* Subcategories */}
-                {dropdownMain !== "All" && (
-                  <div style={{ marginTop: 16 }}>
-                    <div style={{ fontWeight: 600, color: "#7a1335", marginBottom: 8 }}>Subcategory</div>
+                {dropdownMain !== "All" && getSubCategories().length > 0 && (
+                  <div className="mt-4">
+                    <div className="font-semibold text-[#7a1335] mb-2">Subcategory</div>
                     {getSubCategories().map((sub: any) => (
                       <button
                         key={sub.name}
-                        style={{
-                          fontWeight: dropdownSub === sub.name ? 700 : 500,
-                          color: dropdownSub === sub.name ? "#7a1335" : "#374151",
-                          background: "none",
-                          border: "none",
-                          cursor: "pointer",
-                          width: "100%",
-                          textAlign: "left",
-                          padding: "6px 8px",
-                          borderRadius: 6,
-                          backgroundColor: dropdownSub === sub.name ? "#f7f2f5" : "transparent"
-                        }}
-                        onClick={() => {
-                          setDropdownSub(sub.name);
-                          setDropdownItem("");
-                        }}
+                        className={`w-full text-left px-2 py-1.5 rounded-md cursor-pointer font-${dropdownSub === sub.name ? 'bold' : 'medium'} text-xs ${dropdownSub === sub.name ? 'text-[#7a1335] bg-[#f7f2f5]' : 'text-[#374151] bg-transparent'}`}
+                        onClick={() => { setDropdownSub(sub.name); setDropdownItem(""); }}
                       >
                         {sub.name}
                       </button>
                     ))}
                   </div>
                 )}
-                {/* Items */}
-                {dropdownMain !== "All" && dropdownSub && (
-                  <div style={{ marginTop: 16 }}>
-                    <div style={{ fontWeight: 600, color: "#7a1335", marginBottom: 8 }}>
-                      {dropdownSub === "Gold Coin" ? "Coin Type" : "Item"}
-                    </div>
-                    {/* If Gold Coin, show 22k/24k, else show normal items */}
-                    {dropdownSub === "Gold Coin"
-                      ? (() => {
-                          // getItems() returns string[] for Gold Coin, but the original items are objects
-                          const subs = getSubCategories();
-                          const found = subs.find((s: any) => s.name === "Gold Coin");
-                          if (
-                            found &&
-                            Array.isArray(found.items) &&
-                            found.items.every((item: any) => typeof item === "object" && "name" in item && "items" in item)
-                          ) {
-                            return (found.items as { name: string; items: string[] }[]).map((item) => (
-                              <button
-                                key={item.name}
-                                style={{
-                                  fontWeight: dropdownItem === item.name ? 700 : 500,
-                                  color: dropdownItem === item.name ? "#7a1335" : "#374151",
-                                  background: "none",
-                                  border: "none",
-                                  cursor: "pointer",
-                                  width: "100%",
-                                  textAlign: "left",
-                                  padding: "6px 8px",
-                                  borderRadius: 6,
-                                  backgroundColor: dropdownItem === item.name ? "#f7f2f5" : "transparent"
-                                }}
-                                onClick={() => {
-                                  setDropdownItem(item.name);
-                                  // Don't close dropdown yet, show gram variations
-                                }}
-                              >
-                                {item.name}
-                              </button>
-                            ));
-                          }
-                          return null;
-                        })()
-                      : getItems()
-                          .filter((item: any) => typeof item === "string")
-                          .map((item: string) => (
-                            <button
-                              key={item}
-                              style={{
-                                fontWeight: dropdownItem === item ? 700 : 500,
-                                color: dropdownItem === item ? "#7a1335" : "#374151",
-                                background: "none",
-                                border: "none",
-                                cursor: "pointer",
-                                width: "100%",
-                                textAlign: "left",
-                                padding: "6px 8px",
-                                borderRadius: 6,
-                                backgroundColor: dropdownItem === item ? "#f7f2f5" : "transparent"
-                              }}
-                              onClick={() => {
-                                setDropdownItem(item);
-                                setDropdownOpen(false);
-                              }}
-                            >
-                              {item}
-                            </button>
-                          ))}
-                  </div>
-                )}
-                {/* Gram variations for Gold Coin */}
-                {dropdownMain !== "All" && dropdownSub === "Gold Coin" && dropdownItem && (
-                  <div style={{ marginTop: 16 }}>
-                    <div style={{ fontWeight: 600, color: "#7a1335", marginBottom: 8 }}>Gram Variation</div>
-                    {getGramVariations().map((gram: string) => (
+                {dropdownMain !== "All" && dropdownSub && getItems().length > 0 && (
+                  <div className="mt-4">
+                    <div className="font-semibold text-[#7a1335] mb-2">Item</div>
+                    {getItems().map((item: string) => (
                       <button
-                        key={gram}
-                        style={{
-                          fontWeight: 500,
-                          color: "#374151",
-                          background: "none",
-                          border: "none",
-                          cursor: "pointer",
-                          width: "100%",
-                          textAlign: "left",
-                          padding: "6px 8px",
-                          borderRadius: 6
-                        }}
-                        onClick={() => {
-                          // You can set a new state for selected gram if needed
-                          setDropdownOpen(false);
-                        }}
+                        key={item}
+                        className={`w-full text-left px-2 py-1.5 rounded-md cursor-pointer font-${dropdownItem === item ? 'bold' : 'medium'} text-xs ${dropdownItem === item ? 'text-[#7a1335] bg-[#f7f2f5]' : 'text-[#374151] bg-transparent'}`}
+                        onClick={() => { setDropdownItem(item); setDropdownOpen(false); }}
                       >
-                        {gram}
+                        {item}
                       </button>
                     ))}
                   </div>
@@ -536,853 +327,264 @@ const BuyOrnamentsPage = () => {
               </div>
             )}
           </div>
-          {/* Center: Search Bar */}
-          <div style={{
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minWidth: 220
-          }}>
+          {/* Search Input */}
+          <div className="flex-1 flex items-center justify-center min-w-[120px]">
             <input
               type="text"
               placeholder="Search ornaments..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              style={{
-                width: "100%",
-                maxWidth: 400,
-                padding: "12px 16px",
-                borderRadius: 8,
-                border: "1px solid #eee",
-                fontSize: 16,
-                outline: "none"
-              }}
+              className="w-full max-w-[200px] px-2.5 py-1.5 rounded-md border border-[#eee] text-xs outline-none"
             />
           </div>
-          {/* Right: Search Button */}
+          {/* Search Button */}
           <div>
-            <button
-              style={{
-                background: "#7a1335",
-                color: "#fff",
-                border: "none",
-                borderRadius: 8,
-                padding: "12px 28px",
-                fontWeight: 600,
-                fontSize: 16,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 8
-              }}
-              onClick={() => {/* Optionally trigger search/filter here */}}
-            >
-              <Filter size={20} />
-              Search
+            <button className="bg-[#7a1335] text-white border-none rounded-md px-3.5 py-1.5 font-medium text-xs cursor-pointer flex items-center gap-1.5">
+              <Filter size={14} /> Search
             </button>
           </div>
         </div>
       </div>
 
-      {/* --- Product Listing Structure --- */}
-      <div style={{ padding: '40px 20px', maxWidth: '1400px', margin: '0 auto' }}>
-        {/* Common Section */}
-        <section style={{ marginBottom: 48 }}>
-          <h2 style={{
-            fontSize: '2rem', fontWeight: 800, color: '#7a1335', marginBottom: 24, textAlign: 'center'
-          }}>
-            Featured Ornaments
-          </h2>
-          <div className="grid-responsive" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '28px'
-          }}>
-            {finalFilteredProducts.slice(0, 10).map((product: any, idx: number) => (
-              <div
-                key={product.id}
-                onMouseEnter={() => setHoveredCard(idx)}
-                onMouseLeave={() => setHoveredCard(null)}
-                style={{
-                  backgroundColor: '#ffffff',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  boxShadow: hoveredCard === idx 
-                    ? '0 32px 64px rgba(122, 19, 53, 0.15)' 
-                    : '0 4px 24px rgba(0, 0, 0, 0.04)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  transform: hoveredCard === idx ? 'translateY(-12px)' : 'translateY(0)',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  border: '1px solid #f7f8fc'
-                }}
-              >
-                {/* Discount Badge */}
-                {product.discount && (
-                  <div style={{
-                    position: 'absolute',
-                    top: '20px',
-                    left: '20px',
-                    backgroundColor: '#7a1335',
-                    color: '#ffffff',
-                    padding: '8px 16px',
-                    borderRadius: '20px',
-                    fontSize: '0.8rem',
-                    fontWeight: '700',
-                    zIndex: 3,
-                    boxShadow: '0 4px 12px rgba(122, 19, 53, 0.3)'
-                  }}>
-                    {product.discount}
-                  </div>
-                )}
-
-                {/* Heart Icon */}
-                <button
-                  onClick={(e) => toggleLike(product.id, e)}
-                  style={{
-                    position: 'absolute',
-                    top: '20px',
-                    right: '20px',
-                    width: '44px',
-                    height: '44px',
-                    backgroundColor: likedItems.has(product.id) ? '#7a1335' : 'rgba(255, 255, 255, 0.9)',
-                    border: 'none',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    zIndex: 3,
-                    transition: 'all 0.3s ease',
-                    backdropFilter: 'blur(10px)',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLButtonElement).style.transform = 'scale(1.1)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLButtonElement).style.transform = 'scale(1)';
-                  }}
-                >
-                  <Heart 
-                    size={20} 
-                    fill={likedItems.has(product.id) ? '#ffffff' : 'none'} 
-                    color={likedItems.has(product.id) ? '#ffffff' : '#7a1335'} 
-                  />
-                </button>
-
-                {/* Image Container */}
-                <div style={{
-                  position: 'relative',
-                  padding: '40px 32px 24px 32px',
-                  background: 'linear-gradient(135deg, #fafbfc 0%, #ffffff 100%)',
-                  textAlign: 'center'
-                }}>
-                  <div style={{
-                    position: 'relative',
-                    display: 'inline-block'
-                  }}>
-                    <CustomImage
-                      src={product.img}
-                      alt={product.title}
-                      width={220}
-                      height={220}
-                      style={{
-                        objectFit: 'contain',
-                        borderRadius: '20px',
-                        transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                        transform: hoveredCard === idx ? 'scale(1.05) rotate(2deg)' : 'scale(1) rotate(0deg)'
-                      }}
-                    />
-                    {/* Modern shine effect */}
-                    <div style={{
-                      position: 'absolute',
-                      top: '0',
-                      left: '-100%',
-                      width: '100%',
-                      height: '100%',
-                      background: 'linear-gradient(90deg, transparent, rgba(122, 19, 53, 0.1), transparent)',
-                      transform: hoveredCard === idx ? 'translateX(300%)' : 'translateX(-100%)',
-                      transition: 'transform 0.8s ease',
-                      borderRadius: '20px'
-                    }} />
-                  </div>
+      {/* Category Carousel/Slider below Search Bar with drag-to-scroll */}
+      <div className="w-full bg-white py-3 px-2 border-b border-[#f0f0f3]">
+        <div className="max-w-[900px] mx-auto relative flex items-center">
+          {/* Left Arrow */}
+          <button
+            type="button"
+            className="absolute left-0 z-10 bg-white shadow rounded-full w-7 h-7 flex items-center justify-center top-1/2 -translate-y-1/2 border border-[#eee] disabled:opacity-40"
+            onClick={() => {
+              const el = document.getElementById('category-carousel');
+              if (el) el.scrollBy({ left: -200, behavior: 'smooth' });
+            }}
+            aria-label="Scroll left"
+          >
+            <svg width="18" height="18" fill="none" stroke="#7a1335" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          {/* Carousel with drag events */}
+          <div
+            id="category-carousel"
+            className="flex gap-3 overflow-x-auto px-8 w-full scroll-smooth hide-scrollbar select-none"
+            style={{ WebkitOverflowScrolling: 'touch', cursor: 'grab' }}
+            onMouseDown={e => {
+              const el = e.currentTarget;
+              el.style.cursor = 'grabbing';
+              let startX = e.pageX - el.offsetLeft;
+              let scrollLeft = el.scrollLeft;
+              const onMouseMove = (ev: MouseEvent) => {
+                const x = ev.pageX - el.offsetLeft;
+                el.scrollLeft = scrollLeft - (x - startX);
+              };
+              const onMouseUp = () => {
+                el.style.cursor = 'grab';
+                window.removeEventListener('mousemove', onMouseMove);
+                window.removeEventListener('mouseup', onMouseUp);
+              };
+              window.addEventListener('mousemove', onMouseMove);
+              window.addEventListener('mouseup', onMouseUp);
+            }}
+            onTouchStart={e => {
+              const el = e.currentTarget;
+              const touch = e.touches[0];
+              let startX = touch.pageX - el.offsetLeft;
+              let scrollLeft = el.scrollLeft;
+              const onTouchMove = (ev: TouchEvent) => {
+                const moveTouch = ev.touches[0];
+                const x = moveTouch.pageX - el.offsetLeft;
+                el.scrollLeft = scrollLeft - (x - startX);
+              };
+              const onTouchEnd = () => {
+                window.removeEventListener('touchmove', onTouchMove);
+                window.removeEventListener('touchend', onTouchEnd);
+              };
+              window.addEventListener('touchmove', onTouchMove);
+              window.addEventListener('touchend', onTouchEnd);
+            }}
+          >
+            {/* Online jewelry images for categories (fixed URLs) */}
+            {[
+              { img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80', label: 'Rakhi Special'},
+              { img: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=200&q=80', label: 'Pendants' },
+              { img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=200&q=80', label: 'Personalised' },
+              { img: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=200&q=80', label: 'Silver Rakhi', },
+              { img: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=200&q=80', label: 'Earrings' },
+              { img: 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=200&q=80', label: 'Rings' },
+              { img: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=200&q=80', label: 'Bracelets' },
+              { img: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=200&q=80', label: 'Anklets' },
+            ].map((cat, idx) => (
+              <div key={cat.label} className="flex flex-col items-center min-w-[90px] max-w-[100px] mx-1">
+                <div className="relative w-[70px] h-[70px] rounded-2xl overflow-hidden bg-[#f9f7f6] flex items-center justify-center mb-1 shadow border border-[#f0e9e0]">
+                  <img src={cat.img} alt={cat.label} className="w-full h-full object-cover" />
+        
                 </div>
-
-                {/* Content */}
-                <div style={{ padding: '0 32px 32px 32px' }}>
-                  {/* Rating */}
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '16px'
-                  }}>
-                    <div style={{ display: 'flex', gap: '3px', marginRight: '12px' }}>
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          size={16}
-                          fill={i < Math.floor(product.rating) ? '#7a1335' : 'none'}
-                          color={i < Math.floor(product.rating) ? '#7a1335' : '#cbd5e1'}
-                          style={{ transition: 'all 0.2s ease' }}
-                        />
-                      ))}
-                    </div>
-                    <span style={{
-                      fontSize: '0.9rem',
-                      color: '#64748b',
-                      fontWeight: '500'
-                    }}>
-                      {product.rating} Rating
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h3 style={{
-                    fontSize: '1.4rem',
-                    fontWeight: '700',
-                    color: '#1a1d29',
-                    textAlign: 'center',
-                    marginBottom: '20px',
-                    lineHeight: '1.3',
-                    letterSpacing: '-0.01em'
-                  }}>
-                    {product.title}
-                  </h3>
-
-                  {/* Product Details */}
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    marginBottom: '24px',
-                    padding: '16px',
-                    backgroundColor: '#f8fafc',
-                    borderRadius: '12px',
-                    border: '1px solid #f1f5f9'
-                  }}>
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ 
-                        fontSize: '0.8rem', 
-                        color: '#64748b', 
-                        marginBottom: '4px',
-                        fontWeight: '500'
-                      }}>
-                        PURITY
-                      </div>
-                      <div style={{ 
-                        fontSize: '0.95rem', 
-                        fontWeight: '700', 
-                        color: '#7a1335' 
-                      }}>
-                        {product.purity}
-                      </div>
-                    </div>
-                    <div style={{ 
-                      width: '1px', 
-                      backgroundColor: '#e2e8f0' 
-                    }} />
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ 
-                        fontSize: '0.8rem', 
-                        color: '#64748b', 
-                        marginBottom: '4px',
-                        fontWeight: '500'
-                      }}>
-                        WEIGHT
-                      </div>
-                      <div style={{ 
-                        fontSize: '0.95rem', 
-                        fontWeight: '700', 
-                        color: '#7a1335' 
-                      }}>
-                        {product.weight}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Price */}
-                  <div style={{
-                    textAlign: 'center',
-                    marginBottom: '28px'
-                  }}>
-                    <div style={{
-                      fontSize: '2rem',
-                      fontWeight: '800',
-                      color: '#7a1335',
-                      letterSpacing: '-0.02em'
-                    }}>
-                      {product.price}
-                    </div>
-                    <div style={{
-                      fontSize: '0.85rem',
-                      color: '#64748b',
-                      marginTop: '4px'
-                    }}>
-                      Inclusive of all taxes
-                    </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div style={{
-                    display: 'flex',
-                    gap: '12px'
-                  }}>
-                    <button
-                      style={{
-                        flex: 1,
-                        padding: '16px 24px',
-                        background: '#7a1335',
-                        color: '#ffffff',
-                        border: 'none',
-                        borderRadius: '16px',
-                        fontWeight: '600',
-                        fontSize: '0.95rem',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '10px',
-                        position: 'relative',
-                        overflow: 'hidden'
-                      }}
-                      onMouseEnter={(e) => {
-                        (e.target as HTMLButtonElement).style.transform = 'scale(1.05)';
-                        (e.target as HTMLButtonElement).style.backgroundColor = 'rgba(122, 19, 53, 0.9)';
-                        (e.target as HTMLButtonElement).style.boxShadow = '0 8px 24px rgba(122, 19, 53, 0.4)';
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.target as HTMLButtonElement).style.transform = 'scale(1)';
-                        (e.target as HTMLButtonElement).style.backgroundColor = '#7a1335';
-                        (e.target as HTMLButtonElement).style.boxShadow = 'none';
-                      }}
-                      onClick={() => navigate(`/buyornaments/${product.id}`)}
-                    >
-                      <Eye size={18} />
-                      View Details
-                    </button>
-                    
-                    <button
-                      style={{
-                        width: '56px',
-                        height: '56px',
-                        backgroundColor: 'rgba(122, 19, 53, 0.1)',
-                        color: '#7a1335',
-                        border: '2px solid rgba(122, 19, 53, 0.2)',
-                        borderRadius: '16px',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                      onMouseEnter={(e) => {
-                        (e.target as HTMLButtonElement).style.backgroundColor = '#7a1335';
-                        (e.target as HTMLButtonElement).style.color = '#ffffff';
-                        (e.target as HTMLButtonElement).style.transform = 'scale(1.1)';
-                        (e.target as HTMLButtonElement).style.borderColor = '#7a1335';
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.target as HTMLButtonElement).style.backgroundColor = 'rgba(122, 19, 53, 0.1)';
-                        (e.target as HTMLButtonElement).style.color = '#7a1335';
-                       (e.target as HTMLButtonElement).style.transform = 'scale(1)';
-                        (e.target as HTMLButtonElement).style.borderColor = 'rgba(122, 19, 53, 0.2)';
-                      }}
-                    >
-                      <ShoppingCart size={20} />
-                    </button>
-                  </div>
-                </div>
+                <div className="text-xs font-medium text-[#7a1335] text-center mt-0.5 whitespace-nowrap">{cat.label}</div>
               </div>
             ))}
           </div>
-        </section>
-
-        {/* Category-wise Sections */}
-        {CATEGORY_TREE.filter(cat => cat.children && cat.children.length > 0).map(cat => (
-          <section key={cat.name} style={{ marginBottom: 48 }}>
-            <h2 style={{
-              fontSize: '1.6rem', fontWeight: 700, color: '#1a1d29', margin: '32px 0 16px 0'
-            }}>
-              {cat.name}
-            </h2>
-            <div>
-              {(cat.children as { name: string; items: string[] }[]).map((sub: { name: string; items: string[] }) => {
-                const subProducts = getCategoryProducts(cat.name, sub.name);
-                if (subProducts.length === 0) return null;
-                return (
-                  <div key={sub.name} style={{ marginBottom: 32 }}>
-                    <div style={{
-                      display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12
-                    }}>
-                      <h3 style={{
-                        fontSize: '1.15rem', fontWeight: 600, color: '#7a1335', margin: 0
-                      }}>{sub.name}</h3>
-                      <button
-                        style={{
-                          background: 'none', border: 'none', color: '#7a1335', fontWeight: 600,
-                          cursor: 'pointer', fontSize: 14, textDecoration: 'underline'
-                        }}
-                        onClick={() => navigate(`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}`)}
-                      >
-                        See More
-                      </button>
-                    </div>
-                    <div className="grid-responsive" style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                      gap: '20px'
-                    }}>
-                      {subProducts.map((product: any, idx: number) => (
-                        <div
-                          key={product.id}
-                          onMouseEnter={() => setHoveredCard(idx)}
-                          onMouseLeave={() => setHoveredCard(null)}
-                          style={{
-                            backgroundColor: '#ffffff',
-                            borderRadius: '24px',
-                            overflow: 'hidden',
-                            boxShadow: hoveredCard === idx 
-                              ? '0 32px 64px rgba(122, 19, 53, 0.15)' 
-                              : '0 4px 24px rgba(0, 0, 0, 0.04)',
-                            transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                            transform: hoveredCard === idx ? 'translateY(-12px)' : 'translateY(0)',
-                            cursor: 'pointer',
-                            position: 'relative',
-                            border: '1px solid #f7f8fc'
-                          }}
-                        >
-                          {/* Discount Badge */}
-                          {product.discount && (
-                            <div style={{
-                              position: 'absolute',
-                              top: '20px',
-                              left: '20px',
-                              backgroundColor: '#7a1335',
-                              color: '#ffffff',
-                              padding: '8px 16px',
-                              borderRadius: '20px',
-                              fontSize: '0.8rem',
-                              fontWeight: '700',
-                              zIndex: 3,
-                              boxShadow: '0 4px 12px rgba(122, 19, 53, 0.3)'
-                            }}>
-                              {product.discount}
-                            </div>
-                          )}
-
-                          {/* Heart Icon */}
-                          <button
-                            onClick={(e) => toggleLike(product.id, e)}
-                            style={{
-                              position: 'absolute',
-                              top: '20px',
-                              right: '20px',
-                              width: '44px',
-                              height: '44px',
-                              backgroundColor: likedItems.has(product.id) ? '#7a1335' : 'rgba(255, 255, 255, 0.9)',
-                              border: 'none',
-                              borderRadius: '50%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              cursor: 'pointer',
-                              zIndex: 3,
-                              transition: 'all 0.3s ease',
-                              backdropFilter: 'blur(10px)',
-                              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
-                            }}
-                            onMouseEnter={(e) => {
-                              (e.target as HTMLButtonElement).style.transform = 'scale(1.1)';
-                            }}
-                            onMouseLeave={(e) => {
-                              (e.target as HTMLButtonElement).style.transform = 'scale(1)';
-                            }}
-                          >
-                            <Heart 
-                              size={20} 
-                              fill={likedItems.has(product.id) ? '#ffffff' : 'none'} 
-                              color={likedItems.has(product.id) ? '#ffffff' : '#7a1335'} 
-                            />
-                          </button>
-
-                          {/* Image Container */}
-                          <div style={{
-                            position: 'relative',
-                            padding: '40px 32px 24px 32px',
-                            background: 'linear-gradient(135deg, #fafbfc 0%, #ffffff 100%)',
-                            textAlign: 'center'
-                          }}>
-                            <div style={{
-                              position: 'relative',
-                              display: 'inline-block'
-                            }}>
-                              <CustomImage
-                                src={product.img}
-                                alt={product.title}
-                                width={220}
-                                height={220}
-                                style={{
-                                  objectFit: 'contain',
-                                  borderRadius: '20px',
-                                  transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                                  transform: hoveredCard === idx ? 'scale(1.05) rotate(2deg)' : 'scale(1) rotate(0deg)'
-                                }}
-                              />
-                              {/* Modern shine effect */}
-                              <div style={{
-                                position: 'absolute',
-                                top: '0',
-                                left: '-100%',
-                                width: '100%',
-                                height: '100%',
-                                background: 'linear-gradient(90deg, transparent, rgba(122, 19, 53, 0.1), transparent)',
-                                transform: hoveredCard === idx ? 'translateX(300%)' : 'translateX(-100%)',
-                                transition: 'transform 0.8s ease',
-                                borderRadius: '20px'
-                              }} />
-                            </div>
-                          </div>
-
-                          {/* Content */}
-                          <div style={{ padding: '0 32px 32px 32px' }}>
-                            {/* Rating */}
-                            <div style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              marginBottom: '16px'
-                            }}>
-                              <div style={{ display: 'flex', gap: '3px', marginRight: '12px' }}>
-                                {[...Array(5)].map((_, i) => (
-                                  <Star
-                                    key={i}
-                                    size={16}
-                                    fill={i < Math.floor(product.rating) ? '#7a1335' : 'none'}
-                                    color={i < Math.floor(product.rating) ? '#7a1335' : '#cbd5e1'}
-                                    style={{ transition: 'all 0.2s ease' }}
-                                  />
-                                ))}
-                              </div>
-                              <span style={{
-                                fontSize: '0.9rem',
-                                color: '#64748b',
-                                fontWeight: '500'
-                              }}>
-                                {product.rating} Rating
-                              </span>
-                            </div>
-
-                            {/* Title */}
-                            <h3 style={{
-                              fontSize: '1.4rem',
-                              fontWeight: '700',
-                              color: '#1a1d29',
-                              textAlign: 'center',
-                              marginBottom: '20px',
-                              lineHeight: '1.3',
-                              letterSpacing: '-0.01em'
-                            }}>
-                              {product.title}
-                            </h3>
-
-                            {/* Product Details */}
-                            <div style={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              marginBottom: '24px',
-                              padding: '16px',
-                              backgroundColor: '#f8fafc',
-                              borderRadius: '12px',
-                              border: '1px solid #f1f5f9'
-                            }}>
-                              <div style={{ textAlign: 'center' }}>
-                                <div style={{ 
-                                  fontSize: '0.8rem', 
-                                  color: '#64748b', 
-                                  marginBottom: '4px',
-                                  fontWeight: '500'
-                                }}>
-                                  PURITY
-                                </div>
-                                <div style={{ 
-                                  fontSize: '0.95rem', 
-                                  fontWeight: '700', 
-                                  color: '#7a1335' 
-                                }}>
-                                  {product.purity}
-                                </div>
-                              </div>
-                              <div style={{ 
-                                width: '1px', 
-                                backgroundColor: '#e2e8f0' 
-                              }} />
-                              <div style={{ textAlign: 'center' }}>
-                                <div style={{ 
-                                  fontSize: '0.8rem', 
-                                  color: '#64748b', 
-                                  marginBottom: '4px',
-                                  fontWeight: '500'
-                                }}>
-                                  WEIGHT
-                                </div>
-                                <div style={{ 
-                                  fontSize: '0.95rem', 
-                                  fontWeight: '700', 
-                                  color: '#7a1335' 
-                                }}>
-                                  {product.weight}
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Price */}
-                            <div style={{
-                              textAlign: 'center',
-                              marginBottom: '28px'
-                            }}>
-                              <div style={{
-                                fontSize: '2rem',
-                                fontWeight: '800',
-                                color: '#7a1335',
-                                letterSpacing: '-0.02em'
-                              }}>
-                                {product.price}
-                              </div>
-                              <div style={{
-                                fontSize: '0.85rem',
-                                color: '#64748b',
-                                marginTop: '4px'
-                              }}>
-                                Inclusive of all taxes
-                              </div>
-                            </div>
-
-                            {/* Action Buttons */}
-                            <div style={{
-                              display: 'flex',
-                              gap: '12px'
-                            }}>
-                              <button
-                                style={{
-                                  flex: 1,
-                                  padding: '16px 24px',
-                                  background: '#7a1335',
-                                  color: '#ffffff',
-                                  border: 'none',
-                                  borderRadius: '16px',
-                                  fontWeight: '600',
-                                  fontSize: '0.95rem',
-                                  cursor: 'pointer',
-                                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  gap: '10px',
-                                  position: 'relative',
-                                  overflow: 'hidden'
-                                }}
-                                onMouseEnter={(e) => {
-                                  (e.target as HTMLButtonElement).style.transform = 'scale(1.05)';
-                                  (e.target as HTMLButtonElement).style.backgroundColor = 'rgba(122, 19, 53, 0.9)';
-                                  (e.target as HTMLButtonElement).style.boxShadow = '0 8px 24px rgba(122, 19, 53, 0.4)';
-                                }}
-                                onMouseLeave={(e) => {
-                                  (e.target as HTMLButtonElement).style.transform = 'scale(1)';
-                                  (e.target as HTMLButtonElement).style.backgroundColor = '#7a1335';
-                                  (e.target as HTMLButtonElement).style.boxShadow = 'none';
-                                }}
-                                onClick={() => navigate(`/buyornaments/${product.id}`)}
-                              >
-                                <Eye size={18} />
-                                View Details
-                              </button>
-                              
-                              <button
-                                style={{
-                                  width: '56px',
-                                  height: '56px',
-                                  backgroundColor: 'rgba(122, 19, 53, 0.1)',
-                                  color: '#7a1335',
-                                  border: '2px solid rgba(122, 19, 53, 0.2)',
-                                  borderRadius: '16px',
-                                  cursor: 'pointer',
-                                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center'
-                                }}
-                                onMouseEnter={(e) => {
-                                  (e.target as HTMLButtonElement).style.backgroundColor = '#7a1335';
-                                  (e.target as HTMLButtonElement).style.color = '#ffffff';
-                                  (e.target as HTMLButtonElement).style.transform = 'scale(1.1)';
-                                  (e.target as HTMLButtonElement).style.borderColor = '#7a1335';
-                                }}
-                                onMouseLeave={(e) => {
-                                  (e.target as HTMLButtonElement).style.backgroundColor = 'rgba(122, 19, 53, 0.1)';
-                                  (e.target as HTMLButtonElement).style.color = '#7a1335';
-                                 (e.target as HTMLButtonElement).style.transform = 'scale(1)';
-                                  (e.target as HTMLButtonElement).style.borderColor = 'rgba(122, 19, 53, 0.2)';
-                                }}
-                              >
-                                <ShoppingCart size={20} />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        ))}
+          {/* Right Arrow */}
+          <button
+            type="button"
+            className="absolute right-0 z-10 bg-white shadow rounded-full w-7 h-7 flex items-center justify-center top-1/2 -translate-y-1/2 border border-[#eee] disabled:opacity-40"
+            onClick={() => {
+              const el = document.getElementById('category-carousel');
+              if (el) el.scrollBy({ left: 200, behavior: 'smooth' });
+            }}
+            aria-label="Scroll right"
+          >
+            <svg width="18" height="18" fill="none" stroke="#7a1335" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+        <style>{`
+          .hide-scrollbar::-webkit-scrollbar { display: none; }
+          .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        `}</style>
       </div>
 
-      {/* Modern Footer CTA */}
-      <div style={{
-        backgroundColor: '#7a1335',
-        padding: '80px 20px',
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        {/* Background pattern */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          opacity: 0.3
-        }} />
-        
-        <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            padding: '12px 24px',
-            borderRadius: '50px',
-            marginBottom: '32px',
-            border: '1px solid rgba(255, 255, 255, 0.2)'
-          }}>
-            <Crown size={20} color="#ffffff" style={{ marginRight: '8px' }} />
-            <span style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: '500' }}>
-              Premium Gold Jewelry
-            </span>
-          </div>
-          
-          <h2 style={{
-            color: '#ffffff',
-            fontSize: 'clamp(2rem, 4vw, 3rem)',
-            fontWeight: '800',
-            marginBottom: '24px',
-            lineHeight: '1.2',
-            letterSpacing: '-0.02em'
-          }}>
-            Experience Luxury That Lasts Forever
+      <div style={{ padding: '20px 8px', maxWidth: '900px', margin: '0 auto' }}>
+        <section>
+          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#7a1335', marginBottom: 14, textAlign: 'center' }}>
+            Featured Ornaments
           </h2>
           
-          <p style={{
-            color: 'rgba(255, 255, 255, 0.8)',
-            fontSize: '1.2rem',
-            maxWidth: '700px',
-            margin: '0 auto 48px auto',
-            lineHeight: '1.6'
-          }}>
-            Each piece in our collection represents decades of craftsmanship, 
-            certified quality, and timeless elegance that transcends generations.
+          {loading && (
+            <div style={{ textAlign: 'center', padding: '80px 0' }}>
+              <Loader size={40} className="animate-spin" style={{ color: '#7a1335', margin: '0 auto' }} />
+              <p style={{ marginTop: '16px', color: '#64748b' }}>Loading our finest collection...</p>
+            </div>
+          )}
+          {error && <div style={{ textAlign: 'center', padding: '80px 0', color: '#ef4444' }}><p>{error}</p></div>}
+          {!loading && !error && filteredProducts.length === 0 && <div style={{ textAlign: 'center', padding: '80px 0', color: '#64748b' }}><p>No ornaments found. Try adjusting your search or filters.</p></div>}
+
+          {!loading && !error && filteredProducts.length > 0 && (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 items-stretch">
+                {filteredProducts.map((product, idx) => (
+                  <div
+                    key={`${product.id}-${idx}`}
+                    onMouseEnter={() => setHoveredCard(idx)}
+                    onMouseLeave={() => setHoveredCard(null)}
+                    className={`bg-white rounded-xl overflow-hidden border border-[#f7f8fc] flex flex-col relative cursor-pointer transition-all duration-400 w-full max-w-[340px] mx-auto ${hoveredCard === idx ? 'shadow-2xl -translate-y-1.5' : 'shadow-sm translate-y-0'}`}
+                    onClick={() => navigate(`/buyornaments/${product.id}`)}
+                  >
+                    <button
+                      onClick={(e) => toggleLike(product.id, e)}
+                      className={`absolute top-2.5 right-2.5 w-7 h-7 ${likedItems.has(product.id) ? 'bg-[#7a1335]' : 'bg-white/90'} border-none rounded-full flex items-center justify-center cursor-pointer z-10 transition-all duration-300 backdrop-blur shadow-md`}
+                    >
+                      <Heart size={14} fill={likedItems.has(product.id) ? '#ffffff' : 'none'} color={likedItems.has(product.id) ? '#ffffff' : '#7a1335'} />
+                    </button>
+                    <div className="relative pt-4 px-2 pb-2 bg-[#fafbfc] text-center">
+                      <CustomImage
+                        src={product.mainImage}
+                        alt={product.name}
+                        className={`w-full h-[110px] object-contain rounded-lg transition-transform duration-400 ${hoveredCard === idx ? 'scale-[1.04] rotate-1' : 'scale-100 rotate-0'}`}
+                      />
+                    </div>
+                    <div className="px-2 pb-2 flex flex-col flex-1">
+                      <h3 className="text-[0.95rem] font-semibold text-[#1a1d29] text-center mb-2 leading-tight min-h-[2.2rem]">
+                        {product.name}
+                      </h3>
+                      <div className="flex justify-center mb-2 p-2 bg-[#f8fafc] rounded-lg border border-[#f1f5f9]">
+                        <div className="text-center">
+                          <div className="text-[0.65rem] text-[#64748b] mb-0.5 font-medium">PURITY</div>
+                          <div className="text-[0.75rem] font-semibold text-[#7a1335]">{product.purity}</div>
+                        </div>
+                        <div className="w-px bg-[#e2e8f0] mx-2" />
+                        <div className="text-center">
+                          <div className="text-[0.65rem] text-[#64748b] mb-0.5 font-medium">WEIGHT</div>
+                          <div className="text-[0.75rem] font-semibold text-[#7a1335]">{getProductWeight(product)}</div>
+                        </div>
+                      </div>
+                      <div className="mt-auto">
+                        <div className="text-center mb-3.5">
+                          <div className="text-[1.1rem] font-bold text-[#7a1335] tracking-tight">
+                            {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 2 }).format(product.price)}
+                          </div>
+                          <div className="text-[0.7rem] text-[#64748b] mt-0.5">Inclusive of all taxes</div>
+                        </div>
+                        <div className="flex gap-1.5">
+                          <button
+                            className="flex-1 px-3 py-2 bg-[#7a1335] text-white rounded-lg font-medium text-xs cursor-pointer transition-all duration-300 flex items-center justify-center gap-1.5"
+                            onClick={(e) => { e.stopPropagation(); navigate(`/buyornaments/${product.id}`); }}
+                          >
+                            <Eye size={14} /> View
+                          </button>
+                          <button
+                            className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 border-2 ${addedToCart.has(product.id) ? 'bg-green-500 text-white border-transparent' : 'bg-[#7a1335]/10 text-[#7a1335] border-[#7a1335]/20'} cursor-pointer`}
+                            onClick={(e) => handleAddToCart(product, e)}
+                            disabled={isAddingToCart === product.id}
+                          >
+                            {isAddingToCart === product.id ? <Loader size={12} className="animate-spin" /> : addedToCart.has(product.id) ? <Check size={12} /> : <ShoppingCart size={12} />}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pagination Controls */}
+              <div className="mt-8 flex justify-center items-center gap-3 text-xs">
+                <button
+                  onClick={() => {
+                    if (currentPage > 1) {
+                      fetchOrnaments(currentPage - 2);
+                    }
+                  }}
+                  disabled={currentPage <= 1 || loading}
+                  className={`px-3 py-1.5 rounded-md font-semibold transition-colors duration-150 ${currentPage <= 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-[#7a1335] text-white hover:bg-[#5e0d26] cursor-pointer'}`}
+                  style={{ fontSize: '0.85rem' }}
+                >
+                  Previous
+                </button>
+                <span className="font-medium text-[#7a1335] text-sm">Page {currentPage || 1}</span>
+                <button
+                  onClick={() => {
+                    if (hasMore && !loadingMore) {
+                      fetchOrnaments(currentPage);
+                    }
+                  }}
+                  disabled={!hasMore || loadingMore}
+                  className={`px-3 py-1.5 rounded-md font-semibold flex items-center gap-1.5 transition-colors duration-150 ${!hasMore ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-[#7a1335] text-white hover:bg-[#5e0d26] cursor-pointer'}`}
+                  style={{ fontSize: '0.85rem' }}
+                >
+                  {loadingMore ? <><Loader size={14} className="animate-spin" /> Loading...</> : 'Next'}
+                </button>
+              </div>
+            </>
+          )}
+        </section>
+      </div>
+      {/* Info Section */}
+      <div className="bg-[#7a1335] py-10 px-2 text-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-30" style={{backgroundImage: `url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")`}} />
+        <div className="max-w-[700px] mx-auto relative z-10">
+          <div className="inline-flex items-center bg-white/10 backdrop-blur px-3 py-1.5 rounded-full mb-4 border border-white/20">
+            <Crown size={14} color="#ffffff" className="mr-1" />
+            <span className="text-white text-[0.7rem] font-medium">Premium Gold Jewelry</span>
+          </div>
+          <h2 className="text-white text-[clamp(1.2rem,3vw,1.7rem)] font-bold mb-3 leading-snug tracking-tight">
+            Experience Luxury That Lasts Forever
+          </h2>
+          <p className="text-white/80 text-sm max-w-[400px] mx-auto mb-6 leading-snug">
+            Each piece in our collection represents decades of craftsmanship, certified quality, and timeless elegance that transcends generations.
           </p>
-          
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '40px',
-            marginTop: '60px'
-          }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
             {[
-              {
-                icon: Award,
-                title: 'BIS Hallmarked Gold',
-                description: 'Every piece comes with official BIS certification ensuring 916 & 750 purity standards.'
-              },
-              {
-                icon: Crown,
-                title: 'Master Craftsmanship',
-                description: 'Handcrafted by skilled artisans with over 25 years of jewelry-making expertise.'
-              },
-              {
-                icon: Sparkles,
-                title: 'Lifetime Guarantee',
-                description: '100% buyback guarantee and lifetime maintenance for all our gold jewelry pieces.'
-              }
+              { icon: Award, title: 'BIS Hallmarked Gold', description: 'Every piece comes with official BIS certification ensuring 916 & 750 purity standards.' },
+              { icon: Crown, title: 'Master Craftsmanship', description: 'Handcrafted by skilled artisans with over 25 years of jewelry-making expertise.' },
+              { icon: Sparkles, title: 'Lifetime Guarantee', description: '100% buyback guarantee and lifetime maintenance for all our gold jewelry pieces.' }
             ].map((feature, idx) => (
-              <div key={idx} style={{
-                textAlign: 'center',
-                padding: '32px 24px',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                borderRadius: '20px',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)'
-              }}>
-                <div style={{
-                  width: '72px',
-                  height: '72px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                  borderRadius: '24px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 24px auto',
-                  border: '1px solid rgba(255, 255, 255, 0.2)'
-                }}>
-                  <feature.icon size={32} color="#ffffff" />
+              <div key={idx} className="text-center p-3.5 bg-white/5 rounded-lg backdrop-blur border border-white/10">
+                <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center mx-auto mb-2.5 border border-white/20">
+                  <feature.icon size={16} color="#ffffff" />
                 </div>
-                <h3 style={{
-                  color: '#ffffff',
-                  fontSize: '1.3rem',
-                  fontWeight: '700',
-                  marginBottom: '16px'
-                }}>
-                  {feature.title}
-                </h3>
-                <p style={{
-                  color: 'rgba(255, 255, 255, 0.8)',
-                  lineHeight: '1.6',
-                  fontSize: '0.95rem'
-                }}>
-                  {feature.description}
-                </p>
+                <h3 className="text-white text-[0.85rem] font-semibold mb-1.5">{feature.title}</h3>
+                <p className="text-white/80 leading-snug text-[0.7rem]">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
-
-      <style>
-        {`
-          @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-          }
-          .grid-responsive {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-          }
-          @media (max-width: 768px) {
-            .grid-responsive {
-              grid-template-columns: 1fr !important;
-            }
-          }
-          label:hover {
-            background: #f7f2f5;
-          }
-        `}
-      </style>
     </div>
   );
 };
